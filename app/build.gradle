@@ -41,7 +41,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // Flipper
-    debugImplementation 'com.facebook.flipper:flipper:0.151.0'
+    debugImplementation 'com.facebook.flipper:flipper:0.143.0'
     debugImplementation 'com.facebook.soloader:soloader:0.10.3'
-    releaseImplementation 'com.facebook.flipper:flipper-noop:0.151.0'
+    releaseImplementation 'com.facebook.flipper:flipper-noop:0.143.0'
 }
