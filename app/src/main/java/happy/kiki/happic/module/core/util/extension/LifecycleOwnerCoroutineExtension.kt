@@ -9,10 +9,24 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
+inline fun <reified T> AppCompatActivity.collectFlowWhen(
+    flow: Flow<T>, state: Lifecycle.State, crossinline block: suspend CoroutineScope.(T) -> Unit
+) = lifecycleScope.launch {
+    repeatOnLifecycle(state) {
+        flow.collect {
+            block(it)
+        }
+    }
+}
+
 inline fun <reified T> AppCompatActivity.collectFlowWhenStarted(
     flow: Flow<T>, crossinline block: suspend CoroutineScope.(T) -> Unit
-) = lifecycleScope.launch {
-    repeatOnLifecycle(Lifecycle.State.STARTED) {
+) = collectFlowWhen(flow, Lifecycle.State.STARTED, block)
+
+inline fun <reified T> Fragment.collectFlowWhen(
+    flow: Flow<T>, state: Lifecycle.State, crossinline block: suspend CoroutineScope.(T) -> Unit
+) = viewLifecycleOwner.lifecycleScope.launch {
+    repeatOnLifecycle(state) {
         flow.collect {
             block(it)
         }
@@ -21,10 +35,4 @@ inline fun <reified T> AppCompatActivity.collectFlowWhenStarted(
 
 inline fun <reified T> Fragment.collectFlowWhenStarted(
     flow: Flow<T>, crossinline block: suspend CoroutineScope.(T) -> Unit
-) = viewLifecycleOwner.lifecycleScope.launch {
-    repeatOnLifecycle(Lifecycle.State.STARTED) {
-        flow.collect {
-            block(it)
-        }
-    }
-}
+) = collectFlowWhen(flow, Lifecycle.State.STARTED, block)
