@@ -1,4 +1,4 @@
-package happy.kiki.happic.module.core.ui.activity
+package happy.kiki.happic.module.main.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

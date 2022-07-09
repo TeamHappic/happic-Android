@@ -14,12 +14,7 @@ import kotlin.reflect.KProperty
 const val _FRAGMENT_ARGUMENT_KEY_ = "_FRAGMENT_ARGUMENT_KEY_"
 
 inline fun <reified T : Activity> Fragment.pushActivity(
-    intentConfig: (Intent) -> Intent = { it },
-) = requireActivity().pushActivity<T>(intentConfig)
-
-inline fun <reified T : Activity> Fragment.pushActivity(
-    arg: Parcelable,
-    intentConfig: (Intent) -> Intent = { it },
+    arg: Parcelable? = null, intentConfig: (Intent) -> Intent = { it },
 ) = requireActivity().pushActivity<T>(arg, intentConfig)
 
 inline fun <reified T : Fragment> Fragment.addFragment(

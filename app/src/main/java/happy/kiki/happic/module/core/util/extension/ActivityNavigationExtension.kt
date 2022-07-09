@@ -14,16 +14,20 @@ import kotlin.reflect.KProperty
 
 const val _ACTIVITY_ARGUMENT_KEY_ = "_ACTIVITY_ARGUMENT_KEY_"
 
-inline fun <reified T : Activity> Activity.pushActivity(
-    intentConfig: (Intent) -> Intent = { it },
-) = startActivity(intentConfig(Intent(this, T::class.java)))
+typealias IntentConfig = (Intent) -> Intent
 
 inline fun <reified T : Activity> Activity.pushActivity(
-    arg: Parcelable,
-    intentConfig: (Intent) -> Intent = { it },
-) = pushActivity<T> {
-    it.putExtra(_ACTIVITY_ARGUMENT_KEY_, arg)
-    it.let(intentConfig)
+    arg: Parcelable? = null,
+    intentConfig: IntentConfig = { it },
+) = startActivity(intentConfig(Intent(this, T::class.java)).apply {
+    arg?.run { putExtra(_ACTIVITY_ARGUMENT_KEY_, arg) }
+})
+
+inline fun <reified T : Activity> Activity.replaceActivity(
+    arg: Parcelable? = null, intentConfig: IntentConfig = { it }
+) {
+    pushActivity<T>(arg, intentConfig)
+    finish()
 }
 
 inline fun <reified T : Fragment> AppCompatActivity.addFragment(
