@@ -6,5 +6,6 @@
         <attr name="card_stroke_width" format="dimension" />
         <attr name="card_corner_radius" format="dimension" />
         <attr name="card_shadow_color" format="color" />
+        <attr name="card_ripple_color" format="color" />
     </declare-styleable>
 </resources>

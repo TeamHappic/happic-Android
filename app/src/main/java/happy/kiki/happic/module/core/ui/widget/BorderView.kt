@@ -1,29 +1,20 @@
 package happy.kiki.happic.module.core.ui.widget
 
+import android.R.attr
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.Drawable
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.RippleDrawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ViewOutlineProvider
 import android.widget.FrameLayout
-import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import happy.kiki.happic.R
 import happy.kiki.happic.module.core.util.OnChangeProp
 import happy.kiki.happic.module.core.util.extension.setShadowColorIfAvailable
-
-fun createShapeDrawable(cornerSize: Float): Drawable {
-    val model = ShapeAppearanceModel().toBuilder().setAllCorners(CornerFamily.ROUNDED, cornerSize).build()
-    val drawable = MaterialShapeDrawable(model).apply {
-        strokeWidth = 2f
-        strokeColor = ColorStateList.valueOf(Color.WHITE)
-        fillColor = ColorStateList.valueOf(Color.RED)
-    }
-    return drawable
-}
 
 class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
     FrameLayout(context, attrs) {
@@ -33,6 +24,7 @@ class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private var strokeWidth by OnChangeProp(0f) { updateUI() }
     private var strokeColor by OnChangeProp(Color.TRANSPARENT) { updateUI() }
     private var shadowColor by OnChangeProp(Color.BLACK) { updateUI() }
+    private var rippleColor by OnChangeProp(Color.LTGRAY) { updateUI() }
 
     init {
         attrs?.let { a ->
@@ -43,6 +35,7 @@ class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet
                     strokeWidth = getDimension(R.styleable.BorderView_card_stroke_width, strokeWidth)
                     strokeColor = getColor(R.styleable.BorderView_card_stroke_color, strokeColor)
                     shadowColor = getColor(R.styleable.BorderView_card_shadow_color, shadowColor)
+                    rippleColor = getColor(R.styleable.BorderView_card_ripple_color, rippleColor)
                 } finally {
                     recycle()
                 }
@@ -54,12 +47,41 @@ class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         return false
     }
 
+    private fun getPressedColorSelector(normalColor: Int, pressedColor: Int): ColorStateList {
+        return ColorStateList(
+            arrayOf(
+                intArrayOf(attr.state_pressed),
+                intArrayOf(attr.state_focused),
+                intArrayOf(attr.state_activated),
+                intArrayOf()
+            ), intArrayOf(
+                pressedColor, pressedColor, pressedColor, normalColor
+            )
+        )
+    }
+
+    override fun setOnClickListener(l: OnClickListener?) {
+        super.setOnClickListener(l)
+        updateUI()
+    }
+
     private fun updateUI() {
-        background = MaterialShapeDrawable(ShapeAppearanceModel().withCornerSize(cornerRadius)).apply {
+        val shapeDrawable = MaterialShapeDrawable(ShapeAppearanceModel().withCornerSize(cornerRadius)).apply {
             fillColor = ColorStateList.valueOf(this@BorderView.fillColor)
             strokeWidth = this@BorderView.strokeWidth
             strokeColor = ColorStateList.valueOf(this@BorderView.strokeColor)
         }
+
+        background = if (hasOnClickListeners()) {
+            RippleDrawable(
+                getPressedColorSelector(fillColor, rippleColor), ColorDrawable(fillColor), null
+            ).apply {
+                this.setDrawable(0, shapeDrawable)
+            }
+        } else {
+            shapeDrawable
+        }
+
         outlineProvider = ViewOutlineProvider.BACKGROUND
         clipToOutline = true
         setShadowColorIfAvailable(shadowColor)
