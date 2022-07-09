@@ -3,7 +3,6 @@ package happy.kiki.happic.module.auth.ui.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import happy.kiki.happic.databinding.ActivitySignInBinding
-import happy.kiki.happic.module.core.ui.widget.createShapeDrawable
 import happy.kiki.happic.module.core.util.extension.windowHandler
 
 class SignInActivity : AppCompatActivity() {
@@ -20,6 +19,8 @@ class SignInActivity : AppCompatActivity() {
             allowViewOverlapWithStatusBar()
         }
 
-        binding.view.background = createShapeDrawable(16f)
+        binding.card.setOnClickListener {
+
+        }
     }
 }

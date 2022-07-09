@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/hello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/sign_in_logo"
@@ -12,15 +13,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <happy.kiki.happic.module.core.ui.widget.BorderView
+        android:id="@+id/card"
         android:layout_width="100dp"
         android:layout_height="200dp"
         android:layout_marginStart="30dp"
@@ -28,6 +23,7 @@
         android:elevation="12dp"
         app:card_background_color="@color/black"
         app:card_corner_radius="12dp"
+        app:card_ripple_color="#2f8842"
         app:card_shadow_color="#0f0"
         app:card_stroke_color="@color/white"
         app:card_stroke_width="1dp"
