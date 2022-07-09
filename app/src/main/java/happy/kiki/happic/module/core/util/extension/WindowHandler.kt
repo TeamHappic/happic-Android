@@ -1,5 +1,6 @@
 package happy.kiki.happic.module.core.util.extension
 
+import android.app.Activity
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
@@ -10,8 +11,9 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updateLayoutParams
+import androidx.fragment.app.Fragment
 
-class WindowHandler(private val activity: AppCompatActivity) {
+class WindowHandler(private val activity: Activity) {
     private val contentView get() = activity.findViewById<View>(android.R.id.content)
     private val insetsController: WindowInsetsControllerCompat
         get() = WindowCompat.getInsetsController(activity.window, contentView)
@@ -39,6 +41,9 @@ class WindowHandler(private val activity: AppCompatActivity) {
     fun hideStatusBar() = insetsController.hide(WindowInsetsCompat.Type.statusBars())
     fun showNavigationBars() = insetsController.show(WindowInsetsCompat.Type.navigationBars())
     fun hideNavigationBars() = insetsController.hide(WindowInsetsCompat.Type.navigationBars())
+    fun showKeyboard() = insetsController.show(WindowInsetsCompat.Type.ime())
+    fun hideKeyboard() = insetsController.hide(WindowInsetsCompat.Type.ime())
 }
 
 val AppCompatActivity.windowHandler get() = WindowHandler(this)
+val Fragment.windowHandler get() = WindowHandler(requireActivity())
