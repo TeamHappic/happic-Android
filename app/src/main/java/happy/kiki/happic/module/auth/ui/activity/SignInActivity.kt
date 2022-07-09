@@ -3,6 +3,7 @@ package happy.kiki.happic.module.auth.ui.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import happy.kiki.happic.databinding.ActivitySignInBinding
+import happy.kiki.happic.module.core.util.debugE
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
@@ -11,5 +12,6 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ActivitySignInBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
 
+        fun add(a: Int, b: Int) = a + b
     }
 }
