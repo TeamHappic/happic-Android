@@ -45,7 +45,7 @@ declare -a XXXHDPI_LIST
 [ ! -d $PATH_XXHDPI ] && mkdir -p $PATH_XXHDPI >/dev/null 2>&1
 [ ! -d $PATH_XXXHDPI ] && mkdir -p $PATH_XXXHDPI >/dev/null 2>&1
 
-VALID_ASSET_REGEX="^[a-z_]+(@1.5x|@2x|@3x|@4x)*\.png$"
+VALID_ASSET_REGEX="^[a-z_0-9]+(@1.5x|@2x|@3x|@4x)*\.png$"
 
 HDPI_REGEX="@1.5x"
 XHDPI_REGEX="@2x"
