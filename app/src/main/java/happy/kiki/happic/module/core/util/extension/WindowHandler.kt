@@ -4,7 +4,6 @@ import android.app.Activity
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -18,10 +17,14 @@ class WindowHandler(private val activity: Activity) {
     private val insetsController: WindowInsetsControllerCompat
         get() = WindowCompat.getInsetsController(activity.window, contentView)
 
-    fun setStatusBarTransparent() = setStatusBarColor(Color.TRANSPARENT)
+    var statusBarColor: Int
+        get() = activity.window.statusBarColor
+        set(value) {
+            activity.window.statusBarColor = value
+        }
 
-    fun setStatusBarColor(@ColorInt color: Int) {
-        activity.window.statusBarColor = color
+    fun setStatusBarTransparent() {
+        statusBarColor = Color.TRANSPARENT
     }
 
     fun allowViewOverlapWithStatusBar() {
@@ -43,6 +46,17 @@ class WindowHandler(private val activity: Activity) {
     fun hideNavigationBars() = insetsController.hide(WindowInsetsCompat.Type.navigationBars())
     fun showKeyboard() = insetsController.show(WindowInsetsCompat.Type.ime())
     fun hideKeyboard() = insetsController.hide(WindowInsetsCompat.Type.ime())
+
+    var isAppearanceLightNavigationBars: Boolean
+        get() = insetsController.isAppearanceLightNavigationBars
+        set(value) {
+            insetsController.isAppearanceLightNavigationBars = value
+        }
+    var isAppearanceLightStatusBars: Boolean
+        get() = insetsController.isAppearanceLightStatusBars
+        set(value) {
+            insetsController.isAppearanceLightStatusBars = value
+        }
 }
 
 val AppCompatActivity.windowHandler get() = WindowHandler(this)
