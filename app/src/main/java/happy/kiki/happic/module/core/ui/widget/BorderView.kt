@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.RippleDrawable
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.ViewOutlineProvider
 import android.widget.FrameLayout
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -41,10 +40,6 @@ class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet
                 }
             }
         }
-    }
-
-    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-        return false
     }
 
     private fun getPressedColorSelector(normalColor: Int, pressedColor: Int): ColorStateList {
