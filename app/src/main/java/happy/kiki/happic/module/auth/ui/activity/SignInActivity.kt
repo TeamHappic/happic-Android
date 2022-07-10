@@ -18,9 +18,5 @@ class SignInActivity : AppCompatActivity() {
             setStatusBarTransparent()
             allowViewOverlapWithStatusBar()
         }
-
-        binding.card.setOnClickListener {
-
-        }
     }
 }

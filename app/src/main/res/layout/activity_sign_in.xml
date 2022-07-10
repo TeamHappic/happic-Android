@@ -4,38 +4,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/top_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.14" />
+
     <ImageView
         android:id="@+id/hello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/sign_in_logo"
+        app:layout_constraintBottom_toTopOf="@+id/vertical_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/top_guideline" />
 
 
-    <happy.kiki.happic.module.core.ui.widget.BorderView
-        android:id="@+id/card"
-        android:layout_width="100dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="150dp"
-        android:elevation="12dp"
-        app:card_background_color="@color/black"
-        app:card_corner_radius="12dp"
-        app:card_ripple_color="#2f8842"
-        app:card_shadow_color="#0f0"
-        app:card_stroke_color="@color/white"
-        app:card_stroke_width="1dp"
+    <View
+        android:id="@+id/vertical_bar"
+        android:layout_width="1dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/dark_purple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/hello" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Hello"
-            android:textColor="@color/white" />
-    </happy.kiki.happic.module.core.ui.widget.BorderView>
+    <TextView
+        android:id="@+id/textView"
+        style="@style/Medium.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="100dp"
+        android:text="해픽의 밤하늘에\n당신의 행복을 기록하세요"
+        android:textAlignment="center"
+        android:textColor="@color/dark_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vertical_bar" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
