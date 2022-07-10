@@ -42,18 +42,16 @@ class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
     }
 
-    private fun getPressedColorSelector(normalColor: Int, pressedColor: Int): ColorStateList {
-        return ColorStateList(
-            arrayOf(
-                intArrayOf(attr.state_pressed),
-                intArrayOf(attr.state_focused),
-                intArrayOf(attr.state_activated),
-                intArrayOf()
-            ), intArrayOf(
-                pressedColor, pressedColor, pressedColor, normalColor
-            )
+    private fun getPressedColorSelector(normalColor: Int, pressedColor: Int) = ColorStateList(
+        arrayOf(
+            intArrayOf(attr.state_pressed),
+            intArrayOf(attr.state_focused),
+            intArrayOf(attr.state_activated),
+            intArrayOf()
+        ), intArrayOf(
+            pressedColor, pressedColor, pressedColor, normalColor
         )
-    }
+    )
 
     override fun setOnClickListener(l: OnClickListener?) {
         super.setOnClickListener(l)
