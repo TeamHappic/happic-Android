@@ -10,7 +10,9 @@
         <item name="android:lineSpacingMultiplier">1.26</item>
         <item name="android:fontFamily">@font/pretendard_medium</item>
     </style>
-
+    <style name="Medium.12">
+        <item name="android:textSize">12sp</item>
+    </style>
     <style name="Medium.16">
         <item name="android:textSize">16sp</item>
     </style>

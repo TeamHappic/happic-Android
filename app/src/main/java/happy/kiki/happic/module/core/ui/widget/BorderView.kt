@@ -1,16 +1,14 @@
 package happy.kiki.happic.module.core.ui.widget
 
-import android.R.attr
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.RippleDrawable
 import android.util.AttributeSet
 import android.view.ViewOutlineProvider
 import android.widget.FrameLayout
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
+import createRippleDrawable
 import happy.kiki.happic.R
 import happy.kiki.happic.module.core.util.OnChangeProp
 import happy.kiki.happic.module.core.util.extension.setShadowColorIfAvailable
@@ -42,17 +40,6 @@ class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
     }
 
-    private fun getPressedColorSelector(normalColor: Int, pressedColor: Int) = ColorStateList(
-        arrayOf(
-            intArrayOf(attr.state_pressed),
-            intArrayOf(attr.state_focused),
-            intArrayOf(attr.state_activated),
-            intArrayOf()
-        ), intArrayOf(
-            pressedColor, pressedColor, pressedColor, normalColor
-        )
-    )
-
     override fun setOnClickListener(l: OnClickListener?) {
         super.setOnClickListener(l)
         updateUI()
@@ -66,9 +53,7 @@ class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
 
         background = if (hasOnClickListeners()) {
-            RippleDrawable(
-                getPressedColorSelector(fillColor, rippleColor), ColorDrawable(fillColor), null
-            ).apply {
+            createRippleDrawable(fillColor, rippleColor).apply {
                 this.setDrawable(0, shapeDrawable)
             }
         } else {
