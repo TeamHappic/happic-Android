@@ -22,16 +22,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun attachFragment() {
-        addFragment<HomeFragment>(binding.fragmentContainer)
+        addFragment<HomeFragment>(binding.fragmentContainer, skipAddToBackStack = true)
     }
 
     private fun configureBottomTab() {
         binding.bottomTab.onTabSelectedListener = {
             when (it) {
-                0 -> replaceFragment<HomeFragment>(binding.fragmentContainer)
-                1 -> replaceFragment<DailyHappicFragment>(binding.fragmentContainer)
-                2 -> replaceFragment<ReportFragment>(binding.fragmentContainer)
-                3 -> replaceFragment<SettingFragment>(binding.fragmentContainer)
+                0 -> replaceFragment<HomeFragment>(binding.fragmentContainer, skipAddToBackStack = true)
+                1 -> replaceFragment<DailyHappicFragment>(binding.fragmentContainer, skipAddToBackStack = true)
+                2 -> replaceFragment<ReportFragment>(binding.fragmentContainer, skipAddToBackStack = true)
+                3 -> replaceFragment<SettingFragment>(binding.fragmentContainer, skipAddToBackStack = true)
             }
         }
     }
