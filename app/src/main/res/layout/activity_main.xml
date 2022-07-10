@@ -6,19 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".module.main.ui.activity.MainActivity">
 
-    <LinearLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal">
-
-        <View
-            android:background="?attr/selectableItemBackground"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-    </LinearLayout>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_tab"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <happy.kiki.happic.module.core.ui.widget.HappicBottomTab
+        android:id="@+id/bottom_tab"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent" />
