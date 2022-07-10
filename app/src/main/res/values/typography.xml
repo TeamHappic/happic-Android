@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Medium">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="Medium.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>
