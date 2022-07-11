@@ -33,14 +33,16 @@ class DailyHappicPhotoFragment : Fragment() {
         with(binding) {
             val now = LocalDate.now()
             tvMonth.text = now.format(DateTimeFormatter.ofPattern("yyyy.MM")).toString()
-            tvYear.text = now.year.toString()
+            monthSelectContainer.tvYear.text = now.year.toString()
         }
     }
 
     private fun setOnClickListener() {
         binding.borderMonth.setOnClickListener {
-            if (binding.borderSelect.isVisible) binding.borderSelect.fadeOut()
-            else binding.borderSelect.fadeIn()
+            with(binding.monthSelectContainer.monthSelector) {
+                if(this.isVisible) this.fadeOut()
+                else this.fadeIn()
+            }
         }
     }
 
