@@ -19,6 +19,5 @@ class SignInActivity : AppCompatActivity() {
             setStatusBarTransparent()
             allowViewOverlapWithStatusBar()
         }
-
     }
 }
