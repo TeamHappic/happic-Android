@@ -2,13 +2,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
-import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentDailyHappicPhotoBinding
 import happy.kiki.happic.databinding.ItemDailyHappicPhotoBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
-import happy.kiki.happic.module.core.util.debugE
+import happy.kiki.happic.module.core.util.extension.px
+import happy.kiki.happic.module.core.util.extension.screenWidth
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -44,9 +46,10 @@ class DailyHappicPhotoFragment : Fragment() {
             ItemDailyHappicPhotoBinding.inflate(layoutInflater).apply {
                 root.id = ViewCompat.generateViewId()
             }
-        }.forEach {
-            binding.clCards.addView(it.root)
-            binding.flowCards.referencedIds
+        }.forEach { itemBinding ->
+            val width = (requireContext().screenWidth - requireContext().px(55)) / 4
+            binding.clCards.addView(itemBinding.root, ConstraintLayout.LayoutParams(width, WRAP_CONTENT))
+            binding.flowCards.addView(itemBinding.root)
         }
 
     }

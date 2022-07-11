@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:padding="10dp"
+        app:card_corner_radius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -71,6 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:padding="10dp"
+            app:card_corner_radius="4dp"
             app:layout_constraintBottom_toBottomOf="@id/tv_year"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_year">
@@ -223,70 +225,38 @@
             android:textColor="@color/gray2" />
     </happy.kiki.happic.module.core.ui.widget.BorderView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_cards"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="16dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/border_month">
 
-        <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/flow_cards"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_cards"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:flow_horizontalGap="4dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="100dp">
 
-            app:flow_horizontalStyle="spread_inside"
-            app:flow_maxElementsWrap="4"
-            app:flow_verticalBias="0"
-            app:flow_verticalGap="18dp"
-            app:flow_verticalStyle="packed"
-            app:flow_wrapMode="aligned"
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow_cards"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-            app:layout_constraintVertical_bias="0.0"
-            tools:constraint_referenced_ids="card_1,card_2,card_4,card_3,card_5" />
+                app:flow_horizontalGap="4dp"
+                app:flow_horizontalStyle="spread_inside"
+                app:flow_maxElementsWrap="4"
+                app:flow_verticalGap="18dp"
+                app:flow_verticalStyle="packed"
+                app:flow_wrapMode="aligned" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            tools:ignore="MissingConstraints" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            tools:ignore="MissingConstraints" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            tools:ignore="MissingConstraints" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            tools:ignore="MissingConstraints" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_5"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            tools:ignore="MissingConstraints" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
