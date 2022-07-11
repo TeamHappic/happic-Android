@@ -1,6 +1,8 @@
 package happy.kiki.happic.module.core.ui.widget
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
 import android.view.Gravity
@@ -11,13 +13,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.DrawableRes
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import createRippleDrawable
 import happy.kiki.happic.R
+import happy.kiki.happic.module.core.util.extension.getColor
 import happy.kiki.happic.module.core.util.extension.px
+import happy.kiki.happic.module.core.util.extension.pxFloat
+import happy.kiki.happic.module.core.util.extension.setShadowColorIfAvailable
 import kotlin.properties.Delegates
 
 class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
@@ -43,37 +46,36 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
         onTabSelectedListener = null
     }
 
-    private fun createMenuButton(@DrawableRes menuIcon: Int, name: String, index: Int) =
-        ConstraintLayout(context).apply {
-            layoutParams = LayoutParams(0, MATCH_PARENT, 1f)
-
-            background = createRippleDrawable(context.getColor(R.color.bg_black2), context.getColor(R.color.white))
-            isClickable = true
-            isFocusable = true
-            setOnClickListener {
-                selectedTabIndex = index
-            }
-
-            val imageView = ImageView(context).apply {
-                id = ViewCompat.generateViewId()
-                setImageResource(menuIcon)
-            }
-            val textView = TextView(ContextThemeWrapper(context, R.style.Medium_12)).apply {
-                id = ViewCompat.generateViewId()
-                text = name
-                setTextColor(context.getColor(R.color.gray5))
-            }
-            addView(imageView, px(20), px(20))
-            addView(textView, WRAP_CONTENT, WRAP_CONTENT)
-
-            ConstraintSet().also { set ->
-                set.clone(this@apply)
-                set.centerHorizontally(imageView.id, ConstraintSet.PARENT_ID)
-                set.centerHorizontally(textView.id, ConstraintSet.PARENT_ID)
-                set.connect(imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, px(12))
-                set.connect(textView.id, ConstraintSet.TOP, imageView.id, ConstraintSet.BOTTOM, px(4))
-            }.applyTo(this)
+    private fun createMenuButton(@DrawableRes menuIcon: Int, name: String, index: Int) = BorderView(context).apply {
+        cornerRadius = pxFloat(6)
+        layoutParams = LayoutParams(0, MATCH_PARENT, 1f)
+        rippleColor = Color.TRANSPARENT
+        isClickable = true
+        isFocusable = true
+        setOnClickListener {
+            selectedTabIndex = index
         }
+
+        val imageView = ImageView(context).apply {
+            id = ViewCompat.generateViewId()
+            setImageResource(menuIcon)
+        }
+        val textView = TextView(ContextThemeWrapper(context, R.style.Medium_12)).apply {
+            id = ViewCompat.generateViewId()
+            text = name
+            setTextColor(context.getColor(R.color.gray5))
+        }
+        addView(imageView, px(20), px(20))
+        addView(textView, WRAP_CONTENT, WRAP_CONTENT)
+
+        ConstraintSet().also { set ->
+            set.clone(this@apply)
+            set.centerHorizontally(imageView.id, ConstraintSet.PARENT_ID)
+            set.centerHorizontally(textView.id, ConstraintSet.PARENT_ID)
+            set.connect(imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, px(12))
+            set.connect(textView.id, ConstraintSet.TOP, imageView.id, ConstraintSet.BOTTOM, px(4))
+        }.applyTo(this)
+    }
 
     private fun addViews() {
         addView(createMenuButton(R.drawable.hp_ic_home, "홈", 0))
@@ -81,7 +83,10 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
         addView(FrameLayout(context).apply {
             val fab = FloatingActionButton(context).apply {
                 size = FloatingActionButton.SIZE_MINI
-                elevation = 0f
+                backgroundTintList = ColorStateList.valueOf(getColor(R.color.dark_purple))
+                setImageResource(R.drawable.plus_gray9_16)
+                setMaxImageSize(px(16))
+                setShadowColorIfAvailable(getColor(R.color.dark_purple))
             }
             addView(fab, FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
                 gravity = Gravity.CENTER

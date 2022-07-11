@@ -3,6 +3,7 @@ package happy.kiki.happic.module.core.util.extension
 import android.content.Context
 import android.os.Build.VERSION
 import android.view.View
+import androidx.annotation.ColorRes
 import androidx.annotation.Px
 import kotlin.math.roundToInt
 
@@ -22,3 +23,4 @@ fun View.pxFloat(dp: Int) = (dp * resources.displayMetrics.density)
 fun View.spPx(dp: Int) = (dp * resources.displayMetrics.scaledDensity)
 val View.screenHeight: Int
     get() = resources.displayMetrics.heightPixels
+fun View.getColor(@ColorRes res: Int) = context.getColor(res)
