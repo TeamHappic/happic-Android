@@ -5,12 +5,15 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import happy.kiki.happic.databinding.FragmentDailyHappicPhotoBinding
 import happy.kiki.happic.databinding.ItemDailyHappicPhotoBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
+import happy.kiki.happic.module.core.util.fadeIn
+import happy.kiki.happic.module.core.util.fadeOut
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -36,8 +39,8 @@ class DailyHappicPhotoFragment : Fragment() {
 
     private fun setOnClickListener() {
         binding.borderMonth.setOnClickListener {
-            if (binding.borderSelect.visibility == View.VISIBLE) binding.borderSelect.visibility = View.GONE
-            else binding.borderSelect.visibility = View.VISIBLE
+            if (binding.borderSelect.isVisible) binding.borderSelect.fadeOut()
+            else binding.borderSelect.fadeIn()
         }
     }
 
