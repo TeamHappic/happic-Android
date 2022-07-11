@@ -5,7 +5,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.ViewOutlineProvider
-import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import createRippleDrawable
@@ -14,7 +14,7 @@ import happy.kiki.happic.module.core.util.OnChangeProp
 import happy.kiki.happic.module.core.util.extension.setShadowColorIfAvailable
 
 class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
-    FrameLayout(context, attrs) {
+    ConstraintLayout(context, attrs) {
 
     private var cornerRadius by OnChangeProp(0f) { updateUI() }
     private var fillColor by OnChangeProp(Color.TRANSPARENT) { updateUI() }
