@@ -6,6 +6,7 @@ import android.os.Parcelable
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import kotlin.properties.ReadOnlyProperty
@@ -22,8 +23,9 @@ inline fun <reified T : Fragment> Fragment.addFragment(
     arg: Parcelable? = null,
     tag: String? = null,
     skipAddToBackStack: Boolean = false,
-    backStackEntryName: String? = null
-) = parentFragmentManager.commit {
+    backStackEntryName: String? = null,
+    fragmentManager: FragmentManager? = null
+) = (fragmentManager ?: parentFragmentManager).commit {
     add(container.id, T::class.java, bundleOf(_FRAGMENT_ARGUMENT_KEY_ to arg), tag)
 
     if (!skipAddToBackStack) addToBackStack(backStackEntryName)
@@ -34,8 +36,9 @@ inline fun <reified T : Fragment> Fragment.replaceFragment(
     arg: Parcelable? = null,
     tag: String? = null,
     skipAddToBackStack: Boolean = false,
-    backStackEntryName: String? = null
-) = parentFragmentManager.commit {
+    backStackEntryName: String? = null,
+    fragmentManager: FragmentManager? = null,
+) = (fragmentManager ?: parentFragmentManager).commit {
     replace<T>(container.id, tag, bundleOf(_FRAGMENT_ARGUMENT_KEY_ to arg))
 
     if (!skipAddToBackStack) addToBackStack(backStackEntryName)
