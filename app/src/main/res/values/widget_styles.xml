@@ -8,4 +8,9 @@
         <attr name="card_shadow_color" format="color" />
         <attr name="card_ripple_color" format="color" />
     </declare-styleable>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize8dp" parent="">
+        <item name="cornerSize">8dp</item>
+    </style>
+
 </resources>

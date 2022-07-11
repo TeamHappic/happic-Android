@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import happy.kiki.happic.databinding.FragmentDailyHappicBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.extension.addFragment
+import happy.kiki.happic.module.core.util.extension.replaceFragment
 
 class DailyHappicFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicBinding>()
@@ -13,6 +15,10 @@ class DailyHappicFragment : Fragment() {
         FragmentDailyHappicBinding.inflate(inflater, container, false).let { binding = it; it.root }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        attachFragment()
+    }
 
+    private fun attachFragment() {
+        addFragment<DailyHappicPhotoFragment>(binding.fragmentContainer, skipAddToBackStack = true)
     }
 }
