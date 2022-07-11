@@ -2,6 +2,7 @@ package happy.kiki.happic.module.core.ui.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -57,12 +58,11 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
                 id = ViewCompat.generateViewId()
                 setImageResource(menuIcon)
             }
-            val textView = TextView(context, null, R.style.Medium_12).apply {
+            val textView = TextView(ContextThemeWrapper(context, R.style.Medium_12)).apply {
                 id = ViewCompat.generateViewId()
                 text = name
                 setTextColor(context.getColor(R.color.gray5))
             }
-
             addView(imageView, px(20), px(20))
             addView(textView, WRAP_CONTENT, WRAP_CONTENT)
 
