@@ -1,6 +1,7 @@
 import android.R.attr
 import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 
 fun getPressedColorSelector(normalColor: Int, pressedColor: Int) = ColorStateList(
@@ -11,6 +12,12 @@ fun getPressedColorSelector(normalColor: Int, pressedColor: Int) = ColorStateLis
     )
 )
 
-fun createRippleDrawable(fillColor: Int, rippleColor: Int) = RippleDrawable(
-    getPressedColorSelector(fillColor, rippleColor), ColorDrawable(fillColor), null
+fun createMask(cornerRadius: Float) = GradientDrawable().apply {
+    shape = GradientDrawable.RECTANGLE
+    setColor(-0x1000000) // the color is irrelevant here, only the alpha
+    this.cornerRadius = cornerRadius // you can have a rounded corner for the effect
+}
+
+fun createRippleDrawable(fillColor: Int, rippleColor: Int, cornerRadius: Float = 0f) = RippleDrawable(
+    getPressedColorSelector(fillColor, rippleColor), ColorDrawable(fillColor), createMask(cornerRadius)
 )

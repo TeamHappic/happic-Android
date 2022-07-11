@@ -21,7 +21,7 @@ class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private var strokeWidth by OnChangeProp(0f) { updateUI() }
     private var strokeColor by OnChangeProp(Color.TRANSPARENT) { updateUI() }
     private var shadowColor by OnChangeProp(Color.BLACK) { updateUI() }
-    private var rippleColor by OnChangeProp(Color.LTGRAY) { updateUI() }
+    private var rippleColor by OnChangeProp(context.getColor(R.color.ripple)) { updateUI() }
 
     init {
         attrs?.let { a ->
@@ -53,7 +53,7 @@ class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
 
         background = if (hasOnClickListeners()) {
-            createRippleDrawable(fillColor, rippleColor).apply {
+            createRippleDrawable(fillColor, rippleColor, cornerRadius).apply {
                 this.setDrawable(0, shapeDrawable)
             }
         } else {

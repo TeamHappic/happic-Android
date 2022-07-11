@@ -15,4 +15,5 @@
     <color name="dark_purple">#7D5B79</color>
     <color name="dark_blue">#6A5EB1</color>
     <color name="orange">#F9956A</color>
+    <color name="ripple">#33000000</color>
 </resources>
