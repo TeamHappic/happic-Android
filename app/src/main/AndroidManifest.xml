@@ -14,8 +14,7 @@
             android:name=".module.auth.ui.activity.AuthActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Splash">
-        </activity>
+            android:theme="@style/Theme.Splash"></activity>
         <activity
             android:name=".module.onboarding.ui.activity.OnboardingActivity"
             android:screenOrientation="portrait" />
@@ -27,8 +26,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.characterselect.ui.activity.CharacterActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,10 +35,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".module.characterselect.ui.activity.CharacterSelectActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
             android:theme="@style/Theme.App" />
