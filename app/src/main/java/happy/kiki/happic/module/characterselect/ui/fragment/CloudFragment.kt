@@ -1,4 +1,4 @@
-package happy.kiki.happic.module.main.ui.fragment
+package happy.kiki.happic.module.characterselect.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

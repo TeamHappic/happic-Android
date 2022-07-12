@@ -1,7 +1,7 @@
-package happy.kiki.happic.module.main.ui.activity
+package happy.kiki.happic.module.characterselect.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import happy.kiki.happic.databinding.ActivityCharacterBinding
 
 class CharacterActivity : AppCompatActivity() {

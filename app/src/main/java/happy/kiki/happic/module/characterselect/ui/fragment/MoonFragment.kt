@@ -1,10 +1,10 @@
-package happy.kiki.happic.module.main.ui.fragment
+package happy.kiki.happic.module.characterselect.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import happy.kiki.happic.databinding.FragmentMoonBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
 

@@ -26,7 +26,7 @@
             android:name=".module.main.ui.activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.main.ui.activity.CharacterActivity"
+            android:name=".module.characterselect.ui.activity.CharacterActivity"
             android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
