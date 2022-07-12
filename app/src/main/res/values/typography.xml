@@ -18,9 +18,11 @@
     <style name="Medium.16">
         <item name="android:textSize">16sp</item>
     </style>
+
     <style name="Medium.14">
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="Medium.18">
         <item name="android:textSize">18sp</item>
     </style>
@@ -28,9 +30,6 @@
     <style name="Bold">
         <item name="android:lineSpacingMultiplier">1.26</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
-    </style>
-    <style name="Bold.16">
-        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="Bold.16">
