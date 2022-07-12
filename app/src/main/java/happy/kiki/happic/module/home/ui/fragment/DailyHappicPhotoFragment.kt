@@ -12,8 +12,8 @@ import happy.kiki.happic.databinding.ItemDailyHappicPhotoBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
-import happy.kiki.happic.module.core.util.fadeIn
-import happy.kiki.happic.module.core.util.fadeOut
+import happy.kiki.happic.module.core.util.extension.fadeIn
+import happy.kiki.happic.module.core.util.extension.fadeOut
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

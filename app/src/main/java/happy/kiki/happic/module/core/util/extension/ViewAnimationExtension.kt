@@ -1,4 +1,4 @@
-package happy.kiki.happic.module.core.util
+package happy.kiki.happic.module.core.util.extension
 
 import android.animation.ObjectAnimator
 import android.view.View
@@ -31,10 +31,10 @@ fun View.fadeIn(delay: Long = 0L, duration: Long = 250L, dontMakeStartAlphaZero:
     }.start()
 }
 
-fun View.translateYUp(delay: Long = 0L) {
-    translationY = 600f
+fun View.translateYUp(delay: Long = 0L, duration: Long = 1000) {
+    translationY = pxFloat(800)
     ObjectAnimator.ofFloat(this, "translationY", 0f).apply {
-        duration = 2000
+        this.duration = duration
         startDelay = delay
     }.start()
 }

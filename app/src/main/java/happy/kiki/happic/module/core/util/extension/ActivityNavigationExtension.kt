@@ -1,8 +1,10 @@
 package happy.kiki.happic.module.core.util.extension
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Parcelable
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -19,14 +21,21 @@ typealias IntentConfig = (Intent) -> Intent
 inline fun <reified T : Activity> Activity.pushActivity(
     arg: Parcelable? = null,
     intentConfig: IntentConfig = { it },
-) = startActivity(intentConfig(Intent(this, T::class.java)).apply {
-    arg?.run { putExtra(_ACTIVITY_ARGUMENT_KEY_, arg) }
-})
+    sharedElementPairs: List<android.util.Pair<View, String>> = listOf()
+) = startActivity(
+    intentConfig(
+        Intent(this, T::class.java),
+    ).apply {
+        arg?.run { putExtra(_ACTIVITY_ARGUMENT_KEY_, arg) }
+    }, ActivityOptions.makeSceneTransitionAnimation(this, *sharedElementPairs.toTypedArray()).toBundle()
+)
 
 inline fun <reified T : Activity> Activity.replaceActivity(
-    arg: Parcelable? = null, intentConfig: IntentConfig = { it }
+    arg: Parcelable? = null,
+    intentConfig: IntentConfig = { it },
+    sharedElementPairs: List<android.util.Pair<View, String>> = listOf()
 ) {
-    pushActivity<T>(arg, intentConfig)
+    pushActivity<T>(arg, intentConfig, sharedElementPairs)
     finish()
 }
 

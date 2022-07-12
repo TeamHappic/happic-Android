@@ -1,11 +1,12 @@
 package happy.kiki.happic.module.characterselect.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.appcompat.app.AppCompatActivity
 import happy.kiki.happic.databinding.ActivityCharacterSelectBinding
-import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.argument
+import happy.kiki.happic.module.core.util.extension.fadeIn
+import happy.kiki.happic.module.core.util.extension.translateYUp
 import kotlinx.parcelize.Parcelize
 
 class CharacterSelectActivity : AppCompatActivity() {
@@ -20,7 +21,11 @@ class CharacterSelectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ActivityCharacterSelectBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
 
-        debugE(arg)
+        animateBottomContainer()
+    }
 
+    private fun animateBottomContainer() {
+        binding.bottomContainer.translateYUp(duration = 1500)
+        binding.bottomContainer.fadeIn(duration = 2000)
     }
 }
