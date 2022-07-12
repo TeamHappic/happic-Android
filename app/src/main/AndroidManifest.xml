@@ -15,11 +15,6 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Splash">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".module.onboarding.ui.activity.OnboardingActivity"
@@ -30,6 +25,16 @@
         <activity
             android:name=".module.main.ui.activity.MainActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.main.ui.activity.CharacterActivity"
+            android:screenOrientation="portrait"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
             android:exported="true"

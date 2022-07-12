@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/Medium.14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="해픽의 밤하늘에\n당신의 행복을 기록하세요"
+        android:textAlignment="center"
+        android:textColor="@color/gray3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/vertical_bar"
+        android:layout_width="1dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/dark_purple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView" />
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/Bold.16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="194dp"
+        android:text="함께 할 길잡이를 선택해요"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView" />
+
+    <happy.kiki.happic.module.core.ui.widget.BorderView
+        android:id="@+id/bv_moon"
+        android:layout_width="152dp"
+        android:layout_height="172dp"
+        android:layout_marginTop="20dp"
+        android:elevation="4dp"
+        app:card_shadow_color="@color/bg_black1"
+        app:layout_constraintEnd_toStartOf="@id/bv_cloud"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView2">
+
+        <ImageView
+            android:id="@+id/iv_rectangle_moon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_rectangle_moon" />
+
+        <ImageView
+            android:id="@+id/iv_moon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="14dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="24dp"
+            android:src="@drawable/character_moon" />
+    </happy.kiki.happic.module.core.ui.widget.BorderView>
+
+    <happy.kiki.happic.module.core.ui.widget.BorderView
+        android:id="@+id/bv_cloud"
+        android:layout_width="152dp"
+        android:layout_height="172dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:elevation="4dp"
+        app:card_shadow_color="@color/bg_black1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/bv_moon"
+        app:layout_constraintTop_toBottomOf="@id/textView2">
+
+        <ImageView
+            android:id="@+id/iv_rectangle_cloud"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_rectangle_cloud" />
+
+        <ImageView
+            android:id="@+id/iv_cloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="14dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="24dp"
+            android:src="@drawable/character_cloud" />
+    </happy.kiki.happic.module.core.ui.widget.BorderView>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_character"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="228dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

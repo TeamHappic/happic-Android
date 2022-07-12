@@ -19,9 +19,5 @@ class SignInActivity : AppCompatActivity() {
             setStatusBarTransparent()
             allowViewOverlapWithStatusBar()
         }
-
-        binding.touchble.setOnClickListener {
-            debugE(1)
-        }
     }
 }
