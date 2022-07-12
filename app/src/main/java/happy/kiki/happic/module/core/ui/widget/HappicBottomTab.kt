@@ -60,7 +60,8 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
             id = ViewCompat.generateViewId()
             setImageResource(menuIcon)
         }
-        val textView = TextView(ContextThemeWrapper(context, R.style.Medium_12)).apply {
+        val textView = TextView(context).apply {
+            setTextAppearance(R.style.Medium_12)
             id = ViewCompat.generateViewId()
             text = name
             setTextColor(context.getColor(R.color.gray5))
