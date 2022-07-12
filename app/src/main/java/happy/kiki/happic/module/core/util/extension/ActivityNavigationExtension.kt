@@ -27,7 +27,9 @@ inline fun <reified T : Activity> Activity.pushActivity(
         Intent(this, T::class.java),
     ).apply {
         arg?.run { putExtra(_ACTIVITY_ARGUMENT_KEY_, arg) }
-    }, ActivityOptions.makeSceneTransitionAnimation(this, *sharedElementPairs.toTypedArray()).toBundle()
+    }, if (sharedElementPairs.isNotEmpty()) ActivityOptions.makeSceneTransitionAnimation(
+        this, *sharedElementPairs.toTypedArray()
+    ).toBundle() else null
 )
 
 inline fun <reified T : Activity> Activity.replaceActivity(
