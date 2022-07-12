@@ -16,7 +16,7 @@
 
             <TextView
                 android:id="@+id/section_character"
-                style="@style/Medium.12"
+                android:textAppearance="@style/Medium.12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -36,7 +36,7 @@
 
             <TextView
                 android:id="@+id/section_appinfo"
-                style="@style/Medium.12"
+                android:textAppearance="@style/Medium.12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
