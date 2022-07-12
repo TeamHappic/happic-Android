@@ -35,10 +35,9 @@ inline fun <reified T : Fragment> AppCompatActivity.addFragment(
     arg: Parcelable? = null,
     tag: String? = null,
     skipAddToBackStack: Boolean = false,
-    backStackEntryName: String? = null
+    backStackEntryName: String? = null,
 ) = supportFragmentManager.commit {
     add(container.id, T::class.java, bundleOf(_FRAGMENT_ARGUMENT_KEY_ to arg), tag)
-
     if (!skipAddToBackStack) addToBackStack(backStackEntryName)
 }
 
@@ -53,6 +52,8 @@ inline fun <reified T : Fragment> AppCompatActivity.replaceFragment(
 
     if (!skipAddToBackStack) addToBackStack(backStackEntryName)
 }
+
+inline fun <reified T : Fragment> AppCompatActivity.isFragmentExist() = supportFragmentManager.fragments.any { it is T }
 
 fun AppCompatActivity.popBackStack() = supportFragmentManager.popBackStack()
 fun AppCompatActivity.popBackStacksUntilNameFound(name: String) = supportFragmentManager.popBackStack(name, 0)
