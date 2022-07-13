@@ -5,6 +5,7 @@
             <enum name="dark_blue" value="0" />
             <enum name="dark_purple" value="1" />
             <enum name="orange" value="2" />
+            <enum name="kakao_yellow" value="3" />
         </attr>
         <attr name="text" format="string" />
         <attr name="icon" format="reference" />

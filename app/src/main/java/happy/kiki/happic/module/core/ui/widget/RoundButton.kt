@@ -25,11 +25,12 @@ class RoundButton @JvmOverloads constructor(context: Context, attrs: AttributeSe
     FrameLayout(context, attrs) {
 
     enum class Type(@ColorRes val color: Int) {
-        DARK_BLUE(R.color.dark_blue), DARK_PURPLE(R.color.dark_purple), ORANGE(R.color.orange);
+        DARK_BLUE(R.color.dark_blue), DARK_PURPLE(R.color.dark_purple), ORANGE(R.color.orange), KAKAO_YELLOW(R.color.kakao_yellow);
 
         val textColor: Int
             get() = when (this) {
                 ORANGE -> R.color.gray0
+                KAKAO_YELLOW -> R.color.gray9
                 else -> R.color.white
             }
     }
