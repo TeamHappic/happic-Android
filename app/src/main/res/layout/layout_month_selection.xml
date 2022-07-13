@@ -81,20 +81,117 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_year">
 
+
             <androidx.constraintlayout.helper.widget.Flow
                 android:id="@+id/flow_month"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:constraint_referenced_ids="tv_month1,tv_month2,tv_month3,tv_month4,tv_month5,tv_month6,tv_month7,tv_month8,tv_month9,tv_month10,tv_month11,tv_month12,"
                 app:flow_horizontalStyle="spread_inside"
                 app:flow_maxElementsWrap="4"
                 app:flow_verticalBias="0"
                 app:flow_verticalGap="18dp"
                 app:flow_verticalStyle="spread_inside"
-                app:flow_wrapMode="aligned" />
+                app:flow_wrapMode="aligned"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tv_month1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1월"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/gray2" />
+
+
+            <TextView
+                android:id="@+id/tv_month2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2월"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/gray2" />
+
+            <TextView
+                android:id="@+id/tv_month3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3월"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/gray2" />
+
+            <TextView
+                android:id="@+id/tv_month4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4월"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/gray2" />
+
+            <TextView
+                android:id="@+id/tv_month5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5월"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/gray2" />
+
+            <TextView
+                android:id="@+id/tv_month6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6월"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/gray2" />
+
+            <TextView
+                android:id="@+id/tv_month7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7월"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/gray2" />
+
+            <TextView
+                android:id="@+id/tv_month8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8월"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/gray2" />
+
+            <TextView
+                android:id="@+id/tv_month9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9월"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/gray2" />
+
+            <TextView
+                android:id="@+id/tv_month10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10월"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/gray2" />
+
+            <TextView
+                android:id="@+id/tv_month11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="11월"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/gray2" />
+
+            <TextView
+                android:id="@+id/tv_month12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12월"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/gray2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </happy.kiki.happic.module.core.ui.widget.BorderView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

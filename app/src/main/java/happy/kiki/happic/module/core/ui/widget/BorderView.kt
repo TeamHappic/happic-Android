@@ -16,12 +16,12 @@ import happy.kiki.happic.module.core.util.extension.setShadowColorIfAvailable
 class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
     ConstraintLayout(context, attrs) {
 
-    private var cornerRadius by OnChangeProp(0f) { updateUI() }
-    private var fillColor by OnChangeProp(Color.TRANSPARENT) { updateUI() }
-    private var strokeWidth by OnChangeProp(0f) { updateUI() }
-    private var strokeColor by OnChangeProp(Color.TRANSPARENT) { updateUI() }
-    private var shadowColor by OnChangeProp(Color.BLACK) { updateUI() }
-    private var rippleColor by OnChangeProp(context.getColor(R.color.ripple)) { updateUI() }
+    var cornerRadius by OnChangeProp(0f) { updateUI() }
+    var fillColor by OnChangeProp(Color.TRANSPARENT) { updateUI() }
+    var strokeWidth by OnChangeProp(0f) { updateUI() }
+    var strokeColor by OnChangeProp(Color.TRANSPARENT) { updateUI() }
+    var shadowColor by OnChangeProp(Color.BLACK) { updateUI() }
+    var rippleColor by OnChangeProp(context.getColor(R.color.ripple)) { updateUI() }
 
     init {
         attrs?.let { a ->

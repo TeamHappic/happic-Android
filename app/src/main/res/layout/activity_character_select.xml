@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".module.characterselect.ui.activity.CharacterSelectActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="어떤 길잡이와 함께 하실래요?"
+        android:textAppearance="@style/Bold.16"
+        android:textColor="@color/gray2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <happy.kiki.happic.module.core.ui.widget.BorderView
+        android:id="@+id/bv_moon"
+        android:layout_width="96dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="16dp"
+        android:elevation="4dp"
+        android:transitionName="moon"
+        app:card_shadow_color="@color/bg_black1"
+        app:layout_constraintEnd_toStartOf="@id/bv_cloud"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView">
+
+        <ImageView
+            android:id="@+id/iv_rectangle_moon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_rectangle_moon" />
+
+        <ImageView
+            android:id="@+id/iv_moon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/character_moon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.815" />
+    </happy.kiki.happic.module.core.ui.widget.BorderView>
+
+    <happy.kiki.happic.module.core.ui.widget.BorderView
+        android:id="@+id/bv_cloud"
+        android:layout_width="96dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="78dp"
+        android:elevation="4dp"
+        android:transitionName="cloud"
+        app:card_shadow_color="@color/bg_black1"
+        app:layout_constraintBottom_toBottomOf="@id/bv_moon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/bv_moon"
+        app:layout_constraintTop_toTopOf="@id/bv_moon">
+
+        <ImageView
+            android:id="@+id/iv_rectangle_cloud"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_rectangle_cloud" />
+
+        <ImageView
+            android:id="@+id/iv_cloud"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/character_cloud"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.815" />
+    </happy.kiki.happic.module.core.ui.widget.BorderView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bv_moon">
+
+        <TextView
+            android:id="@+id/tv_question1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Q. 가장 좋아하는게 뭐야?"
+            android:textAppearance="@style/Medium.14"
+            android:textColor="@color/gray2"
+            app:layout_constraintStart_toStartOf="@id/horizontal_bar1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/horizontal_bar1"
+            android:layout_width="320dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/gray7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_question1" />
+
+        <TextView
+            android:id="@+id/tv_answer1"
+            android:layout_width="291dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_chatting"
+            android:paddingTop="8dp"
+            android:text="내가 좋아하는 사람들이 행복하다고 말하는 거!"
+            android:textAlignment="center"
+            android:textAppearance="@style/Medium.14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/horizontal_bar1"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_bar1" />
+
+        <TextView
+            android:id="@+id/tv_question2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Q. 걱정이 생기면 어떻게 해?"
+            android:textAppearance="@style/Medium.14"
+            android:textColor="@color/gray2"
+            app:layout_constraintStart_toStartOf="@id/horizontal_bar2"
+            app:layout_constraintTop_toBottomOf="@id/tv_answer1" />
+
+        <View
+            android:id="@+id/horizontal_bar2"
+            android:layout_width="320dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/gray7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_question2" />
+
+        <TextView
+            android:id="@+id/tv_answer2"
+            android:layout_width="208dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_chatting"
+            android:paddingTop="8dp"
+            android:text="조용히 일기에 걱정거리를 적어"
+            android:textAlignment="center"
+            android:textAppearance="@style/Medium.14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/horizontal_bar2"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_bar2" />
+
+        <TextView
+            android:id="@+id/tv_question3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Q. 고마울 때 어떻게 표현해?"
+            android:textAppearance="@style/Medium.14"
+            android:textColor="@color/gray2"
+            app:layout_constraintStart_toStartOf="@id/horizontal_bar3"
+            app:layout_constraintTop_toBottomOf="@id/tv_answer2" />
+
+        <View
+            android:id="@+id/horizontal_bar3"
+            android:layout_width="320dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/gray7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_question3" />
+
+        <TextView
+            android:id="@+id/tv_answer3"
+            android:layout_width="227dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_chatting"
+            android:paddingTop="8dp"
+            android:text="나는 편지와 함께 좋아한다고 말해!"
+            android:textAlignment="center"
+            android:textAppearance="@style/Medium.14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/horizontal_bar3"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_bar3" />
+
+        <happy.kiki.happic.module.core.ui.widget.RoundButton
+            android:id="@+id/btn_join"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="함께하기"
+            app:type="dark_blue">
+
+        </happy.kiki.happic.module.core.ui.widget.RoundButton>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

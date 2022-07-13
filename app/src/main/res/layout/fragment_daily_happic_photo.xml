@@ -18,9 +18,9 @@
 
         <TextView
             android:id="@+id/tv_month"
-            style="@style/Bold.16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/Bold.16"
             android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@id/iv_arrow"
             app:layout_constraintHorizontal_chainStyle="packed"

@@ -6,9 +6,11 @@ import ReportFragment
 import SettingFragment
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import happy.kiki.happic.databinding.ActivityMainBinding
 import happy.kiki.happic.module.core.util.extension.addFragment
-import happy.kiki.happic.module.core.util.extension.replaceFragment
+import happy.kiki.happic.module.core.util.extension.isFragmentExist
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -17,22 +19,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
-        attachFragment()
+        addInitialFragment()
         configureBottomTab()
     }
 
-    private fun attachFragment() {
-        addFragment<HomeFragment>(binding.fragmentContainer, skipAddToBackStack = true)
-    }
+    private fun addInitialFragment() = showFragment<HomeFragment>()
 
     private fun configureBottomTab() {
         binding.bottomTab.onTabSelectedListener = {
             when (it) {
-                0 -> replaceFragment<HomeFragment>(binding.fragmentContainer, skipAddToBackStack = true)
-                1 -> replaceFragment<DailyHappicFragment>(binding.fragmentContainer, skipAddToBackStack = true)
-                2 -> replaceFragment<ReportFragment>(binding.fragmentContainer, skipAddToBackStack = true)
-                3 -> replaceFragment<SettingFragment>(binding.fragmentContainer, skipAddToBackStack = true)
+                0 -> showFragment<HomeFragment>()
+                1 -> showFragment<DailyHappicFragment>()
+                2 -> showFragment<ReportFragment>()
+                3 -> showFragment<SettingFragment>()
             }
         }
+    }
+
+    private inline fun <reified T : Fragment> showFragment() = supportFragmentManager.commit {
+        val shouldBeAdded = !isFragmentExist<T>()
+        supportFragmentManager.fragments.forEach {
+            if (it is T) show(it)
+            else hide(it)
+        }
+        if (shouldBeAdded) addFragment<T>(binding.fragmentContainer, tag = T::class.java.name)
     }
 }

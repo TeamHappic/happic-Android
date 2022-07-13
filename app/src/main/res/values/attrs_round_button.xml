@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundButton">
+        <attr name="type" format="enum">
+            <enum name="dark_blue" value="0" />
+            <enum name="dark_purple" value="1" />
+            <enum name="orange" value="2" />
+            <enum name="kakao_yellow" value="3" />
+        </attr>
+        <attr name="text" format="string" />
+        <attr name="icon" format="reference" />
+    </declare-styleable>
+</resources>

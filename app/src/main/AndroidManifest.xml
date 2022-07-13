@@ -31,9 +31,22 @@
             android:name=".module.main.ui.activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.characterselect.ui.activity.CharacterActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.characterselect.ui.activity.CharacterSelectActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.App" />
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.App" />
     </application>
 
 </manifest>
