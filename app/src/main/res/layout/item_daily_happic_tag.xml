@@ -28,7 +28,6 @@
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:style="@style/ExtraBold.16"
             tools:text="26" />
 
         <TextView
@@ -42,7 +41,7 @@
             app:layout_constraintStart_toEndOf="@id/tv_date"
             app:layout_constraintTop_toTopOf="@id/tv_date"
             tools:text="토"
-            tools:textColor="@color/white" />
+            android:textColor="@color/white"/>
 
         <LinearLayout
             android:id="@+id/ll_tags"
