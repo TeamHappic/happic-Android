@@ -21,8 +21,6 @@ import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.dailyhappic.data.YearMonthModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class DailyHappicPhotoFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicPhotoBinding>()
@@ -31,16 +29,8 @@ class DailyHappicPhotoFragment : Fragment() {
         FragmentDailyHappicPhotoBinding.inflate(inflater, container, false).let { binding = it; it.root }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initData()
         setCards()
         configureMonthSelect()
-    }
-
-    private fun initData() {
-        with(binding) {
-            val now = LocalDate.now()
-            tvMonth.text = now.format(DateTimeFormatter.ofPattern("yyyy.MM")).toString()
-        }
     }
 
     private val currentYear = MutableStateFlow(now.year)
