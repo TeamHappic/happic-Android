@@ -23,8 +23,17 @@ class CharacterSelectActivity : AppCompatActivity() {
         ActivityCharacterSelectBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
 
         animateBottomContainer()
+        initEvent()
         initButtonClickListeners()
 
+    }
+
+    private fun initEvent(){
+        if(arg.name == "cloud"){
+            binding.tvAnswer1.setText("내가 한 일이 완벽하게 끝나는 거!")
+            binding.tvAnswer2.setText("걱정해서 뭐하지라고 생각하면서 그냥 잊어!")
+            binding.tvAnswer3.setText("친구에게 맛있는 걸 사주면서 간접적으로 표현해!")
+        }
     }
 
     private fun initButtonClickListeners(){

@@ -7,6 +7,7 @@ import happy.kiki.happic.module.core.util.extension.addLengthFilter
 import happy.kiki.happic.module.core.util.extension.addNoSpaceFilter
 import happy.kiki.happic.module.core.util.extension.showToast
 
+
 class CharacterNameActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCharacterNameBinding
 
