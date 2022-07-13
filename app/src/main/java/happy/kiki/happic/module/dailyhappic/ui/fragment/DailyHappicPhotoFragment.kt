@@ -1,3 +1,5 @@
+package happy.kiki.happic.module.dailyhappic.ui.fragment
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +19,7 @@ import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
 import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.core.util.yearMonthText
-import happy.kiki.happic.module.home.data.YearMonthModel
+import happy.kiki.happic.module.dailyhappic.data.YearMonthModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
