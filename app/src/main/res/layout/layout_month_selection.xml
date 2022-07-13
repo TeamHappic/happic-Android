@@ -43,7 +43,7 @@
             app:layout_constraintTop_toTopOf="@id/tv_year">
 
             <ImageView
-                android:id="@+id/id_arrow_previous"
+                android:id="@+id/iv_arrow_previous"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_arrow_left" />
@@ -62,32 +62,37 @@
             app:layout_constraintTop_toTopOf="@id/tv_year">
 
             <ImageView
-                android:id="@+id/id_arrow_next"
+                android:id="@+id/iv_arrow_next"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_arrow_right" />
 
         </happy.kiki.happic.module.core.ui.widget.BorderView>
 
-
-        <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/flow_month"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_month"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="20dp"
-            app:flow_horizontalStyle="spread_inside"
-            app:flow_maxElementsWrap="4"
-            app:flow_verticalBias="0"
-            app:flow_verticalGap="18dp"
-            app:flow_verticalStyle="spread_inside"
-            app:flow_wrapMode="aligned"
-            app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_year" />
+            app:layout_constraintTop_toBottomOf="@id/tv_year">
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow_month"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:flow_horizontalStyle="spread_inside"
+                app:flow_maxElementsWrap="4"
+                app:flow_verticalBias="0"
+                app:flow_verticalGap="18dp"
+                app:flow_verticalStyle="spread_inside"
+                app:flow_wrapMode="aligned" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </happy.kiki.happic.module.core.ui.widget.BorderView>
 

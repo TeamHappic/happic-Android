@@ -28,19 +28,68 @@ class DailyHappicPhotoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initData()
-        setOnClickListener()
+        setCurrentMonths()
         setCards()
+        setOnClickListener()
     }
 
     private fun initData() {
-        var month = 0
         with(binding) {
             val now = LocalDate.now()
             tvMonth.text = now.format(DateTimeFormatter.ofPattern("yyyy.MM")).toString()
             monthSelectContainer.tvYear.text = now.year.toString()
-            month = now.month.value
+        }
+    }
+
+    private fun setOnClickListener() {
+        binding.borderMonth.setOnClickListener {
+            with(binding.monthSelectContainer.monthSelection) {
+                if (this.isVisible) this.fadeOut()
+                else this.fadeIn()
+            }
         }
 
+        with(binding.monthSelectContainer) {
+            ivArrowPrevious.setOnClickListener {
+                val year = tvYear.text.toString().toInt() - 1
+                setMonthTransactionEvent(year)
+            }
+            ivArrowNext.setOnClickListener {
+                val year = tvYear.text.toString().toInt() + 1
+                setMonthTransactionEvent(year)
+            }
+        }
+
+    }
+
+    private fun setMonthTransactionEvent(year: Int) {
+        with(binding.monthSelectContainer) {
+            tvYear.text = year.toString()
+            val isNotCurrentYear = year < LocalDate.now().year
+            ivArrowNext.isVisible = isNotCurrentYear
+            clMonth.removeAllViews() //            setCurrentMonths()
+            setPastMonths() //            flowMonth.allViews.forEach {
+            //                flowMonth.removeView(it)
+            //            }
+            //            if (isNotCurrentYear) setPastMonths() else setCurrentMonths()
+        }
+    }
+
+    private fun setCards() {
+        (0..30).map {
+            ItemDailyHappicPhotoBinding.inflate(layoutInflater).apply {
+                root.id = ViewCompat.generateViewId()
+            }
+        }.forEach { itemBinding ->
+            val width = (requireContext().screenWidth - requireContext().px(55)) / 4
+            binding.clCards.addView(itemBinding.root, ConstraintLayout.LayoutParams(width, WRAP_CONTENT))
+            binding.flowCards.addView(itemBinding.root)
+        }
+    }
+
+    private fun setCurrentMonths() {
+        binding.monthSelectContainer.ivArrowNext.isVisible = false
+        val month = LocalDate.now().month.value
         var textStyle = R.style.Medium_16
         var isTextClickable = true
         var textColor = R.color.gray2
@@ -62,38 +111,27 @@ class DailyHappicPhotoFragment : Fragment() {
                 setTextColor(context.getColor(textColor))
             }
             with(binding.monthSelectContainer) {
-                monthSelection.addView(textView, ConstraintLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
+                clMonth.addView(textView, ConstraintLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
                 flowMonth.addView(textView)
             }
         }
     }
 
-    private fun setOnClickListener() {
-        binding.borderMonth.setOnClickListener {
-            with(binding.monthSelectContainer.monthSelection) {
-                if (this.isVisible) this.fadeOut()
-                else this.fadeIn()
+    private fun setPastMonths() {
+        (0..11).map {
+            val textView = TextView(ContextThemeWrapper(context, R.style.Medium_16)).apply {
+                isClickable = true
+                id = ViewCompat.generateViewId()
+                includeFontPadding = true
+                "${it + 1}월".also { text = it }
+                setTextColor(context.getColor(R.color.gray2))
+            }
+            with(binding.monthSelectContainer) {
+                clMonth.addView(textView, ConstraintLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
+                flowMonth.addView(textView)
             }
         }
     }
 
-    private fun setCards() {
-        (0..30).map {
-            ItemDailyHappicPhotoBinding.inflate(layoutInflater).apply {
-                root.id = ViewCompat.generateViewId()
-            }
-        }.forEach { itemBinding ->
-            val width = (requireContext().screenWidth - requireContext().px(55)) / 4
-            binding.clCards.addView(itemBinding.root, ConstraintLayout.LayoutParams(width, WRAP_CONTENT))
-            binding.flowCards.addView(itemBinding.root)
-        }
-
-    }
-
-    companion object {
-        const val ABLE = 0
-        const val DISABLE = 1
-        const val FOCUS = 2
-    }
 }
 
