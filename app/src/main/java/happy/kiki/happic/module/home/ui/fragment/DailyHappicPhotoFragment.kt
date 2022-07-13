@@ -70,6 +70,8 @@ class DailyHappicPhotoFragment : Fragment() {
 
             onClickMonthText = {
                 setMonthSelected(year.value, it)
+                binding.tvMonth.text =
+                    LocalDate.of(year.value, it, 1).format(DateTimeFormatter.ofPattern("yyyy.MM")).toString()
             }
         }
     }
