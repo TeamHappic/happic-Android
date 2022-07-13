@@ -45,7 +45,7 @@ class DailyHappicPhotoFragment : Fragment() {
                     if (this.isVisible) this.fadeOut()
                     else this.fadeIn()
                 }
-                currentYear.value = now.year
+                currentYear.value = selectedYearMonth.value.year
             }
 
 
