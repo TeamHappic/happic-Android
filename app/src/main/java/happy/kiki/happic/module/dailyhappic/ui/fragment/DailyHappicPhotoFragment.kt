@@ -19,6 +19,7 @@ import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
 import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.core.util.yearMonthText
+import happy.kiki.happic.module.dailyhappic.data.PhotoModel
 import happy.kiki.happic.module.dailyhappic.data.YearMonthModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -69,6 +70,7 @@ class DailyHappicPhotoFragment : Fragment() {
         (0..30).map {
             ItemDailyHappicPhotoBinding.inflate(layoutInflater).apply {
                 root.id = ViewCompat.generateViewId()
+                photo = PhotoModel("a", (it + 1).toString(), "https://github.com/kimdahee7.png")
             }
         }.forEach { itemBinding ->
             val width = (requireContext().screenWidth - requireContext().px(55)) / 4
