@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import happy.kiki.happic.databinding.ActivityCharacterSelectBinding
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.fadeIn
+import happy.kiki.happic.module.core.util.extension.pushActivity
 import happy.kiki.happic.module.core.util.extension.translateYUp
 import kotlinx.parcelize.Parcelize
 
@@ -22,6 +23,18 @@ class CharacterSelectActivity : AppCompatActivity() {
         ActivityCharacterSelectBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
 
         animateBottomContainer()
+        initButtonClickListeners()
+
+    }
+
+    private fun initButtonClickListeners(){
+        binding.btnJoin.setOnClickListener {
+            if (arg.name == "moon") {
+                pushActivity<CharacterNameActivity>(Argument("moon"))
+            }else {
+                pushActivity<CharacterNameActivity>(Argument("cloud"))
+            }
+        }
     }
 
     private fun animateBottomContainer() {
