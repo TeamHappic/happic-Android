@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_signin"
+    android:layoutAnimation="@anim/common_layout">
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -36,18 +39,42 @@
 
     <TextView
         android:id="@+id/textView"
-        android:textAppearance="@style/Medium.16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="100dp"
         android:text="해픽의 밤하늘에\n당신의 행복을 기록하세요"
         android:textAlignment="center"
+        android:textAppearance="@style/Medium.16"
         android:textColor="@color/dark_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/vertical_bar" />
+
+    <happy.kiki.happic.module.core.ui.widget.RoundButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:text="카카오톡으로 시작하기"
+        app:type="kakao_yellow" />
+
+    <TextView
+        android:id="@+id/bottom_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="100dp"
+        android:textAppearance="@style/Regular.12"
+        android:textColor="@color/gray6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="hi" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

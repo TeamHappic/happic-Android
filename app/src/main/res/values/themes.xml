@@ -13,11 +13,15 @@
         <item name="android:windowSharedElementExitTransition">
             @transition/change_image_transform
         </item>
+
+        <item name="colorPrimary">@color/dark_purple</item>
+        <item name="colorPrimaryDark">@color/dark_blue</item>
     </style>
 
     <style name="Theme.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/dark_purple</item>
+        <item name="windowSplashScreenBackground">#0fff</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="postSplashScreenTheme">@style/Theme.App</item>
+        <item name="android:windowBackground">@drawable/bg_signin</item>
     </style>
 </resources>

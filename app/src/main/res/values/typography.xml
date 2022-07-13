@@ -6,6 +6,10 @@
         <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
 
+    <style name="Regular.12">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="Medium">
         <item name="android:lineSpacingMultiplier">1.26</item>
         <item name="android:fontFamily">@font/pretendard_medium</item>
