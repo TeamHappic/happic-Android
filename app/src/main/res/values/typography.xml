@@ -48,4 +48,9 @@
         <item name="android:lineSpacingMultiplier">1.26</item>
         <item name="android:fontFamily">@font/pretendard_extra_bold</item>
     </style>
+
+    <style name="ExtraBold.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

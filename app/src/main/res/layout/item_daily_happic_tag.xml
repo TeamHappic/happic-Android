@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="tag"
+            type="happy.kiki.happic.module.dailyhappic.data.TagModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_height="wrap_content"
+        tools:layout_width="match_parent">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="28dp"
+            android:text="@{tag.date}"
+            android:textAppearance="@style/ExtraBold.16"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:style="@style/ExtraBold.16"
+            tools:text="26" />
+
+        <TextView
+            android:id="@+id/tv_day_of_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{tag.dayOfWeek}"
+            android:textAppearance="@style/Medium.16"
+            app:layout_constraintBottom_toBottomOf="@id/tv_date"
+            app:layout_constraintStart_toEndOf="@id/tv_date"
+            app:layout_constraintTop_toTopOf="@id/tv_date"
+            tools:text="토"
+            tools:textColor="@color/white" />
+
+        <LinearLayout
+            android:id="@+id/ll_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_date">
+
+            <happy.kiki.happic.module.core.ui.widget.BorderView
+                android:id="@+id/border_when"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingVertical="16dp"
+                app:card_background_color="@color/gray9"
+                app:card_corner_radius="10dp"
+                app:layout_constraintStart_toStartOf="@id/tv_date"
+                app:layout_constraintTop_toBottomOf="@id/tv_date">
+
+                <TextView
+                    android:id="@+id/tv_when"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{tag.time}"
+                    android:textAppearance="@style/Medium.14"
+                    android:textColor="@color/gray2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="오후2시" />
+            </happy.kiki.happic.module.core.ui.widget.BorderView>
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="0dp" />
+
+            <happy.kiki.happic.module.core.ui.widget.BorderView
+                android:id="@+id/border_where"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingVertical="16dp"
+                app:card_background_color="@color/gray9"
+                app:card_corner_radius="10dp"
+                app:layout_constraintStart_toStartOf="@id/tv_date"
+                app:layout_constraintTop_toBottomOf="@id/tv_date">
+
+                <TextView
+                    android:id="@+id/tv_where"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{tag.where}"
+                    android:textAppearance="@style/Medium.14"
+                    android:textColor="@color/gray2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="집구석구석" />
+            </happy.kiki.happic.module.core.ui.widget.BorderView>
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="0dp" />
+
+
+            <happy.kiki.happic.module.core.ui.widget.BorderView
+                android:id="@+id/border_who"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingVertical="16dp"
+                app:card_background_color="@color/gray9"
+                app:card_corner_radius="10dp"
+                app:layout_constraintStart_toStartOf="@id/tv_date"
+                app:layout_constraintTop_toBottomOf="@id/tv_date">
+
+                <TextView
+                    android:id="@+id/tv_who"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{tag.who}"
+                    android:textAppearance="@style/Medium.14"
+                    android:textColor="@color/gray2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="햄식달식이" />
+            </happy.kiki.happic.module.core.ui.widget.BorderView>
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="0dp" />
+
+
+            <happy.kiki.happic.module.core.ui.widget.BorderView
+                android:id="@+id/border_what"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingVertical="16dp"
+                app:card_background_color="@color/gray9"
+                app:card_corner_radius="10dp"
+                app:layout_constraintStart_toStartOf="@id/tv_date"
+                app:layout_constraintTop_toBottomOf="@id/tv_date">
+
+                <TextView
+                    android:id="@+id/tv_what"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{tag.what}"
+                    android:textAppearance="@style/Medium.14"
+                    android:textColor="@color/gray2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="짱짱귀여워" />
+            </happy.kiki.happic.module.core.ui.widget.BorderView>
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
