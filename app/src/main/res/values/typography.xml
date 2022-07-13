@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="GMarketBold">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="android:fontFamily">@font/gmarket_sans_bold</item>
+    </style>
+
+    <style name="GMarketBold.20">
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="Regular">
         <item name="android:lineSpacingMultiplier">1.26</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
