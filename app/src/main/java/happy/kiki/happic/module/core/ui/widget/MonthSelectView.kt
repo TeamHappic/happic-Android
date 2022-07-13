@@ -74,7 +74,7 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
                     getColor(
                         if (isSelectedMonth) R.color.dark_purple
                         else if (isFutureMonth) R.color.gray7
-                        else R.color.white
+                        else R.color.gray2
                     )
                 )
             }
