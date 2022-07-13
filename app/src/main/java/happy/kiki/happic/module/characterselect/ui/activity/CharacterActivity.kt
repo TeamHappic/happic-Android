@@ -15,6 +15,11 @@ class CharacterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCharacterBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
+        initCharacterButtonClickListeners()
+    }
+
+    private fun initCharacterButtonClickListeners(){
+
         val sharedElementPairs = listOf(
             UtilPair(binding.bvMoon as View, "moon"), UtilPair(binding.bvCloud as View, "cloud")
         )
