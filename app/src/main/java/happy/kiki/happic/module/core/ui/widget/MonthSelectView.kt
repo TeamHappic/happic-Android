@@ -19,6 +19,10 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
         ViewMonthSelectBinding.inflate(LayoutInflater.from(context))
     }
 
+    private var currentYear = now.year
+    private val isCurrentYear get() = currentYear == LocalDate.now().year
+    private var selectedYearMonth = now.year to now.monthValue
+
     init {
         addView(monthSelectView.root)
         monthSelectView.ivArrowPrevious.setOnClickListener { onClickLeftArrow?.invoke() }
@@ -27,11 +31,6 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
         updateUiStates()
         setMonthTextViewClickListeners()
     }
-
-    private var currentYear = now.year
-    private val isCurrentYear get() = currentYear == LocalDate.now().year
-
-    private var selectedYearMonth = now.year to now.monthValue
 
     var onClickLeftArrow: (() -> Unit)? = null
     var onClickRightArrow: (() -> Unit)? = null
