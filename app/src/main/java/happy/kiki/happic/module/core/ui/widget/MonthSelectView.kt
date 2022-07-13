@@ -58,6 +58,8 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
     private fun updateTextUiStates() = monthTextViews.forEachIndexed { index, view ->
         val monthIdx = index + 1
         view.run {
+            val isFutureMonth = isCurrentYear && monthIdx > LocalDate.now().month.value
+            isClickable = !isFutureMonth
             setTextAppearance(
                 if (selectedMonth == monthIdx) R.style.Bold_16
                 else R.style.Medium_16
@@ -65,7 +67,7 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
             setTextColor(
                 getColor(
                     if (selectedMonth == monthIdx) R.color.dark_purple
-                    else if (isCurrentYear && monthIdx > LocalDate.now().month.value) R.color.gray7
+                    else if (isFutureMonth) R.color.gray7
                     else R.color.white
                 )
             )
