@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ViewMonthSelectBinding
 import happy.kiki.happic.module.core.util.extension.getColor
+import happy.kiki.happic.module.core.util.now
 import java.time.LocalDate
 
 class MonthSelectView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
@@ -27,24 +28,23 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
         setMonthTextViewClickListeners()
     }
 
-    private var year = LocalDate.now().year
-    private var selectedYear = LocalDate.now().year
-    private var selectedMonth = LocalDate.now().monthValue
-    private val isCurrentYear get() = year == LocalDate.now().year
+    private var currentYear = now.year
+    private val isCurrentYear get() = currentYear == LocalDate.now().year
+
+    private var selectedYearMonth = now.year to now.monthValue
 
     var onClickLeftArrow: (() -> Unit)? = null
     var onClickRightArrow: (() -> Unit)? = null
     var onClickMonthText: ((Int) -> Unit)? = null
 
-    fun setYear(year: Int) {
-        this.year = year
-        this.monthSelectView.tvYear.text = year.toString()
+    fun setCurrentYear(year: Int) {
+        currentYear = year
+        monthSelectView.tvYear.text = year.toString()
         updateUiStates()
     }
 
-    fun setMonthSelected(year: Int, month: Int) {
-        selectedMonth = month
-        selectedYear = year
+    fun setSelectedYearMonth(year: Int, month: Int) {
+        selectedYearMonth = year to month
         updateUiStates()
     }
 
@@ -64,7 +64,7 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
             val monthIdx = index + 1
             view.run {
                 val isFutureMonth = isCurrentYear && monthIdx > LocalDate.now().month.value
-                val isSelectedMonth = year == selectedYear && selectedMonth == monthIdx
+                val isSelectedMonth = currentYear == selectedYearMonth.first && selectedYearMonth.second == monthIdx
                 isClickable = !isFutureMonth
                 setTextAppearance(
                     if (isSelectedMonth) R.style.Bold_16
@@ -79,7 +79,5 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
                 )
             }
         }
-
     }
-
 }
