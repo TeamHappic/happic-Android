@@ -25,7 +25,7 @@ class CharacterSelectActivity : AppCompatActivity() {
     }
 
     private fun animateBottomContainer() {
-        binding.bottomContainer.translateYUp(duration = 1500)
-        binding.bottomContainer.fadeIn(duration = 2000)
+//        binding.bottomContainer.translateYUp(duration = 1500)
+//        binding.bottomContainer.fadeIn(duration = 2000)
     }
 }
