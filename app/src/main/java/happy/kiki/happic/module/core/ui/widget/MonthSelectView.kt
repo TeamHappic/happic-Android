@@ -27,6 +27,7 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     private var year = LocalDate.now().year
+    private var selectedYear = LocalDate.now().year
     private var selectedMonth = LocalDate.now().monthValue
     private val isCurrentYear get() = year == LocalDate.now().year
 
@@ -40,8 +41,9 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
         updateTextUiStates()
     }
 
-    fun setMonthSelected(month: Int) {
+    fun setMonthSelected(year: Int, month: Int) {
         selectedMonth = month
+        selectedYear = year
         updateTextUiStates()
     }
 
@@ -61,12 +63,12 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
             val isFutureMonth = isCurrentYear && monthIdx > LocalDate.now().month.value
             isClickable = !isFutureMonth
             setTextAppearance(
-                if (selectedMonth == monthIdx) R.style.Bold_16
+                if (selectedMonth == monthIdx && year == selectedYear) R.style.Bold_16
                 else R.style.Medium_16
             )
             setTextColor(
                 getColor(
-                    if (selectedMonth == monthIdx) R.color.dark_purple
+                    if (selectedMonth == monthIdx && year == selectedYear) R.color.dark_purple
                     else if (isFutureMonth) R.color.gray7
                     else R.color.white
                 )

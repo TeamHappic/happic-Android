@@ -15,6 +15,7 @@ import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
 import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
+import happy.kiki.happic.module.home.data.YearMonthModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -34,13 +35,12 @@ class DailyHappicPhotoFragment : Fragment() {
     private fun initData() {
         with(binding) {
             val now = LocalDate.now()
-            tvMonth.text = now.format(DateTimeFormatter.ofPattern("yyyy.MM"))
-                .toString() //            monthSelectContainer.tvYear.text = now.year.toString()
+            tvMonth.text = now.format(DateTimeFormatter.ofPattern("yyyy.MM")).toString()
         }
     }
 
     private val year = MutableStateFlow(LocalDate.now().year)
-    private val selectedMonth = MutableStateFlow(LocalDate.now().monthValue)
+    private val selectedMonth = MutableStateFlow(YearMonthModel(LocalDate.now().year, LocalDate.now().monthValue))
 
     private fun configureMonthSelect() {
 
@@ -51,7 +51,7 @@ class DailyHappicPhotoFragment : Fragment() {
                     else this.fadeIn()
                 }
             }
-            
+
             onClickRightArrow = {
                 val currentYear = LocalDate.now().year
                 if (year.value < currentYear) year.value += 1
@@ -61,13 +61,15 @@ class DailyHappicPhotoFragment : Fragment() {
             }
 
             collectFlowWhenStarted(selectedMonth) {
-                setMonthSelected(it)
+                setMonthSelected(it.year, it.month)
             }
+
             collectFlowWhenStarted(year) {
                 setYear(it)
             }
+
             onClickMonthText = {
-                binding.monthSelect.setMonthSelected(it)
+                setMonthSelected(year.value, it)
             }
         }
     }
