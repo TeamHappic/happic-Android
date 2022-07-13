@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ViewMonthSelectBinding
 import happy.kiki.happic.module.core.util.extension.getColor
@@ -22,7 +23,7 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
         monthSelectView.ivArrowPrevious.setOnClickListener { onClickLeftArrow?.invoke() }
         monthSelectView.ivArrowNext.setOnClickListener { onClickRightArrow?.invoke() }
 
-        updateTextUiStates()
+        updateUiStates()
         setMonthTextViewClickListeners()
     }
 
@@ -38,13 +39,13 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
     fun setYear(year: Int) {
         this.year = year
         this.monthSelectView.tvYear.text = year.toString()
-        updateTextUiStates()
+        updateUiStates()
     }
 
     fun setMonthSelected(year: Int, month: Int) {
         selectedMonth = month
         selectedYear = year
-        updateTextUiStates()
+        updateUiStates()
     }
 
     private val monthTextViews: Sequence<TextView>
@@ -57,23 +58,28 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
-    private fun updateTextUiStates() = monthTextViews.forEachIndexed { index, view ->
-        val monthIdx = index + 1
-        view.run {
-            val isFutureMonth = isCurrentYear && monthIdx > LocalDate.now().month.value
-            isClickable = !isFutureMonth
-            setTextAppearance(
-                if (selectedMonth == monthIdx && year == selectedYear) R.style.Bold_16
-                else R.style.Medium_16
-            )
-            setTextColor(
-                getColor(
-                    if (selectedMonth == monthIdx && year == selectedYear) R.color.dark_purple
-                    else if (isFutureMonth) R.color.gray7
-                    else R.color.white
+    private fun updateUiStates() {
+        monthSelectView.ivArrowNext.isVisible = !isCurrentYear
+        monthTextViews.forEachIndexed { index, view ->
+            val monthIdx = index + 1
+            view.run {
+                val isFutureMonth = isCurrentYear && monthIdx > LocalDate.now().month.value
+                val isSelectedMonth = year == selectedYear && selectedMonth == monthIdx
+                isClickable = !isFutureMonth
+                setTextAppearance(
+                    if (isSelectedMonth) R.style.Bold_16
+                    else R.style.Medium_16
                 )
-            )
+                setTextColor(
+                    getColor(
+                        if (isSelectedMonth) R.color.dark_purple
+                        else if (isFutureMonth) R.color.gray7
+                        else R.color.white
+                    )
+                )
+            }
         }
+
     }
 
 }
