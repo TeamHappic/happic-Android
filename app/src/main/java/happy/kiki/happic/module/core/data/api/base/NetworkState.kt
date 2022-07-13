@@ -4,5 +4,5 @@ sealed interface NetworkState<T> {
     class Idle<T> : NetworkState<T>
     class Loading<T> : NetworkState<T>
     data class Success<T>(val data: T) : NetworkState<T>
-    data class Error<T>(val throwable: Throwable? = null) : NetworkState<T>
+    data class Failure<T>(val throwable: Throwable? = null) : NetworkState<T>
 }

@@ -19,7 +19,7 @@ open class ApiState<TData, TParam>(
     val isIdle = state.map { it is NetworkState.Idle }.asStateFlow(true)
     val isSuccess = state.map { it is NetworkState.Success }.asStateFlow(false)
     val isLoading = state.map { it is NetworkState.Loading }.asStateFlow(false)
-    val isError = state.map { it is NetworkState.Error }.asStateFlow(false)
+    val isFail = state.map { it is NetworkState.Failure }.asStateFlow(false)
     val data = state.map {
         if (it !is NetworkState.Success) null
         else it.data
@@ -31,7 +31,7 @@ open class ApiState<TData, TParam>(
             try {
                 _state.value = NetworkState.Success(callback(params).data)
             } catch (e: Throwable) {
-                _state.value = NetworkState.Error(e)
+                _state.value = NetworkState.Failure(e)
             }
         }
     }
@@ -43,7 +43,7 @@ open class ApiState<TData, TParam>(
             _state.value = NetworkState.Success(ret.data)
             return ret.data
         } catch (e: Throwable) {
-            _state.value = NetworkState.Error(e)
+            _state.value = NetworkState.Failure(e)
             throw e
         }
     }
