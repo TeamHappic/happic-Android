@@ -52,6 +52,7 @@ class DailyHappicTagFragment : Fragment() {
 
             onSelectedYearMonth = { year, month ->
                 selectedYearMonth.value = YearMonthModel(year, month)
+                this.fadeOut()
             }
 
             collectFlowWhenStarted(selectedYearMonth) {
