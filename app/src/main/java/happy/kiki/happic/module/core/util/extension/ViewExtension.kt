@@ -31,7 +31,7 @@ fun View.getColor(@ColorRes res: Int) = context.getColor(res)
 
 fun EditText.addNoSpaceFilter(): EditText {
     filters = filters.toMutableList().apply {
-        add(InputFilter { s, _, _, _, _, _ -> s.trim().filter { it != ' ' } })
+        add(InputFilter { s, _, _, _, _, _ -> if (s.contains(' ')) s.trim().filter { it != ' ' } else s })
     }.toTypedArray()
     return this
 }
