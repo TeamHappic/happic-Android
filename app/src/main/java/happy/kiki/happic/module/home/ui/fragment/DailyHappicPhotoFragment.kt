@@ -61,15 +61,15 @@ class DailyHappicPhotoFragment : Fragment() {
             }
 
             collectFlowWhenStarted(selectedMonth) {
-                setMonthSelected(it.year, it.month)
+                setSelectedYearMonth(it.year, it.month)
             }
 
             collectFlowWhenStarted(year) {
-                setYear(it)
+                setCurrentYear(it)
             }
 
             onClickMonthText = {
-                setMonthSelected(year.value, it)
+                setSelectedYearMonth(year.value, it)
                 binding.tvMonth.text =
                     LocalDate.of(year.value, it, 1).format(DateTimeFormatter.ofPattern("yyyy.MM")).toString()
             }
