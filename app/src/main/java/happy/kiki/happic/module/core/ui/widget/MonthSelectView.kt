@@ -23,26 +23,32 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
     private val isCurrentYear get() = currentYear == LocalDate.now().year
     private var selectedYearMonth = now.year to now.monthValue
 
+    var onSelectedCurrentYear: ((Int) -> Unit)? = null
+    var onSelectedYearMonth: ((Int, Int) -> Unit)? = null
+
     init {
         addView(monthSelectView.root)
-        monthSelectView.ivArrowPrevious.setOnClickListener { onClickLeftArrow?.invoke() }
-        monthSelectView.ivArrowNext.setOnClickListener { onClickRightArrow?.invoke() }
+        monthSelectView.ivArrowPrevious.setOnClickListener {
+            onSelectedCurrentYear?.invoke(currentYear - 1)
+        }
+        monthSelectView.ivArrowNext.setOnClickListener {
+            if (currentYear != now.year) {
+                onSelectedCurrentYear?.invoke(currentYear + 1)
+            }
+        }
 
         updateUiStates()
         setMonthTextViewClickListeners()
     }
 
-    var onClickLeftArrow: (() -> Unit)? = null
-    var onClickRightArrow: (() -> Unit)? = null
-    var onClickMonthText: ((Int) -> Unit)? = null
-
     fun setCurrentYear(year: Int) {
+        if (currentYear == year) return;
         currentYear = year
-        monthSelectView.tvYear.text = year.toString()
         updateUiStates()
     }
 
     fun setSelectedYearMonth(year: Int, month: Int) {
+        if (selectedYearMonth == year to month) return
         selectedYearMonth = year to month
         updateUiStates()
     }
@@ -53,11 +59,12 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
     private fun setMonthTextViewClickListeners() = monthTextViews.forEachIndexed { index, view ->
         val monthIdx = index + 1
         view.setOnClickListener {
-            onClickMonthText?.invoke(monthIdx)
+            onSelectedYearMonth?.invoke(currentYear, monthIdx)
         }
     }
 
     private fun updateUiStates() {
+        monthSelectView.tvYear.text = currentYear.toString()
         monthSelectView.ivArrowNext.isVisible = !isCurrentYear
         monthTextViews.forEachIndexed { index, view ->
             val monthIdx = index + 1

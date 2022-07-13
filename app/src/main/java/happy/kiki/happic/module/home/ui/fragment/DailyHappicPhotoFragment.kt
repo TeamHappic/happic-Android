@@ -15,6 +15,8 @@ import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
 import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
+import happy.kiki.happic.module.core.util.now
+import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.home.data.YearMonthModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.LocalDate
@@ -39,8 +41,8 @@ class DailyHappicPhotoFragment : Fragment() {
         }
     }
 
-    private val year = MutableStateFlow(LocalDate.now().year)
-    private val selectedMonth = MutableStateFlow(YearMonthModel(LocalDate.now().year, LocalDate.now().monthValue))
+    private val currentYear = MutableStateFlow(now.year)
+    private val selectedYearMonth = MutableStateFlow(YearMonthModel(now.year, now.monthValue))
 
     private fun configureMonthSelect() {
 
@@ -52,26 +54,21 @@ class DailyHappicPhotoFragment : Fragment() {
                 }
             }
 
-            onClickRightArrow = {
-                val currentYear = LocalDate.now().year
-                if (year.value < currentYear) year.value += 1
-            }
-            onClickLeftArrow = {
-                year.value -= 1
+            onSelectedCurrentYear = { currentYear ->
+                this@DailyHappicPhotoFragment.currentYear.value = currentYear
             }
 
-            collectFlowWhenStarted(selectedMonth) {
+            onSelectedYearMonth = { year, month ->
+                selectedYearMonth.value = YearMonthModel(year, month)
+            }
+
+            collectFlowWhenStarted(selectedYearMonth) {
                 setSelectedYearMonth(it.year, it.month)
+                binding.tvMonth.text = yearMonthText(it.year, it.month)
             }
 
-            collectFlowWhenStarted(year) {
+            collectFlowWhenStarted(currentYear) {
                 setCurrentYear(it)
-            }
-
-            onClickMonthText = {
-                setSelectedYearMonth(year.value, it)
-                binding.tvMonth.text =
-                    LocalDate.of(year.value, it, 1).format(DateTimeFormatter.ofPattern("yyyy.MM")).toString()
             }
         }
     }
