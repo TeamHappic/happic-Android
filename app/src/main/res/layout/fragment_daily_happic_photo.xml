@@ -74,11 +74,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <include
-        android:id="@+id/month_select_container"
-        layout="@layout/layout_month_selection"
+    <happy.kiki.happic.module.core.ui.widget.MonthSelectView
+        android:id="@+id/month_select"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
