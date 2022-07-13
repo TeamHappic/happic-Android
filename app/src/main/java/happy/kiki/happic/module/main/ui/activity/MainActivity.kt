@@ -2,8 +2,8 @@ package happy.kiki.happic.module.main.ui.activity
 
 import DailyHappicFragment
 import HomeFragment
-import ReportFragment
-import SettingFragment
+import happy.kiki.happic.module.report.ui.fragment.ReportFragment
+import happy.kiki.happic.module.setting.ui.fragment.SettingFragment
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
