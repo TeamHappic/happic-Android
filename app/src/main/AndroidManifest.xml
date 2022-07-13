@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="happy.kiki.happic">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".module.core.application.MainApplication"
         android:allowBackup="true"
@@ -47,6 +49,22 @@
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/Theme.App" />
+
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao87cf2952b41116b741f021967c8add1f" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

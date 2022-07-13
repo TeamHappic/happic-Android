@@ -8,9 +8,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.buildSpannedString
 import androidx.core.text.underline
+import androidx.lifecycle.lifecycleScope
+import com.kakao.sdk.common.model.ClientError
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivitySignInBinding
+import happy.kiki.happic.module.auth.provider.AuthProvider
 import happy.kiki.happic.module.core.util.debugE
+import happy.kiki.happic.module.core.util.extension.showToast
 import happy.kiki.happic.module.core.util.extension.windowHandler
 
 class SignInActivity : AppCompatActivity() {
@@ -51,6 +55,23 @@ class SignInActivity : AppCompatActivity() {
                 append("개인정보 처리 방침")
             }
             append("에 동의하게 됩니다.")
+        }
+
+        configureKaKaoLogin()
+    }
+
+    private fun configureKaKaoLogin() {
+        binding.kakaoButton.setOnClickListener {
+            lifecycleScope.launchWhenStarted {
+                kotlin.runCatching {
+                    AuthProvider.signOut()
+                    AuthProvider.signInWithKakao(this@SignInActivity)
+                }.onSuccess { token -> // TODO sign in
+                }.onFailure {
+                    val isCancelled = it is ClientError && it.msg.contains("cancel")
+                    if (!isCancelled) showToast("카카오 로그인 실패")
+                }
+            }
         }
     }
 }
