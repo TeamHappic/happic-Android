@@ -18,17 +18,19 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_daily_happic"
-        android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="30dp"
         android:background="@null"
-        app:tabRippleColor="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_add_image"
         app:tabBackground="@drawable/selector_tab"
+        app:tabIndicator="@drawable/shape_bg_tab_selected"
         app:tabIndicatorColor="@color/orange"
         app:tabIndicatorHeight="4dp"
-        app:tabIndicator="@drawable/shape_bg_tab_selected"
+        app:tabRippleColor="@null"
         app:tabSelectedTextColor="@color/orange"
         app:tabTextAppearance="@style/Bold.16"
         app:tabTextColor="@color/gray6" />
