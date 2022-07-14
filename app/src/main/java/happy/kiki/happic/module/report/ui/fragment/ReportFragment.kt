@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentReportBinding
+import happy.kiki.happic.module.core.data.api.base.NetworkState.Failure
+import happy.kiki.happic.module.core.data.api.base.NetworkState.Loading
+import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
 import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
@@ -67,6 +70,14 @@ class ReportFragment : Fragment() {
                 append(" 해픽 ")
             }
             append("모멘트는 이거야!")
+        }
+
+        collectFlowWhenStarted(viewModel.api.state) {
+            when (it) {
+                is Loading -> showToast("loading")
+                is Success -> showToast(it.data)
+                is Failure -> showToast(it.throwable)
+            }
         }
     }
 }
