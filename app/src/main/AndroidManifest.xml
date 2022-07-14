@@ -41,6 +41,9 @@
             android:name=".module.characterselect.ui.activity.CharacterSelectActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.characterselect.ui.activity.CharacterNameActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
