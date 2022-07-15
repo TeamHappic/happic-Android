@@ -46,25 +46,27 @@ open class ApiState<TData, TParam>(
         if (state.value is NetworkState.Success) _state.value = NetworkState.Fetching()
         else _state.value = NetworkState.Loading()
 
+        fun isLatestCall() = thisCallId == latestCallId
+
         return try {
             val ret = withContext(Dispatchers.IO) { callback(params) }
-            if (thisCallId == latestCallId) {
+            if (isLatestCall()) {
                 _state.value = NetworkState.Success(ret.data)
                 onSuccess(ret.data)
             }
             ret.data
         } catch (e: Throwable) {
-            _state.value = NetworkState.Failure(e)
-            onError(e)
+            if (isLatestCall()) {
+                _state.value = NetworkState.Failure(e)
+                onError(e)
+            }
             throw e
         }
     }
 
-    fun call(params: TParam) {
-        coroutineScope.launch {
-            kotlin.runCatching {
-                callBlocking(params)
-            }
+    fun call(params: TParam) = coroutineScope.launch {
+        kotlin.runCatching {
+            callBlocking(params)
         }
     }
 
