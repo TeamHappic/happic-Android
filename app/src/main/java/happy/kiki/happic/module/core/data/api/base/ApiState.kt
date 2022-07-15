@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 open class ApiState<TData, TParam>(
     private val coroutineScope: CoroutineScope,
@@ -32,15 +34,25 @@ open class ApiState<TData, TParam>(
         else it.data
     }.asStateFlow(null)
 
+    private var latestCallId = 0L
+    private fun getNextCallId(): Long {
+        latestCallId += 1
+        return latestCallId
+    }
+
     suspend fun callBlocking(params: TParam): TData {
-        if (isSuccess.value) _state.value = NetworkState.Fetching()
+        val thisCallId = getNextCallId()
+
+        if (state.value is NetworkState.Success) _state.value = NetworkState.Fetching()
         else _state.value = NetworkState.Loading()
 
-        try {
-            val ret = callback(params)
-            _state.value = NetworkState.Success(ret.data)
-            onSuccess(ret.data)
-            return ret.data
+        return try {
+            val ret = withContext(Dispatchers.IO) { callback(params) }
+            if (thisCallId == latestCallId) {
+                _state.value = NetworkState.Success(ret.data)
+                onSuccess(ret.data)
+            }
+            ret.data
         } catch (e: Throwable) {
             _state.value = NetworkState.Failure(e)
             onError(e)
