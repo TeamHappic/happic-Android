@@ -68,5 +68,6 @@ class ReportFragment : Fragment() {
             }
             append("모멘트는 이거야!")
         }
+
     }
 }

@@ -1,0 +1,9 @@
+package happy.kiki.happic.module.core.data.api.base
+
+sealed interface NetworkState<T> {
+    class Idle<T> : NetworkState<T>
+    class Loading<T> : NetworkState<T>
+    class Fetching<T>: NetworkState<T>
+    data class Success<T>(val data: T) : NetworkState<T>
+    data class Failure<T>(val throwable: Throwable? = null) : NetworkState<T>
+}

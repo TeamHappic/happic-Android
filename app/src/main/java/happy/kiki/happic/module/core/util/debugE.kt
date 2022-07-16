@@ -3,7 +3,7 @@ package happy.kiki.happic.module.core.util
 import android.util.Log
 import happy.kiki.happic.BuildConfig
 
-fun debugE(vararg something: Any) {
+fun debugE(vararg something: Any?) {
     if (!BuildConfig.DEBUG) return
 
     var result = "["
