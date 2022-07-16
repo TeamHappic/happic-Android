@@ -6,6 +6,10 @@ plugins {
     id 'kotlin-kapt'
 }
 
+def versionPropertyFile = rootProject.file("version.properties")
+def versionProperties = new Properties()
+versionProperties.load(new FileInputStream(versionPropertyFile))
+
 android {
     compileSdk 32
 
@@ -13,8 +17,8 @@ android {
         applicationId "happy.kiki.happic"
         minSdk 26
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode Integer.valueOf(versionProperties['VERSION_CODE'])
+        versionName versionProperties['VERSION_NAME']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
