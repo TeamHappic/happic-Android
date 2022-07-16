@@ -11,10 +11,4 @@ class ReportViewModel : ViewModel() {
     val selectedYearMonth = MutableStateFlow(now.year to now.monthValue)
 
     val isMonthSelectOpened = MutableStateFlow(false)
-
-    val api = useApi<List<Int>> { TestService.getList() }
-
-    init {
-        api.call()
-    }
 }
