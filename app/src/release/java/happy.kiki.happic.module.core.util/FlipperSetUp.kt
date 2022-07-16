@@ -1,6 +1,7 @@
 package happy.kiki.happic.module.core.util
 
 import android.app.Application
+import okhttp3.OkHttpClient
 
 fun Application.setUpFlipper() = 0
 

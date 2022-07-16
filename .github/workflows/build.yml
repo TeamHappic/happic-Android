@@ -43,6 +43,11 @@ jobs:
         run: |
           echo "$(cat .version.properties | sed 's/#.*//g' | xargs | tr ' ' '\n')" >> $GITHUB_ENV
 
+      - name: LS
+        run: |
+          echo $VERSION_NAME
+          echo $VERSION_CODE
+
       - name: Increase Version
         run: |
           increase_version() {
