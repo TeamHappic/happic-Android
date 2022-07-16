@@ -41,7 +41,7 @@ jobs:
 
       - name: Sync version.properties file to env
         run: |
-          echo "$(cat .version.properties | sed 's/#.*//g' | xargs | tr ' ' '\n')" >> $GITHUB_ENV
+          echo "$(cat ./version.properties | sed 's/#.*//g' | xargs | tr ' ' '\n')" >> $GITHUB_ENV
 
       - name: LS
         run: |

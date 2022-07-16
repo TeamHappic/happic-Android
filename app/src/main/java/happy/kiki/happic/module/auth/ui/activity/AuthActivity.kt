@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import happy.kiki.happic.databinding.ActivityAuthBinding
 import happy.kiki.happic.module.core.util.extension.replaceActivity
+import happy.kiki.happic.module.main.ui.activity.MainActivity
 
 class AuthActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAuthBinding
@@ -33,7 +34,7 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun navigateNextActivity() {
-        replaceActivity<SignInActivity>()
+        replaceActivity<MainActivity>()
         overridePendingTransition(0, 0)
     }
 }
