@@ -67,6 +67,7 @@ class SignInActivity : AppCompatActivity() {
                     AuthProvider.signOut()
                     AuthProvider.signInWithKakao(this@SignInActivity)
                 }.onSuccess { token -> // TODO sign in
+                    debugE("token", token)
                 }.onFailure {
                     val isCancelled = it is ClientError && it.msg.contains("cancel")
                     if (!isCancelled) showToast("카카오 로그인 실패")

@@ -16,10 +16,7 @@ object ApiServiceFactory {
         it.proceed(newRequest)
     }.addFlipperNetworkInterceptor().build()
 
-    private fun Request.Builder.addCommonHeaders(): Request.Builder {
-        addHeader("Content-Type", "application/json")
-        return this
-    }
+    private fun Request.Builder.addCommonHeaders() = addHeader("Content-Type", "application/json")
 
     @OptIn(ExperimentalSerializationApi::class)
     val _retrofit: Retrofit = Retrofit.Builder().baseUrl("http://13.125.255.20:5001/")
