@@ -2,7 +2,7 @@ package happy.kiki.happic.module.auth.ui.activity
 
 import androidx.lifecycle.ViewModel
 import happy.kiki.happic.module.auth.data.api.AuthService.SignInReq
-import happy.kiki.happic.module.auth.data.api.authApi
+import happy.kiki.happic.module.auth.data.api.authService
 import happy.kiki.happic.module.auth.data.enumerate.AutoSignInResult.FAIL
 import happy.kiki.happic.module.auth.data.enumerate.AutoSignInResult.PENDING
 import happy.kiki.happic.module.auth.data.enumerate.AutoSignInResult.SUCCESS
@@ -18,7 +18,7 @@ class AuthViewModel : ViewModel() {
     }, onError = {
         autoSignInResult.value = FAIL
     }) { accessToken ->
-        authApi.signIn(SignInReq(accessToken))
+        authService.signIn(SignInReq(accessToken))
     }
 
     init {

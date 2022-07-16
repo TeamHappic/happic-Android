@@ -18,7 +18,6 @@ val networkPlugin = NetworkFlipperPlugin()
 fun Application.setUpFlipper() {
     SoLoader.init(this, false)
     if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
-        debugE(networkPlugin)
         AndroidFlipperClient.getInstance(this).apply {
             addPlugin(InspectorFlipperPlugin(this@setUpFlipper, DescriptorMapping.withDefaults()))
             addPlugin(networkPlugin)

@@ -14,4 +14,4 @@ interface AuthService {
     suspend fun signIn(@Body req: SignInReq): NoDataApiResponse
 }
 
-val authApi = createService<AuthService>()
+val authService: AuthService = createService()
