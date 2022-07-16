@@ -8,6 +8,7 @@ import android.view.ViewGroup.GONE
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
@@ -17,16 +18,25 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityUploadHappicBinding
 import happy.kiki.happic.databinding.ItemUploadChipBinding
 import happy.kiki.happic.databinding.ItemUploadFieldBinding
+import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.px
 
 class UploadHappicActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadHappicBinding
+    private val viewModel by viewModels<UploadHappicViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ActivityUploadHappicBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
         setTouchEvent()
         setUpFields()
+        setUiEvent()
+    }
+
+    private fun setUiEvent() {
+        collectFlowWhenStarted(viewModel.isUploadFieldFocused) {
+            updateUi(it)
+        }
     }
 
     private fun setTouchEvent() {
@@ -35,7 +45,7 @@ class UploadHappicActivity : AppCompatActivity() {
                 isFocusableInTouchMode = true
             }
             setOnFocusChangeListener { _, _ ->
-                updateUi(false)
+                viewModel.isUploadFieldFocused.value = false
                 val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(this.windowToken, 0);
             }
@@ -44,10 +54,7 @@ class UploadHappicActivity : AppCompatActivity() {
 
     private fun setUpFields() {
         listOf(
-            Pair("#when", "시간을 입력해주세요"),
-            Pair("#where", "장소를 입력해주세요"),
-            Pair("#who", "함께한 사람을 입력해주세요"),
-            Pair("#what", "무엇을 했는지 입력해주세요"),
+            "#when" to "시간을 입력해주세요", "#where" to "장소를 입력해주세요", "#who" to "함께한 사람을 입력해주세요", "#what" to "무엇을 했는지 입력해주세요"
         ).forEach {
             ItemUploadFieldBinding.inflate(layoutInflater).apply {
                 root.id = ViewCompat.generateViewId()
@@ -70,7 +77,7 @@ class UploadHappicActivity : AppCompatActivity() {
 
 
                 etContent.setOnFocusChangeListener { _, hasFocus ->
-                    updateUi(hasFocus)
+                    viewModel.isUploadFieldFocused.value = hasFocus
                     borderField.apply {
                         strokeColor = if (hasFocus) context.getColor(R.color.dark_blue) else Color.TRANSPARENT
                         strokeWidth = if (hasFocus) this@UploadHappicActivity.px(1).toFloat() else 0f
@@ -104,20 +111,4 @@ class UploadHappicActivity : AppCompatActivity() {
             topMargin = this@UploadHappicActivity.px(containerMarginTop)
         }
     }
-
-    //            override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-    //                if (ev?.action == MotionEvent.ACTION_DOWN) {
-    //                    val v = currentFocus
-    //                    if (v is EditText) {
-    //                        val outRect = Rect()
-    //                        v.getGlobalVisibleRect(outRect)
-    //                        if (!outRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
-    //                            v.clearFocus()
-    //                            val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    //                            imm.hideSoftInputFromWindow(v.windowToken, 0);
-    //                        }
-    //                    }
-    //                }
-    //                return super.dispatchTouchEvent(ev)
-    //            }
 }

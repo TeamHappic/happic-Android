@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".module.upload.ui.activity.UploadHappicActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".module.auth.ui.activity.AuthActivity"
             android:exported="true"
