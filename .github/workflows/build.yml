@@ -83,42 +83,42 @@ jobs:
         with:
           ref: 'develop'
 
-#      - name: Build Release
-#        run: ./gradlew assembleRelease
-#
-#      - name: Archive artifacts
-#        uses: actions/upload-artifact@v2
-#        with:
-#          path: app/build/outputs
-#
-#      - name: Update Release apk name
-#        if: ${{ success() }}
-#        run: |
-#          mv app/build/outputs/apk/release/app-release.apk happic_release.apk
-#          echo 'apk=happic_release.apk' >> $GITHUB_ENV
-#
-#      - name: Upload APK
-#        if: ${{ success() }}
-#        run: |
-#          curl -X POST \
-#          -F file=@$apk \
-#          -F channels=${{secrets.SLACK_CHANNEL_ID}} \
-#          -H "Authorization: Bearer ${{secrets.SLACK_BOT_API_TOKEN}}" \
-#          https://slack.com/api/files.upload
-#
-#      - name: On success, Notify with Slack
-#        if: ${{ success() }}
-#        uses: rtCamp/action-slack-notify@master
-#        env:
-#          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_ANDROID }}
-#          SLACK_TITLE: 'Android Release Success ✅'
-#          MSG_MINIMAL: true
-#          SLACK_MESSAGE: 'Download release APK!'
-#      - name: On fail, Notify with Slack
-#        if: ${{ failure() }}
-#        uses: rtCamp/action-slack-notify@master
-#        env:
-#          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_ANDROID }}
-#          SLACK_TITLE: 'Android Build Failed ❌'
-#          MSG_MINIMAL: false
-#          SLACK_MESSAGE: 'Check what is going on'
+      - name: Build Release
+        run: ./gradlew assembleRelease
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: app/build/outputs
+
+      - name: Update Release apk name
+        if: ${{ success() }}
+        run: |
+          mv app/build/outputs/apk/release/app-release.apk happic_release.apk
+          echo 'apk=happic_release.apk' >> $GITHUB_ENV
+
+      - name: Upload APK
+        if: ${{ success() }}
+        run: |
+          curl -X POST \
+          -F file=@$apk \
+          -F channels=${{secrets.SLACK_CHANNEL_ID}} \
+          -H "Authorization: Bearer ${{secrets.SLACK_BOT_API_TOKEN}}" \
+          https://slack.com/api/files.upload
+
+      - name: On success, Notify with Slack
+        if: ${{ success() }}
+        uses: rtCamp/action-slack-notify@master
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_ANDROID }}
+          SLACK_TITLE: 'Android Release Success ✅'
+          MSG_MINIMAL: true
+          SLACK_MESSAGE: 'Download release APK! ${{ env.VERSION_NAME }}(${{ env.VERSION_CODE }})'
+      - name: On fail, Notify with Slack
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@master
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_ANDROID }}
+          SLACK_TITLE: 'Android Build Failed ❌'
+          MSG_MINIMAL: false
+          SLACK_MESSAGE: 'Check what is going on ${{ env.VERSION_NAME }}(${{ env.VERSION_CODE }})'
