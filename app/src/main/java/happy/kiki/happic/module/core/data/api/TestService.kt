@@ -4,6 +4,7 @@ import happy.kiki.happic.module.core.data.api.base.ApiResponse
 import happy.kiki.happic.module.core.data.api.base.ApiServiceFactory.createService
 import happy.kiki.happic.module.core.data.api.base.NoDataApiResponse
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.serialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -21,7 +22,19 @@ interface TestService {
     suspend fun queryEnum(): ApiResponse<TestEnum>
 
     @GET("query_enum_str")
-    suspend fun queryEnumStr(): ApiResponse<TestEnum>
+    suspend fun queryEnumStr(): ApiResponse<TestEnumStr>
+}
+
+@Serializable
+enum class TestEnumStr(val id: String) {
+    @SerialName("1")
+    ONE("1"),
+
+    @SerialName("2")
+    TWO("2"),
+
+    @SerialName("3")
+    THREE("3")
 }
 
 @Serializable(with = TestEnumSerializer::class)

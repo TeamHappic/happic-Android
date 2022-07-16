@@ -25,7 +25,7 @@ object ApiServiceFactory {
     val _retrofit: Retrofit
         get() {
             return Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/") //http://10.0.2.2:3000/ http://13.125.255.20:5001/
+                .baseUrl("http://13.125.255.20:5001/") //http://10.0.2.2:3000/ http://13.125.255.20:5001/
                 .addConverterFactory(Json.asConverterFactory("application/json".toMediaType())).client(okHttpClient)
                 .build()
         }
