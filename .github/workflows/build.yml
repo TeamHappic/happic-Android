@@ -33,12 +33,6 @@ jobs:
       #        with:
       #          java-version: '1.8'
 
-      #      - name: Android Emulator Runner, Test
-      #        uses: ReactiveCircus/android-emulator-runner@v2.14.2
-      #        with:
-      #          api-level: 29
-      #          script: ./gradlew connectedCheck
-
       - name: Sync version.properties file to env
         run: |
           echo "$(cat ./version.properties | sed 's/#.*//g' | xargs | tr ' ' '\n')" >> $GITHUB_ENV
