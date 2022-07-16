@@ -1,11 +1,13 @@
 package happy.kiki.happic.module.upload.ui.activity
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View.VISIBLE
 import android.view.ViewGroup.GONE
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
@@ -23,7 +25,21 @@ class UploadHappicActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ActivityUploadHappicBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
+        setTouchEvent()
         setUpFields()
+    }
+
+    private fun setTouchEvent() {
+        binding.whole.apply {
+            setOnClickListener {
+                isFocusableInTouchMode = true
+            }
+            setOnFocusChangeListener { _, _ ->
+                updateUi(false)
+                val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(this.windowToken, 0);
+            }
+        }
     }
 
     private fun setUpFields() {
@@ -43,33 +59,23 @@ class UploadHappicActivity : AppCompatActivity() {
 
                 if (tagList.isNotEmpty()) {
                     tagList.forEach { tag ->
-                        val chip = createChip(tag)
-                        chip.setOnClickListener {
-                            etContent.setText(tag)
+                        createChip(tag).apply {
+                            setOnClickListener {
+                                etContent.setText(tag)
+                            }
+                            chipGroup.addView(this)
                         }
-                        chip.setOnFocusChangeListener { _, hasFocus ->
-                            chipGroup.visibility = if (hasFocus) VISIBLE else GONE
-                        }
-                        chipGroup.addView(chip)
                     }
                 }
 
+
                 etContent.setOnFocusChangeListener { _, hasFocus ->
-                    val photoMarginHorizontal = if (hasFocus) 140 else 50
-                    val containerMarginTop = if (hasFocus) 32 else 20
-                    binding.ivPhoto.updateLayoutParams<MarginLayoutParams> {
-                        leftMargin = this@UploadHappicActivity.px(photoMarginHorizontal)
-                        rightMargin = this@UploadHappicActivity.px(photoMarginHorizontal)
-                    }
-                    binding.containerFields.updateLayoutParams<MarginLayoutParams> {
-                        topMargin = this@UploadHappicActivity.px(containerMarginTop)
-                    }
+                    updateUi(hasFocus)
                     borderField.apply {
                         strokeColor = if (hasFocus) context.getColor(R.color.dark_blue) else Color.TRANSPARENT
                         strokeWidth = if (hasFocus) this@UploadHappicActivity.px(1).toFloat() else 0f
                     }
                     chipGroup.visibility = if (hasFocus) VISIBLE else GONE
-
                 }
 
                 binding.containerFields.addView(this.root)
@@ -87,19 +93,31 @@ class UploadHappicActivity : AppCompatActivity() {
         return chip
     }
 
-    //    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-    //        if (ev?.action == MotionEvent.ACTION_DOWN) {
-    //            val v = currentFocus
-    //            if (v is EditText) {
-    //                val outRect = Rect()
-    //                v.getGlobalVisibleRect(outRect)
-    //                if (!outRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
-    //                    v.clearFocus()
-    //                    val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    //                    imm.hideSoftInputFromWindow(v.windowToken, 0);
+    private fun updateUi(hasFocus: Boolean) {
+        val photoMarginHorizontal = if (hasFocus) 140 else 50
+        val containerMarginTop = if (hasFocus) 32 else 20
+        binding.ivPhoto.updateLayoutParams<MarginLayoutParams> {
+            leftMargin = this@UploadHappicActivity.px(photoMarginHorizontal)
+            rightMargin = this@UploadHappicActivity.px(photoMarginHorizontal)
+        }
+        binding.containerFields.updateLayoutParams<MarginLayoutParams> {
+            topMargin = this@UploadHappicActivity.px(containerMarginTop)
+        }
+    }
+
+    //            override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+    //                if (ev?.action == MotionEvent.ACTION_DOWN) {
+    //                    val v = currentFocus
+    //                    if (v is EditText) {
+    //                        val outRect = Rect()
+    //                        v.getGlobalVisibleRect(outRect)
+    //                        if (!outRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+    //                            v.clearFocus()
+    //                            val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    //                            imm.hideSoftInputFromWindow(v.windowToken, 0);
+    //                        }
+    //                    }
     //                }
+    //                return super.dispatchTouchEvent(ev)
     //            }
-    //        }
-    //        return super.dispatchTouchEvent(ev)
-    //    }
 }
