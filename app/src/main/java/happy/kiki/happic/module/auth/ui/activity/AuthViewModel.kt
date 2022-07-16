@@ -8,13 +8,16 @@ import happy.kiki.happic.module.auth.data.enumerate.AutoSignInResult.PENDING
 import happy.kiki.happic.module.auth.data.enumerate.AutoSignInResult.SUCCESS
 import happy.kiki.happic.module.auth.util.AccessTokenUtil
 import happy.kiki.happic.module.core.data.api.base.useApi
-import happy.kiki.happic.module.core.util.extension.collectFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class AuthViewModel : ViewModel() {
     val autoSignInResult = MutableStateFlow(PENDING)
 
-    private val signInApi = useApi<Unit, String> { accessToken ->
+    private val signInApi = useApi<String>(onSuccess = {
+        autoSignInResult.value = SUCCESS
+    }, onError = {
+        autoSignInResult.value = FAIL
+    }) { accessToken ->
         authApi.signIn(SignInReq(accessToken))
     }
 
@@ -28,13 +31,6 @@ class AuthViewModel : ViewModel() {
             autoSignInResult.value = FAIL
         } else {
             signInApi.call(accessToken)
-        }
-
-        collectFlow(signInApi.isSuccess) {
-            autoSignInResult.value = SUCCESS
-        }
-        collectFlow(signInApi.isFail) {
-            autoSignInResult.value = FAIL
         }
     }
 }

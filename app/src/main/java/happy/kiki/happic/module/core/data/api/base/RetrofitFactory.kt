@@ -22,8 +22,9 @@ object ApiServiceFactory {
         AccessTokenUtil.getAccessToken()?.let { addHeader("x-auth-token", it) } ?: this
 
     @OptIn(ExperimentalSerializationApi::class)
-    val _retrofit: Retrofit = Retrofit.Builder().baseUrl("http://13.125.255.20:5001/")
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType())).client(okHttpClient).build()
+    val _retrofit: Retrofit =
+        Retrofit.Builder().baseUrl("http://13.125.255.20:5001/") //http://10.0.2.2:3000/ for local test
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType())).client(okHttpClient).build()
 
     inline fun <reified T : Any> createService() = _retrofit.create(T::class.java)
 }
