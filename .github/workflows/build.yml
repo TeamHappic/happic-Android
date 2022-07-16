@@ -93,8 +93,8 @@ jobs:
       - name: Update Release apk name
         if: ${{ success() }}
         run: |
-          mv app/build/outputs/apk/release/app-release.apk happic_release_$VERSION_NAME.apk
-          echo 'apk=happic_release_$VERSION_NAME.apk' >> $GITHUB_ENV
+          mv app/build/outputs/apk/release/app-release.apk happic_release.apk
+          echo 'apk=happic_release.apk' >> $GITHUB_ENV
 
       - name: LS
         run: echo $apk
