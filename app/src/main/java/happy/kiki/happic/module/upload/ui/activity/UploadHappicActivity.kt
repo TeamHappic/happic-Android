@@ -30,14 +30,8 @@ class UploadHappicActivity : AppCompatActivity() {
         ActivityUploadHappicBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
         setTouchEvent()
         setUpFields()
-        setUiEvent()
     }
 
-    private fun setUiEvent() {
-        collectFlowWhenStarted(viewModel.isUploadFieldFocused) {
-            updateUi(it)
-        }
-    }
 
     private fun setTouchEvent() {
         binding.whole.apply {
@@ -49,6 +43,9 @@ class UploadHappicActivity : AppCompatActivity() {
                 val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(this.windowToken, 0);
             }
+        }
+        collectFlowWhenStarted(viewModel.isUploadFieldFocused) {
+            updateUi(it)
         }
     }
 
