@@ -1,7 +1,6 @@
 package happy.kiki.happic.module.core.data.api.base
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import happy.kiki.happic.module.core.data.api.callAdapter.MyCallAdapterFactory
 import happy.kiki.happic.module.core.util.addFlipperNetworkInterceptor
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -24,9 +23,7 @@ object ApiServiceFactory {
 
     @OptIn(ExperimentalSerializationApi::class)
     val _retrofit: Retrofit = Retrofit.Builder().baseUrl("http://13.125.255.20:5001/")
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType())).addCallAdapterFactory(
-            MyCallAdapterFactory()
-        ).client(okHttpClient).build()
+        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType())).client(okHttpClient).build()
 
     inline fun <reified T : Any> createService() = _retrofit.create(T::class.java)
 }
