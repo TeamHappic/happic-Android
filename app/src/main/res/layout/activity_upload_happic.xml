@@ -88,38 +88,13 @@
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10dp" />
 
         <LinearLayout
+            android:id="@+id/container_fields"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="32dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/iv_photo">
-
-            <include
-                android:id="@+id/field_when"
-                title='@{"#when"}'
-                hint='@{"시간을 입력해주세요"}'
-                layout="@layout/item_upload_field" />
-
-            <include
-                android:id="@+id/field_where"
-                title='@{"#where"}'
-                hint='@{"장소를 입력해주세요"}'
-                layout="@layout/item_upload_field" />
-
-            <include
-                android:id="@+id/field_who"
-                title='@{"#who"}'
-                hint='@{"함께한 사람을 입력해주세요"}'
-                layout="@layout/item_upload_field" />
-
-            <include
-                android:id="@+id/field_what"
-                title='@{"#what"}'
-                hint='@{"무엇을 했는지 입력해주세요"}'
-                layout="@layout/item_upload_field" />
-
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/iv_photo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
