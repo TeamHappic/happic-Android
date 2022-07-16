@@ -12,4 +12,19 @@
     <style name="ShapeAppearanceOverlay.App.CornerSize8dp" parent="">
         <item name="cornerSize">8dp</item>
     </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize10dp" parent="">
+        <item name="cornerSize">10dp</item>
+    </style>
+
+    <style name="tag_chip_style" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipCornerRadius">18dp</item>
+        <item name="android:paddingVertical">10dp</item>
+        <item name="chipMinHeight">36dp</item>
+        <item name="chipBackgroundColor">@color/gray9</item>
+        <item name="android:textColor">@color/gray4</item>
+        <item name="android:textAppearance">@style/Medium.12</item>
+        <item name="android:clickable">true</item>
+    </style>
+
 </resources>

@@ -13,10 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
         <activity
+            android:name=".module.upload.ui.activity.UploadHappicActivity"
+            android:exported="false" />
+        <activity
             android:name=".module.auth.ui.activity.AuthActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Splash">
-        </activity>
+            android:theme="@style/Theme.Splash"></activity>
         <activity
             android:name=".module.onboarding.ui.activity.OnboardingActivity"
             android:screenOrientation="portrait" />
@@ -53,7 +55,6 @@
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/Theme.App" />
-
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
