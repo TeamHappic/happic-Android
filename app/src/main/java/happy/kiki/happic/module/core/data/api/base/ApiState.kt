@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import happy.kiki.happic.module.core.util.debugE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -20,14 +21,13 @@ open class ApiState<TData, TParam>(
     private val coroutineScope: CoroutineScope,
     private val onSuccess: (TData) -> Unit = {},
     private val onError: (t: Throwable) -> Unit = {},
-    private val callback: suspend (params: TParam) -> ApiResponse<TData>
+    private val callback: suspend (params: TParam) -> ApiResponseType<TData>
 ) {
     private val _state = MutableStateFlow<NetworkState<TData>>(NetworkState.Idle())
     val state: StateFlow<NetworkState<TData>> get() = _state
     val isIdle = state.map { it is NetworkState.Idle }.asStateFlow(true)
     val isSuccess = state.map { it is NetworkState.Success }.asStateFlow(false)
     val isLoading = state.map { it is NetworkState.Loading }.asStateFlow(false)
-    val isFetching = state.map { it is NetworkState.Loading || it is NetworkState.Fetching }.asStateFlow(false)
     val isFail = state.map { it is NetworkState.Failure }.asStateFlow(false)
     val data = state.map {
         if (it !is NetworkState.Success) null
@@ -40,22 +40,32 @@ open class ApiState<TData, TParam>(
         return latestCallId
     }
 
+    @Suppress("UNCHECKED_CAST")
     suspend fun callBlocking(params: TParam): TData {
         val thisCallId = getNextCallId()
 
-        if (state.value is NetworkState.Success) _state.value = NetworkState.Fetching()
-        else _state.value = NetworkState.Loading()
+        _state.value = NetworkState.Loading()
 
         fun isLatestCall() = thisCallId == latestCallId
 
         return try {
-            val ret = withContext(Dispatchers.IO) { callback(params) }
+            val response = withContext(Dispatchers.IO) { callback(params) }
+            val data: TData? = null
             if (isLatestCall()) {
-                _state.value = NetworkState.Success(ret.data)
-                onSuccess(ret.data)
+                when (response) {
+                    is ApiResponse<TData> -> {
+                        _state.value = NetworkState.Success(response.data)
+                        onSuccess(response.data)
+                    }
+                    is NoDataApiResponse -> {
+                        _state.value = NetworkState.Success(Unit as TData)
+                        onSuccess(Unit as TData)
+                    }
+                }
             }
-            ret.data
+            data as TData
         } catch (e: Throwable) {
+            debugE(e)
             if (isLatestCall()) {
                 _state.value = NetworkState.Failure(e)
                 onError(e)
@@ -74,11 +84,11 @@ open class ApiState<TData, TParam>(
         stateIn(coroutineScope, SharingStarted.WhileSubscribed(5000), initialValue)
 }
 
-class EmptyParamsApiState<TData>(
+class NoParamsApiState<TData>(
     coroutineScope: CoroutineScope,
     onSuccess: (TData) -> Unit = {},
     onError: (t: Throwable) -> Unit = {},
-    private val callback: suspend () -> ApiResponse<TData>
+    private val callback: suspend () -> ApiResponseType<TData>
 ) : ApiState<TData, Unit>(coroutineScope, onSuccess, onError, { callback() }) {
     fun call() {
         super.call(Unit)
@@ -89,50 +99,74 @@ class EmptyParamsApiState<TData>(
     }
 }
 
-fun <TData, TParam> useApi(
+fun <TParam, TData> useApi(
     coroutineScope: CoroutineScope,
     onSuccess: (TData) -> Unit = {},
     onError: (t: Throwable) -> Unit = {},
-    callback: suspend (params: TParam) -> ApiResponse<TData>
+    callback: suspend (params: TParam) -> ApiResponseType<TData>
 ): ApiState<TData, TParam> {
     return ApiState(coroutineScope, onSuccess, onError, callback)
 }
 
-fun <TData> useApi(
+fun <TData> useApiNoParams(
     coroutineScope: CoroutineScope,
     onSuccess: (TData) -> Unit = {},
     onError: (t: Throwable) -> Unit = {},
-    callback: suspend () -> ApiResponse<TData>
-): EmptyParamsApiState<TData> {
-    return EmptyParamsApiState(coroutineScope, onSuccess, onError, callback)
+    callback: suspend () -> ApiResponseType<TData>
+): NoParamsApiState<TData> {
+    return NoParamsApiState(coroutineScope, onSuccess, onError, callback)
 }
 
-fun <TData, TParam> ViewModel.useApi(
+fun <TParam, TData> ViewModel.useApi(
     onSuccess: (TData) -> Unit = {},
     onError: (t: Throwable) -> Unit = {},
-    callback: suspend (params: TParam) -> ApiResponse<TData>
+    callback: suspend (params: TParam) -> ApiResponseType<TData>
 ) = useApi(viewModelScope, onSuccess, onError, callback)
 
-fun <TData> ViewModel.useApi(
-    onSuccess: (TData) -> Unit = {}, onError: (t: Throwable) -> Unit = {}, callback: suspend () -> ApiResponse<TData>
-) = useApi(viewModelScope, onSuccess, onError, callback)
+fun <TParam> ViewModel.useApi(
+    onSuccess: () -> Unit = {},
+    onError: (t: Throwable) -> Unit = {},
+    callback: suspend (params: TParam) -> NoDataApiResponse
+) = useApi(viewModelScope, { onSuccess() }, onError, callback)
 
-fun <TData, TParam> AppCompatActivity.useApi(
+fun <TData> ViewModel.useApiNoParams(
     onSuccess: (TData) -> Unit = {},
     onError: (t: Throwable) -> Unit = {},
-    callback: suspend (params: TParam) -> ApiResponse<TData>
-) = useApi(lifecycleScope, onSuccess, onError, callback)
+    callback: suspend () -> ApiResponseType<TData>
+) = useApiNoParams(viewModelScope, onSuccess, onError, callback)
 
-fun <TData> AppCompatActivity.useApi(
-    onSuccess: (TData) -> Unit = {}, onError: (t: Throwable) -> Unit = {}, callback: suspend () -> ApiResponse<TData>
-) = useApi(lifecycleScope, onSuccess, onError, callback)
-
-fun <TData, TParam> Fragment.useApi(
+fun <TParam, TData> AppCompatActivity.useApi(
     onSuccess: (TData) -> Unit = {},
     onError: (t: Throwable) -> Unit = {},
-    callback: suspend (params: TParam) -> ApiResponse<TData>
+    callback: suspend (params: TParam) -> ApiResponseType<TData>
+) = useApi(lifecycleScope, onSuccess, onError, callback)
+
+fun <TParam> AppCompatActivity.useApi(
+    onSuccess: () -> Unit = {},
+    onError: (t: Throwable) -> Unit = {},
+    callback: suspend (params: TParam) -> NoDataApiResponse
+) = useApi(lifecycleScope, { onSuccess() }, onError, callback)
+
+fun <TData> AppCompatActivity.useApiNoParams(
+    onSuccess: (TData) -> Unit = {},
+    onError: (t: Throwable) -> Unit = {},
+    callback: suspend () -> ApiResponseType<TData>
+) = useApiNoParams(lifecycleScope, onSuccess, onError, callback)
+
+fun <TParam, TData> Fragment.useApi(
+    onSuccess: (TData) -> Unit = {},
+    onError: (t: Throwable) -> Unit = {},
+    callback: suspend (params: TParam) -> ApiResponseType<TData>
 ) = useApi(viewLifecycleOwner.lifecycleScope, onSuccess, onError, callback)
 
-fun <TData> Fragment.useApi(
-    onSuccess: (TData) -> Unit = {}, onError: (t: Throwable) -> Unit = {}, callback: suspend () -> ApiResponse<TData>
-) = useApi(viewLifecycleOwner.lifecycleScope, onSuccess, onError, callback)
+fun <TParam> Fragment.useApi(
+    onSuccess: () -> Unit = {},
+    onError: (t: Throwable) -> Unit = {},
+    callback: suspend (params: TParam) -> NoDataApiResponse
+) = useApi(viewLifecycleOwner.lifecycleScope, { onSuccess() }, onError, callback)
+
+fun <TData> Fragment.useApiNoParams(
+    onSuccess: (TData) -> Unit = {},
+    onError: (t: Throwable) -> Unit = {},
+    callback: suspend () -> ApiResponseType<TData>
+) = useApiNoParams(viewLifecycleOwner.lifecycleScope, onSuccess, onError, callback)
