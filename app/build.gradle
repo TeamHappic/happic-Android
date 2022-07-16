@@ -23,9 +23,19 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile = rootProject.file("keystore/Happic.keystore")
+            storePassword = "happic123"
+            keyAlias = "Happic"
+            keyPassword = "happic123"
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            shrinkResources false
+            minifyEnabled false // I'm not sure about proguard rule is set appropriately
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -73,6 +83,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.13.0'
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 
     implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
 
@@ -86,5 +99,4 @@ dependencies {
 
     implementation "com.kakao.sdk:v2-user:2.11.0"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 }
