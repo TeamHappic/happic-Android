@@ -93,15 +93,15 @@ jobs:
       - name: Update Release apk name
         if: ${{ success() }}
         run: |
-          echo "FILENAME=happic_release_$VERSION_NAME-$VERSION_CODE.apk" >> $GITHUB_ENV
-          mv app/build/outputs/apk/release/app-release.apk $FILENAME
+          mv app/build/outputs/apk/release/app-release.apk happic_release_$VERSION_NAME.apk
+          echo 'apk=happic_release_$VERSION_NAME.apk' >> $GITHUB_ENV
 
 
       - name: Upload APK
         if: ${{ success() }}
         run: |
           curl -X POST \
-          -F file=@$FILENAME \
+          -F file=@"$apk" \
           -F channels=${{secrets.SLACK_CHANNEL_ID}} \
           -H "Authorization: Bearer ${{secrets.SLACK_BOT_API_TOKEN}}" \
           https://slack.com/api/files.upload
