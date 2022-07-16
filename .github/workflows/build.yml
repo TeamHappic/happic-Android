@@ -56,8 +56,9 @@ jobs:
           VERSION_CODE=$(increase_version $VERSION_CODE 0)
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
           VERSION=$VERSION_NAME
-          VERSION+='.'
+          VERSION+='('
           VERSION+=$VERSION_CODE
+          VERSION+=')'
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: List After
@@ -92,8 +93,8 @@ jobs:
       - name: Update Release apk name
         if: ${{ success() }}
         run: |
-          mv app/build/outputs/apk/release/app-release.apk happic_release.apk
-          echo 'apk=happic_release.apk' >> $GITHUB_ENV
+          mv app/build/outputs/apk/release/app-release.apk happic_release_$VERSION_NAME($VERSION_CODE).apk
+          echo 'apk=happic_release_$VERSION_NAME($VERSION_CODE).apk' >> $GITHUB_ENV
 
       - name: Upload APK
         if: ${{ success() }}
@@ -111,7 +112,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_ANDROID }}
           SLACK_TITLE: 'Android Release Success ✅'
           MSG_MINIMAL: true
-          SLACK_MESSAGE: 'Download release APK! ${{ env.VERSION_NAME }}(${{ env.VERSION_CODE }})'
+          SLACK_MESSAGE: 'Download release APK! `${{ env.VERSION_NAME }}(${{ env.VERSION_CODE }})`'
       - name: On fail, Notify with Slack
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@master
@@ -119,4 +120,4 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_ANDROID }}
           SLACK_TITLE: 'Android Build Failed ❌'
           MSG_MINIMAL: false
-          SLACK_MESSAGE: 'Check what is going on ${{ env.VERSION_NAME }}(${{ env.VERSION_CODE }})'
+          SLACK_MESSAGE: 'Check what is going on `${{ env.VERSION_NAME }}(${{ env.VERSION_CODE }})`'
