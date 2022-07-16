@@ -2,14 +2,17 @@ package happy.kiki.happic.module.auth.ui.activity
 
 import android.os.Bundle
 import android.view.ViewTreeObserver
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import happy.kiki.happic.databinding.ActivityAuthBinding
+import happy.kiki.happic.module.auth.data.enumerate.AutoSignInResult
 import happy.kiki.happic.module.core.util.extension.replaceActivity
 import happy.kiki.happic.module.main.ui.activity.MainActivity
 
 class AuthActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAuthBinding
+    private val viewModel by viewModels<AuthViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -22,7 +25,7 @@ class AuthActivity : AppCompatActivity() {
     private fun postponeSplashScreenExitUntilAutoSignInChecked() = binding.root.run {
         viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
             override fun onPreDraw(): Boolean {
-                return if (true) { // FIXME check auto sign in
+                return if (viewModel.autoSignInResult.value != AutoSignInResult.PENDING) {
                     viewTreeObserver.removeOnPreDrawListener(this)
                     navigateNextActivity()
                     true
@@ -34,7 +37,8 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun navigateNextActivity() {
-        replaceActivity<MainActivity>()
+        if (viewModel.autoSignInResult.value == AutoSignInResult.SUCCESS) replaceActivity<MainActivity>()
+        else replaceActivity<SignInActivity>()
         overridePendingTransition(0, 0)
     }
 }

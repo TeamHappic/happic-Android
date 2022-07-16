@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import happy.kiki.happic.module.core.util.debugE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -56,6 +57,7 @@ open class ApiState<TData, TParam>(
             }
             ret.data
         } catch (e: Throwable) {
+            debugE(e)
             if (isLatestCall()) {
                 _state.value = NetworkState.Failure(e)
                 onError(e)
