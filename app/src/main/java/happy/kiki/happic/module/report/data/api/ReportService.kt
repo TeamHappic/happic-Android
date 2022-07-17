@@ -1,12 +1,21 @@
 package happy.kiki.happic.module.report.data.api
 
+import happy.kiki.happic.BuildConfig
 import happy.kiki.happic.module.core.data.api.base.ApiResponse
 import happy.kiki.happic.module.core.data.api.base.ApiServiceFactory.createService
+import happy.kiki.happic.module.core.data.api.base.successApiResponse
+import happy.kiki.happic.module.core.util.Picsum
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.hour
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.what
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.where
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.who
 import happy.kiki.happic.module.report.data.model.ReportByCategoryModel
 import happy.kiki.happic.module.report.data.model.ReportByKeywordModel
 import happy.kiki.happic.module.report.data.model.ReportByMonthlyModel
 import happy.kiki.happic.module.report.data.model.ReportHomeModel
+import happy.kiki.happic.module.report.data.model.ReportHomeModel.Rank2
+import happy.kiki.happic.module.report.data.model.ReportHomeModel.Rank3
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -33,3 +42,43 @@ interface ReportService {
 }
 
 val reportService: ReportService = createService()
+val reportMockService = if (!BuildConfig.DEBUG) reportService else object : ReportService {
+    override suspend fun reportHome(year: Int, month: Int, option: ReportCategoryOption): ApiResponse<ReportHomeModel> {
+        return successApiResponse(
+            ReportHomeModel(
+                listOf(), listOf(
+                    Rank2("햄식달식이", who, 20),
+                    Rank2("게임", where, 20),
+                    Rank2("귀여워", what, 20),
+                    Rank2("19:00", hour, 20),
+                ), listOf(
+                    Rank3("햄식달식이", listOf(Picsum.uri(100), Picsum.uri(98), Picsum.uri(99)), 20),
+                    Rank3("게임", listOf(), 20),
+                    Rank3("귀여워", listOf(), 20),
+                    Rank3("19:00", listOf(), 20),
+                ), listOf()
+            )
+        )
+    }
+
+    override suspend fun reportByKeyword(year: Int, month: Int): ApiResponse<List<ReportByKeywordModel>> {
+        return successApiResponse(
+            listOf(
+                ReportByKeywordModel("햄식달식이", who, 20),
+                ReportByKeywordModel("게임", where, 20),
+                ReportByKeywordModel("귀여워", what, 20),
+                ReportByKeywordModel("19:00", hour, 20),
+            )
+        )
+    }
+
+    override suspend fun reportByCategory(
+        year: Int, month: Int, option: ReportCategoryOption
+    ): ApiResponse<List<ReportByCategoryModel>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun reportByMonthly(year: Int, month: Int): ApiResponse<ReportByMonthlyModel> {
+        TODO("Not yet implemented")
+    }
+}

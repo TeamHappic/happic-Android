@@ -19,3 +19,11 @@ data class ApiResponse<T>(
 data class NoDataApiResponse(
     override val status: Int = -1, override val message: String = "", override val data: Unit? = null
 ) : ApiResponseType<Unit>
+
+fun <T> successApiResponse(data: T): ApiResponse<T> {
+    return ApiResponse(200, "success", data)
+}
+
+fun successNoDataApiResponse(): NoDataApiResponse {
+    return NoDataApiResponse(200, "success")
+}

@@ -65,7 +65,7 @@
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="H1_G_B16">
+    <style name="H2_G_B16">
         <item name="fontFamily">@font/gmarket_sans_bold</item>
         <item name="android:textSize">16sp</item>
     </style>

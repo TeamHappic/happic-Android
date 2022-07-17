@@ -1,5 +1,6 @@
 package happy.kiki.happic.module.report.data.model
 
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -13,7 +14,7 @@ data class ReportHomeModel(
 
     @Serializable
     data class Rank2(
-        val content: String, val category: String, val count: Int
+        val content: String, val category: ReportCategoryOption, val count: Int
     )
 
     @Serializable

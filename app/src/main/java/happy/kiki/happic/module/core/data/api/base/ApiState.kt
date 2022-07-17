@@ -26,14 +26,12 @@ open class ApiState<TData, TParam>(
     private val _state = MutableStateFlow<NetworkState<TData>>(NetworkState.Idle())
 
     val state: StateFlow<NetworkState<TData>> get() = _state
+    val data = MutableStateFlow<TData?>(null)
+
     val isIdle = state.map { it is NetworkState.Idle }.asStateFlow(true)
     val isSuccess = state.map { it is NetworkState.Success }.asStateFlow(false)
     val isLoading = state.map { it is NetworkState.Loading }.asStateFlow(false)
     val isFail = state.map { it is NetworkState.Failure }.asStateFlow(false)
-    val data = state.map {
-        if (it !is NetworkState.Success) null
-        else it.data
-    }.asStateFlow(null)
 
     private var latestCallId = 0L
     private fun getNextCallId(): Long {
@@ -51,11 +49,11 @@ open class ApiState<TData, TParam>(
 
         return try {
             val response = withContext(Dispatchers.IO) { callback(params) }
-            val data: TData? = null
             if (isLatestCall()) {
                 when (response) {
                     is ApiResponse<TData> -> {
                         _state.value = NetworkState.Success(response.data)
+                        this@ApiState.data.value = response.data
                         onSuccess(response.data)
                     }
                     is NoDataApiResponse -> {
@@ -64,7 +62,7 @@ open class ApiState<TData, TParam>(
                     }
                 }
             }
-            data as TData
+            response.data as TData
         } catch (e: Throwable) {
             debugE(e)
             if (isLatestCall()) {
