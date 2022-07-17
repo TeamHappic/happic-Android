@@ -94,9 +94,7 @@ dependencies {
 
     debugImplementation 'com.facebook.flipper:flipper:0.143.0'
     debugImplementation 'com.facebook.soloader:soloader:0.10.3'
-    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.142.0'
-    debugImplementation 'com.facebook.flipper:flipper-leakcanary2-plugin:0.143.0'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.143.0'
 
     implementation "com.kakao.sdk:v2-user:2.11.0"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
