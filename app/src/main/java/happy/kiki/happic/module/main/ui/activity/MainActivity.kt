@@ -2,8 +2,6 @@ package happy.kiki.happic.module.main.ui.activity
 
 import DailyHappicFragment
 import HomeFragment
-import happy.kiki.happic.module.report.ui.fragment.ReportFragment
-import happy.kiki.happic.module.setting.ui.fragment.SettingFragment
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,6 +9,8 @@ import androidx.fragment.app.commit
 import happy.kiki.happic.databinding.ActivityMainBinding
 import happy.kiki.happic.module.core.util.extension.addFragment
 import happy.kiki.happic.module.core.util.extension.isFragmentExist
+import happy.kiki.happic.module.report.ui.fragment.ReportFragment
+import happy.kiki.happic.module.setting.ui.fragment.SettingFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

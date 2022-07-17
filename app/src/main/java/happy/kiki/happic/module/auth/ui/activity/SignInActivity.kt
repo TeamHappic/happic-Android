@@ -19,6 +19,8 @@ import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
 import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.pushActivity
+import happy.kiki.happic.module.core.util.extension.replaceActivity
+import happy.kiki.happic.module.core.util.extension.replaceFragment
 import happy.kiki.happic.module.core.util.extension.showToast
 import happy.kiki.happic.module.core.util.extension.windowHandler
 import happy.kiki.happic.module.main.ui.activity.MainActivity
@@ -88,8 +90,8 @@ class SignInActivity : AppCompatActivity() {
 
         collectFlowWhenStarted(viewModel.signInApi.state) {
             when (it) {
-                is Success -> pushActivity<MainActivity>()
-                is Failure -> pushActivity<MainActivity>() // fixme
+                is Success -> replaceActivity<MainActivity>()
+                is Failure -> replaceActivity<MainActivity>() // fixme
                 else -> {}
             }
         }
