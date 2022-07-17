@@ -72,6 +72,7 @@ class SignInActivity : AppCompatActivity() {
                     AuthProvider.signOut()
                     AuthProvider.signInWithKakao(this@SignInActivity)
                 }.onSuccess { token ->
+                    debugE(token)
                     viewModel.signInApi.call(token)
                 }.onFailure {
                     val isCancelled = it is ClientError && it.msg.contains("cancel")

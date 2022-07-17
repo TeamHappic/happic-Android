@@ -81,6 +81,7 @@ class ReportFragment : Fragment() {
         configureMomentSection()
         configureKeywordSection()
         configureCategorySection()
+        configureMonthlyRecordSection()
     }
 
     private fun configureMomentSection() {
@@ -98,7 +99,9 @@ class ReportFragment : Fragment() {
 
         }
         collectFlowWhenStarted(viewModel.reportHomeApi.data) {
+
             it?.run {
+                binding.keywordRankContainer.removeAllViews()
                 rank2s.map {
                     ItemReportYourKeywordBinding.inflate(
                         layoutInflater, binding.keywordRankContainer, false
@@ -115,8 +118,6 @@ class ReportFragment : Fragment() {
                         }
                     })
                 }
-            } ?: kotlin.run {
-                binding.keywordRankContainer.removeAllViews()
             }
         }
     }
@@ -132,6 +133,7 @@ class ReportFragment : Fragment() {
         }
         collectFlowWhenStarted(viewModel.reportHomeApi.data) {
             it?.run {
+                binding.categoryRankContainer.removeAllViews()
                 rank3s.map {
                     ItemReportCategoryBinding.inflate(
                         layoutInflater, binding.categoryRankContainer, false
@@ -162,8 +164,15 @@ class ReportFragment : Fragment() {
                         }
                     })
                 }
-            } ?: kotlin.run {
-                binding.keywordRankContainer.removeAllViews()
+            }
+        }
+    }
+
+    private fun configureMonthlyRecordSection() {
+        collectFlowWhenStarted(viewModel.reportHomeApi.data) {
+            it?.run {
+                binding.monthlyRecordPlanet.month = this.rank4s.month
+                binding.monthlyRecordPlanet.count = this.rank4s.count
             }
         }
     }

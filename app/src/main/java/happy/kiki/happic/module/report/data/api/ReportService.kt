@@ -4,6 +4,7 @@ import happy.kiki.happic.BuildConfig
 import happy.kiki.happic.module.core.data.api.base.ApiResponse
 import happy.kiki.happic.module.core.data.api.base.ApiServiceFactory.createService
 import happy.kiki.happic.module.core.data.api.base.successApiResponse
+import happy.kiki.happic.module.core.util.Ipsum
 import happy.kiki.happic.module.core.util.Picsum
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.hour
@@ -16,8 +17,10 @@ import happy.kiki.happic.module.report.data.model.ReportByMonthlyModel
 import happy.kiki.happic.module.report.data.model.ReportHomeModel
 import happy.kiki.happic.module.report.data.model.ReportHomeModel.Rank2
 import happy.kiki.happic.module.report.data.model.ReportHomeModel.Rank3
+import happy.kiki.happic.module.report.data.model.ReportHomeModel.Rank4
 import retrofit2.http.GET
 import retrofit2.http.Query
+import kotlin.random.Random
 
 interface ReportService {
     @GET("mypage")
@@ -47,16 +50,20 @@ val reportMockService = if (!BuildConfig.DEBUG) reportService else object : Repo
         return successApiResponse(
             ReportHomeModel(
                 listOf(), listOf(
-                    Rank2("햄식달식이", who, 20),
-                    Rank2("게임", where, 20),
-                    Rank2("귀여워", what, 20),
-                    Rank2("19:00", hour, 20),
+                    Rank2(Ipsum.text(5), who, Random.nextInt(0, 31)),
+                    Rank2(Ipsum.text(5), where, Random.nextInt(0, 31)),
+                    Rank2(Ipsum.text(5), what, Random.nextInt(0, 31)),
+                    Rank2("19:00", hour, Random.nextInt(0, 31)),
                 ), listOf(
-                    Rank3("햄식달식이", listOf(Picsum.uri(100), Picsum.uri(98), Picsum.uri(99)), 20),
-                    Rank3("게임", listOf(), 20),
-                    Rank3("귀여워", listOf(), 20),
-                    Rank3("19:00", listOf(), 20),
-                ), listOf()
+                    Rank3(
+                        Ipsum.text(5),
+                        listOf(Picsum.uri(100), Picsum.uri(98), Picsum.uri(99)),
+                        Random.nextInt(0, 31)
+                    ),
+                    Rank3(Ipsum.text(5), listOf(), Random.nextInt(0, 31)),
+                    Rank3(Ipsum.text(5), listOf(), Random.nextInt(0, 31)),
+                    Rank3("19:00", listOf(), Random.nextInt(0, 31)),
+                ), Rank4(month, Random.nextInt(0, 31))
             )
         )
     }

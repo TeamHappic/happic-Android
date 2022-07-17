@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ReportHomeModel(
-    val rank1s: List<Rank1>, val rank2s: List<Rank2>, val rank3s: List<Rank3>, val rank4s: List<Rank4>
+    val rank1s: List<Rank1>, val rank2s: List<Rank2>, val rank3s: List<Rank3>, val rank4s: Rank4
 ) {
     @Serializable
     data class Rank1(
