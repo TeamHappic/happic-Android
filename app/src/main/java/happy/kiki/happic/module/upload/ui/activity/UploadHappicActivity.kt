@@ -5,12 +5,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View.VISIBLE
 import android.view.ViewGroup.GONE
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
 import com.google.android.material.chip.Chip
@@ -31,7 +29,6 @@ class UploadHappicActivity : AppCompatActivity() {
         setTouchEvent()
         setUpFields()
     }
-
 
     private fun setTouchEvent() {
         binding.whole.apply {
@@ -59,7 +56,7 @@ class UploadHappicActivity : AppCompatActivity() {
                 hint = it.second
 
                 // 서버 통신시 해당 코드 변경
-                val tagList = listOf("다섯글자임", "학교", "단골카페", "이마트")
+                val tagList = listOf("다섯글자임", "학교", "단골카페", "이마트", "일이삼사오육칠팔구십일이삼사오")
 
                 if (tagList.isNotEmpty()) {
                     tagList.forEach { tag ->
@@ -89,10 +86,8 @@ class UploadHappicActivity : AppCompatActivity() {
     }
 
     private fun createChip(tag: String): Chip {
-        val width = (binding.containerFields.width - this.px(47)) / 3
         val chip = ItemUploadChipBinding.inflate(layoutInflater).root.apply {
             text = tag
-            layoutParams = ConstraintLayout.LayoutParams(width, WRAP_CONTENT)
         }
         return chip
     }
