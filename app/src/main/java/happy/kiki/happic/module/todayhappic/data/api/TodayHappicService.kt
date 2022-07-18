@@ -1,8 +1,11 @@
 package happy.kiki.happic.module.todayhappic.data.api
 
+import happy.kiki.happic.BuildConfig
 import happy.kiki.happic.module.core.data.api.base.ApiResponse
 import happy.kiki.happic.module.core.data.api.base.ApiServiceFactory.createService
 import happy.kiki.happic.module.core.data.api.base.NoDataApiResponse
+import happy.kiki.happic.module.core.data.api.base.successApiResponse
+import happy.kiki.happic.module.todayhappic.data.api.TodayHappicService.KeywordRankingForUploadRes
 import happy.kiki.happic.module.todayhappic.data.model.TodayHappicPhotoListModel
 import happy.kiki.happic.module.todayhappic.data.model.TodayHappicPhotoModel
 import happy.kiki.happic.module.todayhappic.data.model.TodayHappicTagModel
@@ -61,3 +64,16 @@ interface TodayHappicService {
 }
 
 val todayHappicService: TodayHappicService = createService()
+
+val todayHappicKeywordMockService = if (!BuildConfig.DEBUG) todayHappicService else object : TodayHappicService {
+    override suspend fun keywordRankingForUpload(): ApiResponse<KeywordRankingForUploadRes> {
+        return successApiResponse(
+            KeywordRankingForUploadRes(
+                "2022-01-20 20:24",
+                listOf("연남", "연남", "연남", "연남", "연남", "연남", "연남", "연남", "연남"),
+                listOf("송경", "송경", "송경", "송경", "송경", "송경", "송경", "송경"),
+                listOf("귀여워", "귀여워", "귀여워", "귀여워", "귀여워", "귀여워", "귀여워", "귀여워", "귀여워")
+            )
+        )
+    }
+}
