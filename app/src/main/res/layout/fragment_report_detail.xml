@@ -216,6 +216,22 @@
                         android:textAppearance="@style/H4_P_B16"
                         android:textColor="@color/white" />
 
+                    <happy.kiki.happic.module.core.ui.widget.BorderView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:paddingHorizontal="28dp"
+                        android:paddingVertical="16dp"
+                        app:card_background_color="@color/bg_black2"
+                        app:card_corner_radius="10dp">
+
+                        <happy.kiki.happic.module.report.ui.widget.CalendarView
+                            android:id="@+id/calendar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </happy.kiki.happic.module.core.ui.widget.BorderView>
+
+
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

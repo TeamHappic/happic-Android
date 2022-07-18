@@ -198,10 +198,15 @@ class ReportDetailFragment : Fragment() {
 
 
         collectFlowWhenStarted(vm.monthlyApi.data) { data ->
-            if(data != null) {
+            if (data != null) {
                 binding.monthlyRecordPlanet.month = data.month
                 binding.monthlyRecordPlanet.count = data.count
+
+                binding.calendar.coloredDate = data.dates.toHashSet()
             }
+        }
+        collectFlowWhenStarted(reportVm.selectedYearMonth) { (year, month) ->
+            binding.calendar.yearMonth = year to month
         }
     }
 }
