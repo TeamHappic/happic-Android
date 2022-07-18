@@ -4,18 +4,17 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
-import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textview.MaterialTextView
 import happy.kiki.happic.R
 import happy.kiki.happic.module.core.util.extension.getColor
 import happy.kiki.happic.module.core.util.extension.px
@@ -60,8 +59,8 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
             id = ViewCompat.generateViewId()
             setImageResource(menuIcon)
         }
-        val textView = TextView(context).apply {
-            setTextAppearance(R.style.Medium_12)
+        val textView = MaterialTextView(context).apply {
+            setTextAppearance(R.style.C2_P_M12)
             id = ViewCompat.generateViewId()
             text = name
             setTextColor(context.getColor(R.color.gray5))

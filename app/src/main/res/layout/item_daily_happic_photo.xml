@@ -19,7 +19,7 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_photo"
-            style="@style/ShapeAppearanceOverlay.App.CornerSize8dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize8dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:adjustViewBounds="true"

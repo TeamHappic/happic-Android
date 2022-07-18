@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="GMarketBold">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="android:fontFamily">@font/gmarket_sans_bold</item>
+    </style>
+
+    <style name="GMarketBold.20">
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="Regular">
         <item name="android:lineSpacingMultiplier">1.26</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
@@ -48,4 +57,97 @@
         <item name="android:lineSpacingMultiplier">1.26</item>
         <item name="android:fontFamily">@font/pretendard_extra_bold</item>
     </style>
+
+
+    <!-- NEW -->
+    <style name="H1_G_B20">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/gmarket_sans_bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="H2_G_B16">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/gmarket_sans_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="H3_P_EB16">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_extra_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="H4_P_B16">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="H5_P_M16">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="B1_P_B14">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="B2_P_M14">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="B3_P_R14">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="C1_P_B12">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="C2_P_M12">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="C3_P_R12">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="PICKER_P_M24">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="PICKER_P_R24">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="PICKER_P_M28">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="PICKER_P_R28">
+        <item name="android:lineSpacingMultiplier">1.26</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+
 </resources>

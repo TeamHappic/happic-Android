@@ -73,6 +73,10 @@
 - 서비스 이름: 해픽 - Happic:)
 - 설명: 하루에 기억에 남는 일을 행복을 위해 사진을 찍어 태그와 함께 기록하는 어플리케이션
 
+## Service workflow
+
+![IA-FLOW@3x](https://user-images.githubusercontent.com/80062632/178763859-26283266-06bc-4469-b121-223da1c52b53.png)
+
 ## 각자 맡은 역할
  
 ### 문명주

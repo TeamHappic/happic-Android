@@ -6,7 +6,6 @@ import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
 import android.view.View
 import android.widget.EditText
-import androidx.annotation.ColorRes
 import androidx.annotation.Px
 import kotlin.math.roundToInt
 
@@ -24,10 +23,11 @@ fun Context.px(dp: Int) = (dp * resources.displayMetrics.density).roundToInt()
 fun View.px(dp: Int) = context.px(dp)
 fun View.pxFloat(dp: Int) = (dp * resources.displayMetrics.density)
 fun View.spPx(dp: Int) = (dp * resources.displayMetrics.scaledDensity)
+val View.screenWidth: Int
+    get() = resources.displayMetrics.widthPixels
+
 val View.screenHeight: Int
     get() = resources.displayMetrics.heightPixels
-
-fun View.getColor(@ColorRes res: Int) = context.getColor(res)
 
 fun EditText.addNoSpaceFilter(): EditText {
     filters = filters.toMutableList().apply {
