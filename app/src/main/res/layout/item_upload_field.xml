@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout>
 
     <data>
 
@@ -74,28 +74,6 @@
                     tools:hint="시간을 입력해주세요" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.helper.widget.Flow
-                android:id="@+id/flow_tags"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bg_black2"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                app:constraint_referenced_ids="tag1"
-                app:flow_maxElementsWrap="3"
-                app:layout_constraintTop_toBottomOf="@id/cl_text_field">
-
-                <include
-                    android:id="@+id/tag1"
-                    layout="@layout/item_upload_tag" />
-
-                <Button
-                    android:id="@id/tag1"/>
-
-            </androidx.constraintlayout.helper.widget.Flow>
-
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group"
