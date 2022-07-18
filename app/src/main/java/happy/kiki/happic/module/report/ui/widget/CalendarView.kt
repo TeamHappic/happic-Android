@@ -98,7 +98,6 @@ class CalendarView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         val currentMonthFirstDay = LocalDate.of(yearMonth.first, yearMonth.second, 1)
         val startIndex = currentMonthFirstDay.dayOfWeekIndex
-        debugE(startIndex)
         val dayCountInMonth = currentMonthFirstDay.lengthOfMonth()
 
         for (i in startIndex until startIndex + dayCountInMonth) {
