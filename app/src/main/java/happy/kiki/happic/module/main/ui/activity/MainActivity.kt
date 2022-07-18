@@ -9,7 +9,7 @@ import androidx.fragment.app.commit
 import happy.kiki.happic.databinding.ActivityMainBinding
 import happy.kiki.happic.module.core.util.extension.addFragment
 import happy.kiki.happic.module.core.util.extension.isFragmentExist
-import happy.kiki.happic.module.report.ui.fragment.ReportFragment
+import happy.kiki.happic.module.report.ui.fragment.ReportContainerFragment
 import happy.kiki.happic.module.setting.ui.fragment.SettingFragment
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             when (it) {
                 0 -> showFragment<HomeFragment>()
                 1 -> showFragment<DailyHappicFragment>()
-                2 -> showFragment<ReportFragment>()
+                2 -> showFragment<ReportContainerFragment>()
                 3 -> showFragment<SettingFragment>()
             }
         }
@@ -42,6 +42,6 @@ class MainActivity : AppCompatActivity() {
             if (it is T) show(it)
             else hide(it)
         }
-        if (shouldBeAdded) addFragment<T>(binding.fragmentContainer, tag = T::class.java.name)
+        if (shouldBeAdded) addFragment<T>(binding.fragmentContainer, tag = T::class.java.name, skipAddToBackStack = true)
     }
 }

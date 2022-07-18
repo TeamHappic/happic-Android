@@ -20,6 +20,7 @@ import happy.kiki.happic.databinding.ItemReportCategoryBinding
 import happy.kiki.happic.databinding.ItemReportYourKeywordBinding
 import happy.kiki.happic.module.core.ui.widget.util.OnTabSelectedListenerAdapter
 import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.emitEvent
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
@@ -30,19 +31,20 @@ import happy.kiki.happic.module.core.util.loadUrlAsync
 import happy.kiki.happic.module.core.util.setCornerSize
 import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
+import happy.kiki.happic.module.report.ui.fragment.ReportDetailFragment.Argument
 import kotlinx.coroutines.flow.drop
 
 class ReportFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentReportBinding>()
-    private val viewModel by viewModels<ReportViewModel>()
+    private val vm by viewModels<ReportViewModel>({ requireParentFragment() })
+    private val navigationVm by viewModels<ReportNavigationViewModel>({ requireParentFragment() })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         FragmentReportBinding.inflate(inflater, container, false).let { binding = it; it.root }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
-
+        binding.viewModel = vm
         configureHeader()
         configureMonthSelect()
         configureUI()
@@ -50,9 +52,9 @@ class ReportFragment : Fragment() {
 
     private fun configureHeader() = binding.header.apply {
         setOnClickListener {
-            viewModel.isMonthSelectOpened.value = !viewModel.isMonthSelectOpened.value
+            vm.isMonthSelectOpened.value = !vm.isMonthSelectOpened.value
         }
-        collectFlowWhenStarted(viewModel.isMonthSelectOpened.drop(1)) { isOpen ->
+        collectFlowWhenStarted(vm.isMonthSelectOpened.drop(1)) { isOpen ->
             if (isOpen) binding.monthSelect.fadeIn()
             else binding.monthSelect.fadeOut()
 
@@ -61,19 +63,19 @@ class ReportFragment : Fragment() {
     }
 
     private fun configureMonthSelect() = binding.monthSelect.let { monthSelect ->
-        collectFlowWhenStarted(viewModel.currentYear) {
+        collectFlowWhenStarted(vm.currentYear) {
             monthSelect.setCurrentYear(it)
         }
-        collectFlowWhenStarted(viewModel.selectedYearMonth) { (year, month) ->
+        collectFlowWhenStarted(vm.selectedYearMonth) { (year, month) ->
             binding.yearMonth.text = yearMonthText(year, month)
             monthSelect.setSelectedYearMonth(year, month)
         }
         monthSelect.onSelectedCurrentYear = {
-            viewModel.currentYear.value = it
+            vm.currentYear.value = it
         }
         monthSelect.onSelectedYearMonth = { year, month ->
-            viewModel.selectedYearMonth.value = year to month
-            viewModel.isMonthSelectOpened.value = false
+            vm.selectedYearMonth.value = year to month
+            vm.isMonthSelectOpened.value = false
         }
     }
 
@@ -96,9 +98,9 @@ class ReportFragment : Fragment() {
 
     private fun configureKeywordSection() {
         binding.sectionKeyword.setOnClickListener {
-
+            emitEvent(navigationVm.onNavigateDetail, Argument(0))
         }
-        collectFlowWhenStarted(viewModel.reportHomeApi.data) {
+        collectFlowWhenStarted(vm.reportHomeApi.data) {
 
             it?.run {
                 binding.keywordRankContainer.removeAllViews()
@@ -123,15 +125,18 @@ class ReportFragment : Fragment() {
     }
 
     private fun configureCategorySection() {
+        binding.sectionCategory.setOnClickListener {
+            emitEvent(navigationVm.onNavigateDetail, Argument(1, vm.selectedCategoryTab.value))
+        }
         binding.sectionCategoryTabLayout.addOnTabSelectedListener(object : OnTabSelectedListenerAdapter() {
             override fun onTabSelected(tab: Tab) {
-                viewModel.selectedCategoryTab.value = ReportCategoryOption.values()[tab.position]
+                vm.selectedCategoryTab.value = ReportCategoryOption.values()[tab.position]
             }
         })
-        collectFlowWhenStarted(viewModel.selectedCategoryTab) {
+        collectFlowWhenStarted(vm.selectedCategoryTab) {
             binding.sectionCategoryTabLayout.getTabAt(it.index)?.select()
         }
-        collectFlowWhenStarted(viewModel.reportHomeApi.data) {
+        collectFlowWhenStarted(vm.reportHomeApi.data) {
             it?.run {
                 binding.categoryRankContainer.removeAllViews()
                 rank3s.map {
@@ -139,7 +144,7 @@ class ReportFragment : Fragment() {
                         layoutInflater, binding.categoryRankContainer, false
                     ) to it
                 }.forEachIndexed { index, (itemBinding, item) ->
-                    itemBinding.category.text = "#${viewModel.selectedCategoryTab.value.name}"
+                    itemBinding.category.text = "#${vm.selectedCategoryTab.value.name}"
                     itemBinding.rank.text = (index + 1).toString()
                     itemBinding.keyword.text = item.content
                     itemBinding.count.text = "${item.count}회"
@@ -169,7 +174,10 @@ class ReportFragment : Fragment() {
     }
 
     private fun configureMonthlyRecordSection() {
-        collectFlowWhenStarted(viewModel.reportHomeApi.data) {
+        binding.sectionMonthly.setOnClickListener {
+            emitEvent(navigationVm.onNavigateDetail, Argument(2))
+        }
+        collectFlowWhenStarted(vm.reportHomeApi.data) {
             it?.run {
                 binding.monthlyRecordPlanet.month = this.rank4s.month
                 binding.monthlyRecordPlanet.count = this.rank4s.count

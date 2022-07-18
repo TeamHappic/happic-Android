@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_black1"
+        android:clickable="true">
+
+        <happy.kiki.happic.module.core.ui.widget.BorderView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:elevation="1dp"
+            android:outlineProvider="none"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/yearMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2020.06" />
+
+            <ImageView
+                android:id="@+id/header_chevron"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:rotation="180"
+                android:src="@drawable/chevron_up_20"
+                app:layout_constraintBottom_toBottomOf="@id/yearMonth"
+                app:layout_constraintStart_toEndOf="@id/yearMonth"
+                app:layout_constraintTop_toTopOf="@id/yearMonth" />
+        </happy.kiki.happic.module.core.ui.widget.BorderView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/bg_shadow"
+            android:elevation="1dp"
+            android:outlineProvider="none"
+            app:layout_constraintTop_toBottomOf="@id/header" />
+
+        <happy.kiki.happic.module.core.ui.widget.MonthSelectView
+            android:id="@+id/month_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:elevation="12dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/header"
+            tools:alpha="0.01"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
