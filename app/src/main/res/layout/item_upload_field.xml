@@ -95,19 +95,6 @@
 
             </happy.kiki.happic.module.core.ui.widget.BorderView>
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bg_black2"
-                android:paddingVertical="12dp"
-                android:visibility="gone"
-                app:chipSpacingHorizontal="6dp"
-                app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintTop_toBottomOf="@id/cl_text_field"
-                app:singleLine="false" />
-
-
         </happy.kiki.happic.module.core.ui.widget.BorderView>
 
         <View
