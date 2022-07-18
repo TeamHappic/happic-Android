@@ -106,6 +106,6 @@ val reportMockService = if (!BuildConfig.DEBUG) reportService else object : Repo
     }
 
     override suspend fun reportByMonthly(year: Int, month: Int): ApiResponse<ReportByMonthlyModel> {
-        return successApiResponse(ReportByMonthlyModel(month, 5, listOf(1, 3, 5)))
+        return successApiResponse(ReportByMonthlyModel(month, Random.nextInt(0, 30), listOf(1, 3, 5)))
     }
 }

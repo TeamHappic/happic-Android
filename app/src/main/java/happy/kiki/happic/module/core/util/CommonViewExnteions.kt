@@ -16,8 +16,8 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.ShapeAppearanceModel
 import happy.kiki.happic.R
 import happy.kiki.happic.module.core.util.extension.getColor
-import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.pxFloat
+import kotlin.math.roundToInt
 
 @BindingAdapter("android:visibility")
 fun View.setVisibilityBinding(visible: Boolean) {
@@ -38,6 +38,7 @@ fun ImageView.loadUrlAsync(url: String?) {
                 R.color.white, R.color.dark_blue, R.color.orange
             ).map { context.getColor(it) }.toIntArray()
         )
+        setStyle((width * 0.5).roundToInt())
         start()
     }
 

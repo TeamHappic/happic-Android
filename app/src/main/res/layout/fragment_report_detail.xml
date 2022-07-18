@@ -175,6 +175,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:layoutAnimation="@anim/common_layout_fast"
                         android:orientation="vertical" />
                 </LinearLayout>
 
@@ -185,7 +186,37 @@
                     android:layout_marginTop="8dp"
                     android:clipChildren="false"
                     android:layoutAnimation="@anim/common_layout_fast"
-                    android:orientation="vertical" />
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="16dp">
+
+                        <happy.kiki.happic.module.core.ui.widget.MonthlyRecordPlanet
+                            android:id="@+id/monthly_record_planet"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center" />
+                    </FrameLayout>
+
+                    <ImageView
+                        android:id="@+id/monthly_star_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:src="@drawable/hp_img_star" />
+
+                    <TextView
+                        android:id="@+id/monthly_section_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="이번달 모은 해픽의 조각"
+                        android:textAppearance="@style/H4_P_B16"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
 
