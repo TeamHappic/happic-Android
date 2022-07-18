@@ -2,11 +2,17 @@ package happy.kiki.happic.module.upload.ui.activity
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ShapeDrawable
 import android.os.Bundle
+import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup.GONE
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -73,14 +79,32 @@ class UploadHappicActivity : AppCompatActivity() {
                 val tagList = listOf("다섯글자임", "학교", "단골카페", "이마트", "일이삼사오육칠팔구십일이삼사오")
 
                 if (tagList.isNotEmpty()) {
+                    var idx = 0
+                    var linearLayout: LinearLayout? = null
+
                     tagList.forEach { tag ->
+                        if (idx++ % 3 == 0) {
+                            linearLayout?.let { llTags.addView(it) }
+                            linearLayout = createLinearLayout()
+                        }
+
                         createChip(tag).apply {
                             setOnClickListener {
                                 etContent.setText(tag)
                             }
-                            chipGroup.addView(this)
+                            linearLayout?.addView(this)
                         }
                     }
+
+                    if (idx % 3 != 0) {
+                        repeat(3 - tagList.size % 3) {
+                            createChip("").apply {
+                                visibility = INVISIBLE
+                                linearLayout?.addView(this)
+                            }
+                        }
+                    }
+                    linearLayout?.let { llTags.addView(linearLayout) }
                 }
 
 
@@ -90,7 +114,7 @@ class UploadHappicActivity : AppCompatActivity() {
                         strokeColor = if (hasFocus) context.getColor(R.color.dark_blue) else Color.TRANSPARENT
                         strokeWidth = if (hasFocus) this@UploadHappicActivity.px(1).toFloat() else 0f
                     }
-                    chipGroup.visibility = if (hasFocus) VISIBLE else GONE
+                    containerTags.visibility = if (hasFocus) VISIBLE else GONE
                 }
 
                 binding.containerFields.addView(this.root)
@@ -99,11 +123,23 @@ class UploadHappicActivity : AppCompatActivity() {
         }
     }
 
-    private fun createChip(tag: String): Chip {
-        val chip = ItemUploadChipBinding.inflate(layoutInflater).root.apply {
-            text = tag
-        }
-        return chip
+    private fun createChip(tag: String): Chip = ItemUploadChipBinding.inflate(layoutInflater).root.apply {
+        text = tag
+        layoutParams = LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f)
+    }
+
+    private fun createLinearLayout(): LinearLayout = LinearLayout(this@UploadHappicActivity).apply {
+        id = ViewCompat.generateViewId()
+        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        orientation = LinearLayout.HORIZONTAL
+        dividerDrawable = getDivider()
+        showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
+        setPadding(0, px(4), 0, px(4))
+    }
+
+    private fun getDivider(): ShapeDrawable = ShapeDrawable().apply {
+        intrinsicWidth = px(6)
+        alpha = 0
     }
 
     private fun updateUi(hasFocus: Boolean) {

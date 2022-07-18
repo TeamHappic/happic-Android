@@ -4,7 +4,7 @@
     style="@style/tag_chip_style"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:text="hi"
+    android:text="일이삼사오"
     android:textAlignment="center"
     app:chipMinTouchTargetSize="0dp" />
 

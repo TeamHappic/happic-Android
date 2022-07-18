@@ -57,31 +57,19 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:textAppearance="@style/Bold.16"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toStartOf="@id/tv_happic"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="06.26" />
 
             <TextView
-                android:id="@+id/tv_happic"
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:text="@string/happic"
                 android:textAppearance="@style/Medium.16"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@id/tv_date"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_date"
-                app:layout_constraintTop_toTopOf="@id/tv_date" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -122,7 +110,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -74,45 +74,26 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <happy.kiki.happic.module.core.ui.widget.BorderView
                 android:id="@+id/container_tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bg_black2"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                app:chipSpacingVertical="9dp"
+                android:paddingVertical="8dp"
+                android:visibility="gone"
+                app:card_background_color="@color/bg_black2"
                 app:layout_constraintTop_toBottomOf="@id/cl_text_field">
 
                 <LinearLayout
+                    android:id="@+id/ll_tags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:divider="@drawable/shape_tag_divider"
-                    android:showDividers="middle"
+                    android:orientation="vertical"
                     app:layout_constraintTop_toTopOf="parent">
-
-                    <include
-                        layout="@layout/item_upload_chip"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        layout="@layout/item_upload_chip"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <include
-                        layout="@layout/item_upload_chip"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
 
                 </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </happy.kiki.happic.module.core.ui.widget.BorderView>
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group"
