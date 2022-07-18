@@ -14,13 +14,9 @@ import com.kakao.sdk.common.model.ClientError
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivitySignInBinding
 import happy.kiki.happic.module.auth.provider.AuthProvider
-import happy.kiki.happic.module.core.data.api.base.NetworkState.Failure
-import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
 import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
-import happy.kiki.happic.module.core.util.extension.pushActivity
 import happy.kiki.happic.module.core.util.extension.replaceActivity
-import happy.kiki.happic.module.core.util.extension.replaceFragment
 import happy.kiki.happic.module.core.util.extension.showToast
 import happy.kiki.happic.module.core.util.extension.windowHandler
 import happy.kiki.happic.module.main.ui.activity.MainActivity
@@ -76,6 +72,7 @@ class SignInActivity : AppCompatActivity() {
                     AuthProvider.signOut()
                     AuthProvider.signInWithKakao(this@SignInActivity)
                 }.onSuccess { token ->
+                    debugE(token)
                     viewModel.signInApi.call(token)
                 }.onFailure {
                     val isCancelled = it is ClientError && it.msg.contains("cancel")
@@ -84,16 +81,14 @@ class SignInActivity : AppCompatActivity() {
             }
         }
 
-        collectFlowWhenStarted(viewModel.signInApi.isLoading) {
-            binding.kakaoButton.isLoading = it
+        collectFlowWhenStarted(viewModel.signInApi.isLoading) { isLoading ->
+            binding.kakaoButton.isLoading = isLoading
         }
-
-        collectFlowWhenStarted(viewModel.signInApi.state) {
-            when (it) {
-                is Success -> replaceActivity<MainActivity>()
-                is Failure -> replaceActivity<MainActivity>() // fixme
-                else -> {}
-            }
+        collectFlowWhenStarted(viewModel.onSignInSuccess.flow) {
+            replaceActivity<MainActivity>()
+        }
+        collectFlowWhenStarted(viewModel.onSignInFail.flow) {
+            replaceActivity<MainActivity>() // fixme
         }
     }
 }

@@ -12,8 +12,12 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory.Builder
+import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.shape.ShapeAppearanceModel
 import happy.kiki.happic.R
 import happy.kiki.happic.module.core.util.extension.getColor
+import happy.kiki.happic.module.core.util.extension.px
+import happy.kiki.happic.module.core.util.extension.pxFloat
 
 @BindingAdapter("android:visibility")
 fun View.setVisibilityBinding(visible: Boolean) {
@@ -77,5 +81,9 @@ fun TextView.setTextColorWithResources(@ColorRes id: Int) {
     kotlin.runCatching {
         setTextColor(getColor(id))
     }
+}
+
+fun ShapeableImageView.setCornerSize(cornerSize: Int) {
+    shapeAppearanceModel = ShapeAppearanceModel().withCornerSize(pxFloat(cornerSize))
 }
 

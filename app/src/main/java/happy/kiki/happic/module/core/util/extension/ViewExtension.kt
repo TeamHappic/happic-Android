@@ -23,6 +23,9 @@ fun Context.px(dp: Int) = (dp * resources.displayMetrics.density).roundToInt()
 fun View.px(dp: Int) = context.px(dp)
 fun View.pxFloat(dp: Int) = (dp * resources.displayMetrics.density)
 fun View.spPx(dp: Int) = (dp * resources.displayMetrics.scaledDensity)
+val View.screenWidth: Int
+    get() = resources.displayMetrics.widthPixels
+
 val View.screenHeight: Int
     get() = resources.displayMetrics.heightPixels
 

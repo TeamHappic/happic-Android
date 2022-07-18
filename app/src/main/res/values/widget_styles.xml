@@ -27,4 +27,11 @@
         <item name="android:clickable">true</item>
     </style>
 
+    <style name="CategoryTab" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:background">@color/transparent</item>
+        <item name="tabTextColor">@color/gray6</item>
+        <item name="tabSelectedTextColor">@color/orange</item>
+        <item name="tabIndicatorColor">@color/orange</item>
+        <item name="tabTextAppearance">@style/B1_P_B14</item>
+    </style>
 </resources>

@@ -4,19 +4,21 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
-import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.annotation.DrawableRes
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textview.MaterialTextView
 import happy.kiki.happic.R
+import happy.kiki.happic.module.core.ui.widget.util.applyConstraint
+import happy.kiki.happic.module.core.ui.widget.util.centerHorizontallyParent
+import happy.kiki.happic.module.core.ui.widget.util.topToBottom
+import happy.kiki.happic.module.core.ui.widget.util.topToParent
 import happy.kiki.happic.module.core.util.extension.getColor
 import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.pxFloat
@@ -60,8 +62,8 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
             id = ViewCompat.generateViewId()
             setImageResource(menuIcon)
         }
-        val textView = TextView(context).apply {
-            setTextAppearance(R.style.Medium_12)
+        val textView = MaterialTextView(context).apply {
+            setTextAppearance(R.style.C2_P_M12)
             id = ViewCompat.generateViewId()
             text = name
             setTextColor(context.getColor(R.color.gray5))
@@ -69,13 +71,12 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
         addView(imageView, px(20), px(20))
         addView(textView, WRAP_CONTENT, WRAP_CONTENT)
 
-        ConstraintSet().also { set ->
-            set.clone(this@apply)
-            set.centerHorizontally(imageView.id, ConstraintSet.PARENT_ID)
-            set.centerHorizontally(textView.id, ConstraintSet.PARENT_ID)
-            set.connect(imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, px(12))
-            set.connect(textView.id, ConstraintSet.TOP, imageView.id, ConstraintSet.BOTTOM, px(4))
-        }.applyTo(this)
+        applyConstraint {
+            centerHorizontallyParent(imageView)
+            centerHorizontallyParent(textView)
+            topToParent(imageView, px(12))
+            topToBottom(textView, imageView, px(4))
+        }
     }
 
     private fun addViews() {

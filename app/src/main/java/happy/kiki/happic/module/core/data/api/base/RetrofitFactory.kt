@@ -10,6 +10,10 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
 
+val globalJson = Json {
+    ignoreUnknownKeys = true
+}
+
 object ApiServiceFactory {
     private val okHttpClient = OkHttpClient.Builder().addInterceptor {
         val originalReq = it.request()
@@ -23,12 +27,10 @@ object ApiServiceFactory {
 
     @OptIn(ExperimentalSerializationApi::class)
     val _retrofit: Retrofit
-        get() {
-            return Retrofit.Builder()
-                .baseUrl("http://13.125.255.20:5001/") //http://10.0.2.2:3000/ http://13.125.255.20:5001/
-                .addConverterFactory(Json.asConverterFactory("application/json".toMediaType())).client(okHttpClient)
-                .build()
-        }
+        get() = Retrofit.Builder()
+            .baseUrl("http://3.39.169.83:5001") //http://10.0.2.2:3000/ http://3.39.169.83:5001
+            .addConverterFactory(globalJson.asConverterFactory("application/json".toMediaType())).client(okHttpClient)
+            .build()
 
     inline fun <reified T : Any> createService() = _retrofit.create(T::class.java)
 }
