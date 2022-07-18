@@ -338,14 +338,23 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </happy.kiki.happic.module.core.ui.widget.BorderView>
 
-                <happy.kiki.happic.module.core.ui.widget.MonthlyRecordPlanet
-                    android:id="@+id/monthly_record_planet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/section_monthly" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/section_monthly">
+
+                    <happy.kiki.happic.module.core.ui.widget.MonthlyRecordPlanet
+                        android:id="@+id/monthly_record_planet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,9 +56,7 @@ val reportMockService = if (!BuildConfig.DEBUG) reportService else object : Repo
                     Rank2("19:00", hour, Random.nextInt(0, 31)),
                 ), listOf(
                     Rank3(
-                        Ipsum.text(5),
-                        listOf(Picsum.uri(100), Picsum.uri(98), Picsum.uri(99)),
-                        Random.nextInt(0, 31)
+                        Ipsum.text(5), listOf(Picsum.uri(100), Picsum.uri(98), Picsum.uri(99)), Random.nextInt(0, 31)
                     ),
                     Rank3(Ipsum.text(5), listOf(), Random.nextInt(0, 31)),
                     Rank3(Ipsum.text(5), listOf(), Random.nextInt(0, 31)),
@@ -82,10 +80,32 @@ val reportMockService = if (!BuildConfig.DEBUG) reportService else object : Repo
     override suspend fun reportByCategory(
         year: Int, month: Int, option: ReportCategoryOption
     ): ApiResponse<List<ReportByCategoryModel>> {
-        TODO("Not yet implemented")
+        return successApiResponse(
+            listOf(
+                ReportByCategoryModel(
+                    Ipsum.text(5), listOf(
+                        Picsum.uri(100),
+                        Picsum.uri(100),
+                        Picsum.uri(100),
+                    ), 5
+                ),
+                ReportByCategoryModel(
+                    Ipsum.text(5), listOf(
+                    ), 5
+                ),
+                ReportByCategoryModel(
+                    Ipsum.text(5), listOf(
+                    ), 5
+                ),
+                ReportByCategoryModel(
+                    Ipsum.text(5), listOf(
+                    ), 5
+                ),
+            )
+        )
     }
 
     override suspend fun reportByMonthly(year: Int, month: Int): ApiResponse<ReportByMonthlyModel> {
-        TODO("Not yet implemented")
+        return successApiResponse(ReportByMonthlyModel(month, 5, listOf(1, 3, 5)))
     }
 }

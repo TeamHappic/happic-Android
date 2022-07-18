@@ -43,7 +43,7 @@ class ReportContainerFragment : Fragment() {
         collectFlowWhenStarted(navigationVm.onNavigateDetail.flow) {
             onBackPressedCallback.isEnabled = true
             addFragment<ReportDetailFragment>(
-                binding.container, fragmentManager = childFragmentManager,
+                binding.container, fragmentManager = childFragmentManager, arg = it
             )
         }
     }
