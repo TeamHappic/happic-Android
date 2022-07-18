@@ -26,18 +26,22 @@
         android:layout_marginTop="16dp"
         android:elevation="4dp"
         android:transitionName="moon"
+        app:card_corner_radius="10dp"
         app:card_shadow_color="@color/bg_black1"
+        app:card_stroke_color="@color/dark_blue"
+        app:card_stroke_width="2dp"
         app:layout_constraintEnd_toStartOf="@id/bv_cloud"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_rectangle_moon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_rectangle_moon" />
+            android:src="@drawable/ic_rectangle_moon"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.LargeComponent" />
 
         <ImageView
             android:id="@+id/iv_moon"
@@ -59,18 +63,22 @@
         android:layout_marginEnd="78dp"
         android:elevation="4dp"
         android:transitionName="cloud"
+        app:card_corner_radius="10dp"
         app:card_shadow_color="@color/bg_black1"
+        app:card_stroke_color="@color/dark_purple"
+        app:card_stroke_width="2dp"
         app:layout_constraintBottom_toBottomOf="@id/bv_moon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/bv_moon"
         app:layout_constraintTop_toTopOf="@id/bv_moon">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_rectangle_cloud"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_rectangle_cloud" />
+            android:src="@drawable/ic_rectangle_cloud"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.LargeComponent" />
 
         <ImageView
             android:id="@+id/iv_cloud"
@@ -127,10 +135,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/shape_chatting"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
                 android:paddingStart="20dp"
+                android:paddingTop="8dp"
                 android:paddingEnd="20dp"
+                android:paddingBottom="8dp"
                 android:text="내가 좋아하는 사람들이 행복하다고 말하는 거!"
                 android:textAlignment="center"
                 android:textAppearance="@style/Medium.14"
@@ -165,10 +173,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/shape_chatting"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
                 android:paddingStart="20dp"
+                android:paddingTop="8dp"
                 android:paddingEnd="20dp"
+                android:paddingBottom="8dp"
                 android:text="조용히 일기에 걱정거리를 적어"
                 android:textAlignment="center"
                 android:textAppearance="@style/Medium.14"
@@ -203,10 +211,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/shape_chatting"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
                 android:paddingStart="20dp"
+                android:paddingTop="8dp"
                 android:paddingEnd="20dp"
+                android:paddingBottom="8dp"
                 android:text="나는 편지와 함께 좋아한다고 말해!"
                 android:textAlignment="center"
                 android:textAppearance="@style/Medium.14"

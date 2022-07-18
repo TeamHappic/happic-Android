@@ -41,6 +41,7 @@
         android:layout_marginTop="20dp"
         android:elevation="4dp"
         android:transitionName="moon"
+        app:card_corner_radius="10dp"
         app:card_shadow_color="@color/bg_black1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="152:200"
@@ -76,6 +77,7 @@
         android:layout_marginEnd="20dp"
         android:elevation="4dp"
         android:transitionName="cloud"
+        app:card_corner_radius="10dp"
         app:card_shadow_color="@color/bg_black1"
         app:layout_constraintBottom_toBottomOf="@id/bv_moon"
         app:layout_constraintDimensionRatio="152:200"
@@ -83,7 +85,7 @@
         app:layout_constraintStart_toEndOf="@id/bv_moon"
         app:layout_constraintTop_toTopOf="@id/bv_moon">
 
-        <ImageView
+    <ImageView
             android:id="@+id/iv_rectangle_cloud"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
