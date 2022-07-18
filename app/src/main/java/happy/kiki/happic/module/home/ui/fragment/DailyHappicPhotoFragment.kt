@@ -10,10 +10,15 @@ import androidx.fragment.app.Fragment
 import happy.kiki.happic.databinding.FragmentDailyHappicPhotoBinding
 import happy.kiki.happic.databinding.ItemDailyHappicPhotoBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
-import happy.kiki.happic.module.core.util.extension.px
-import happy.kiki.happic.module.core.util.extension.screenWidth
+import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
+import happy.kiki.happic.module.core.util.extension.px
+import happy.kiki.happic.module.core.util.extension.screenWidth
+import happy.kiki.happic.module.core.util.now
+import happy.kiki.happic.module.core.util.yearMonthText
+import happy.kiki.happic.module.home.data.YearMonthModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -25,22 +30,46 @@ class DailyHappicPhotoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initData()
-        setOnClickListener()
         setCards()
+        configureMonthSelect()
     }
 
     private fun initData() {
         with(binding) {
             val now = LocalDate.now()
             tvMonth.text = now.format(DateTimeFormatter.ofPattern("yyyy.MM")).toString()
-            tvYear.text = now.year.toString()
         }
     }
 
-    private fun setOnClickListener() {
-        binding.borderMonth.setOnClickListener {
-            if (binding.borderSelect.isVisible) binding.borderSelect.fadeOut()
-            else binding.borderSelect.fadeIn()
+    private val currentYear = MutableStateFlow(now.year)
+    private val selectedYearMonth = MutableStateFlow(YearMonthModel(now.year, now.monthValue))
+
+    private fun configureMonthSelect() {
+
+        binding.monthSelect.apply {
+            binding.borderMonth.setOnClickListener {
+                with(this) {
+                    if (this.isVisible) this.fadeOut()
+                    else this.fadeIn()
+                }
+            }
+
+            onSelectedCurrentYear = { currentYear ->
+                this@DailyHappicPhotoFragment.currentYear.value = currentYear
+            }
+
+            onSelectedYearMonth = { year, month ->
+                selectedYearMonth.value = YearMonthModel(year, month)
+            }
+
+            collectFlowWhenStarted(selectedYearMonth) {
+                setSelectedYearMonth(it.year, it.month)
+                binding.tvMonth.text = yearMonthText(it.year, it.month)
+            }
+
+            collectFlowWhenStarted(currentYear) {
+                setCurrentYear(it)
+            }
         }
     }
 
@@ -54,6 +83,6 @@ class DailyHappicPhotoFragment : Fragment() {
             binding.clCards.addView(itemBinding.root, ConstraintLayout.LayoutParams(width, WRAP_CONTENT))
             binding.flowCards.addView(itemBinding.root)
         }
-
     }
 }
+

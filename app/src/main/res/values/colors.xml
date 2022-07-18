@@ -13,10 +13,10 @@
     <color name="gray9">#2E2E2E</color>
     <color name="bg_black1">#19191F</color>
     <color name="bg_black2">#0B0B0B</color>
-    <color name="bg_black2_95">#950B0B0B</color>
     <color name="dark_purple">#7D5B79</color>
     <color name="dark_blue">#6A5EB1</color>
     <color name="orange">#F9956A</color>
     <color name="ripple">#33000000</color>
     <color name="kakao_yellow">#FDE500</color>
+    <color name="transparent">#0fff</color>
 </resources>

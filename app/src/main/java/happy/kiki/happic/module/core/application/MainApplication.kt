@@ -2,6 +2,7 @@ package happy.kiki.happic.module.core.application
 
 import android.app.Application
 import com.kakao.sdk.common.KakaoSdk
+import happy.kiki.happic.module.core.util.LocalStorage
 import happy.kiki.happic.module.core.util.setUpFlipper
 
 class MainApplication : Application() {
@@ -10,6 +11,7 @@ class MainApplication : Application() {
 
         setUpFlipper()
         setUpKakaoSDK()
+        LocalStorage.install(this)
     }
 
     private fun setUpKakaoSDK() {
