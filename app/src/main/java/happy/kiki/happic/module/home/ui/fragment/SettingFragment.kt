@@ -7,6 +7,7 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import happy.kiki.happic.databinding.FragmentSettingBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.pushActivity
+import happy.kiki.happic.module.home.ui.activity.CharacterSettingActivity
 
 class SettingFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentSettingBinding>()
@@ -20,7 +21,7 @@ class SettingFragment : Fragment() {
 
     private fun configureNavigations() {
         binding.characterChange.root.setOnClickListener {
-
+            pushActivity<CharacterSettingActivity>()
         }
         binding.termsOfUse.root.setOnClickListener {
 
