@@ -7,6 +7,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup.GONE
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,7 +28,20 @@ class UploadHappicActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ActivityUploadHappicBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
         setTouchEvent()
-        setUpFields()
+        configureFields()
+        configureGalleryLogic()
+    }
+
+    private val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        it?.run {
+            binding.ivPhoto.setImageURI(this)
+        }
+    }
+
+    private fun configureGalleryLogic() {
+        binding.ivX.setOnClickListener {
+            launcher.launch("image/*")
+        }
     }
 
     private fun setTouchEvent() {
@@ -46,7 +60,7 @@ class UploadHappicActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpFields() {
+    private fun configureFields() {
         listOf(
             "#when" to "시간을 입력해주세요", "#where" to "장소를 입력해주세요", "#who" to "함께한 사람을 입력해주세요", "#what" to "무엇을 했는지 입력해주세요"
         ).forEach {
