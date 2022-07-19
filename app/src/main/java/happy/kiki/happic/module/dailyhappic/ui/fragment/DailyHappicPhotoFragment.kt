@@ -13,7 +13,6 @@ import androidx.fragment.app.viewModels
 import happy.kiki.happic.databinding.FragmentDailyHappicPhotoBinding
 import happy.kiki.happic.databinding.ItemDailyHappicPhotoBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
-import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
@@ -72,7 +71,6 @@ class DailyHappicPhotoFragment : Fragment() {
                     ItemDailyHappicPhotoBinding.inflate(layoutInflater).apply {
                         root.id = ViewCompat.generateViewId()
                         photo = it
-                        debugE(it)
                     }
                 }.forEach { itemBinding ->
                     val width = (requireContext().screenWidth - requireContext().px(55)) / 4

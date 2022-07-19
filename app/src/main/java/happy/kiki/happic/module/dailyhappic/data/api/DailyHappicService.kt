@@ -5,6 +5,7 @@ import happy.kiki.happic.module.core.data.api.base.ApiResponse
 import happy.kiki.happic.module.core.data.api.base.ApiServiceFactory.createService
 import happy.kiki.happic.module.core.data.api.base.NoDataApiResponse
 import happy.kiki.happic.module.core.data.api.base.successApiResponse
+import happy.kiki.happic.module.core.util.Picsum
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadReq
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadRes
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.IsTodayUploadedRes
@@ -83,23 +84,31 @@ val dailyHappicKeywordMockService = if (!BuildConfig.DEBUG) dailyHappic else obj
     override suspend fun photos(year: Int, month: Int): ApiResponse<List<DailyHappicPhotoListModel>> {
         return successApiResponse(
             listOf(
-                DailyHappicPhotoListModel("id", "17", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "16", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "15", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "14", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "13", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "12", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "11", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "10", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "9", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "8", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "7", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "6", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "5", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "4", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "3", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "2", "https://github.com/kimdahee7.png"),
-                DailyHappicPhotoListModel("id", "1", "https://github.com/kimdahee7.png"),
+                DailyHappicPhotoListModel("id", "25", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "24", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "23", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "22", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "21", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "20", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "19", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "18", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "17", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "16", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "15", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "14", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "13", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "12", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "11", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "10", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "9", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "8", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "7", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "6", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "5", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "4", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "3", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "2", Picsum.uri(100)),
+                DailyHappicPhotoListModel("id", "1", Picsum.uri(100)),
             )
 
         )
