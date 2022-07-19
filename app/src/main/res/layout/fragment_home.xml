@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:text="Lv1. 응애입니다"
             android:textColor="@color/white"
-            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,15 +31,14 @@
             android:layout_marginStart="148dp"
             android:text="1/6"
             android:textColor="@color/gray1"
-            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/tv_level"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
-        android:id="@+id/progressbar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:id="@+id/progressbar_line"
+        style="@style/Widget.MaterialComponents.LinearProgressIndicator"
         android:layout_width="280dp"
         android:layout_height="4dp"
         android:layout_marginTop="8dp"
@@ -67,7 +65,6 @@
         android:layout_marginTop="12dp"
         android:text="이름뭐하지"
         android:textColor="@color/white"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,8 +74,8 @@
         android:id="@+id/bv_mypage"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="124dp"
         app:card_corner_radius="10dp"
+        android:layout_marginTop="124dp"
         app:layout_constraintDimensionRatio="320:184"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -101,7 +98,6 @@
             android:text="아니 왜 밥 안줌\n너 오늘 뭐했는데\n바빴다고? 그럼 어쩔 수 없지"
             android:textAlignment="center"
             android:textColor="@color/gray2"
-            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

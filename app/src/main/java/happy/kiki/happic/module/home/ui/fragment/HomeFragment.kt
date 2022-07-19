@@ -18,7 +18,7 @@ class HomeFragment : Fragment() {
     }
 
     fun showButton(isShow:Boolean){
-        if (isShow) binding.btnUpload.visibility = View.VISIBLE
-        else binding.btnUpload.visibility = View.INVISIBLE
+        if (isShow) binding.btnUpload.isInvisible = true
+        else binding.btnUpload.isInvisible = true
     }
 }
