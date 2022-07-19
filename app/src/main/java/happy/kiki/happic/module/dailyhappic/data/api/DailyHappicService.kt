@@ -5,6 +5,7 @@ import happy.kiki.happic.module.core.data.api.base.ApiResponse
 import happy.kiki.happic.module.core.data.api.base.ApiServiceFactory.createService
 import happy.kiki.happic.module.core.data.api.base.NoDataApiResponse
 import happy.kiki.happic.module.core.data.api.base.successApiResponse
+import happy.kiki.happic.module.core.util.Ipsum
 import happy.kiki.happic.module.core.util.Picsum
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadReq
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadRes
@@ -110,7 +111,6 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
                 DailyHappicPhotoListModel("id", "2", Picsum.uri(100)),
                 DailyHappicPhotoListModel("id", "1", Picsum.uri(100)),
             )
-
         )
     }
 
@@ -131,6 +131,23 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
     }
 
     override suspend fun tags(year: Int, month: Int): ApiResponse<List<DailyHappicTagModel>> {
-        TODO("Not yet implemented")
+        return successApiResponse(
+            listOf(
+                DailyHappicTagModel("id", "17", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "16", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "15", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "14", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "13", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "12", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "11", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "10", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "9", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "8", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "7", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "6", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "5", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+                DailyHappicTagModel("id", "4", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)),
+            )
+        )
     }
 }

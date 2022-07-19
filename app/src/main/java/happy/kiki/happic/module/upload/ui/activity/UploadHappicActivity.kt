@@ -3,7 +3,9 @@ package happy.kiki.happic.module.upload.ui.activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ShapeDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup.GONE
@@ -23,31 +25,26 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityUploadHappicBinding
 import happy.kiki.happic.databinding.ItemUploadChipBinding
 import happy.kiki.happic.databinding.ItemUploadFieldBinding
+import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.px
+import kotlinx.android.parcel.Parcelize
 
 class UploadHappicActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadHappicBinding
     private val viewModel by viewModels<UploadHappicViewModel>()
 
+    @Parcelize
+    data class Argument(val uri: Uri) : Parcelable
+
+    private val arg by argument<Argument>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ActivityUploadHappicBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
         setTouchEvent()
+        configureImageView()
         configureFields()
-        configureGalleryLogic()
-    }
-
-    private val launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        it?.run {
-            binding.ivPhoto.setImageURI(this)
-        }
-    }
-
-    private fun configureGalleryLogic() {
-        binding.ivX.setOnClickListener {
-            launcher.launch("image/*")
-        }
     }
 
     private fun setTouchEvent() {
@@ -66,6 +63,9 @@ class UploadHappicActivity : AppCompatActivity() {
         }
     }
 
+    private fun configureImageView() {
+        binding.ivPhoto.setImageURI(arg.uri)
+    }
     private fun configureFields() {
         listOf("#where" to "장소를 입력해주세요", "#who" to "함께한 사람을 입력해주세요", "#what" to "무엇을 했는지 입력해주세요").forEach {
             ItemUploadFieldBinding.inflate(layoutInflater).apply {
