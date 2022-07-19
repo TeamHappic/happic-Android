@@ -7,7 +7,10 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityCharacterNameBinding
@@ -93,6 +96,13 @@ class CharacterNameActivity : AppCompatActivity() {
                 val colorSpan = ForegroundColorSpan(getColor(R.color.orange))
                 builder.setSpan(colorSpan,4,4 + characterName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                 binding.textView.text = builder
+
+                with(binding){
+                    ibBack.isInvisible = true
+                    tvDone.isInvisible = true
+                    etName.isInvisible = true
+                    progressCir.isVisible = true
+                }
             }
         }
     }
