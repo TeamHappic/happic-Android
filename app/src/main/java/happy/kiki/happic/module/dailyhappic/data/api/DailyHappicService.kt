@@ -64,12 +64,12 @@ interface DailyHappicService {
     suspend fun delete(@Path("id") id: Int): NoDataApiResponse
 
     @GET("daily/title")
-    suspend fun tags(@Query("year") year: Int, @Query("month") month: Int): ApiResponse<DailyHappicTagModel>
+    suspend fun tags(@Query("year") year: Int, @Query("month") month: Int): ApiResponse<List<DailyHappicTagModel>>
 }
 
 val dailyHappic: DailyHappicService = createService()
 
-val dailyHappicKeywordMockService = if (!BuildConfig.DEBUG) dailyHappic else object : DailyHappicService {
+val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : DailyHappicService {
     override suspend fun keywordRankingForUpload(): ApiResponse<KeywordRankingForUploadRes> {
         return successApiResponse(
             KeywordRankingForUploadRes(
@@ -130,7 +130,7 @@ val dailyHappicKeywordMockService = if (!BuildConfig.DEBUG) dailyHappic else obj
         TODO("Not yet implemented")
     }
 
-    override suspend fun tags(year: Int, month: Int): ApiResponse<DailyHappicTagModel> {
+    override suspend fun tags(year: Int, month: Int): ApiResponse<List<DailyHappicTagModel>> {
         TODO("Not yet implemented")
     }
 }
