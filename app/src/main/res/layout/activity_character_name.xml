@@ -42,7 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="132dp"
+        android:bufferType="spannable"
         android:text="길잡이의 이름을 지어주세요"
+        android:textAlignment="center"
         android:textAppearance="@style/Bold.16"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,12 +52,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <happy.kiki.happic.module.core.ui.widget.BorderView
-        android:id="@+id/bv_moon"
+        android:id="@+id/bv_character"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:elevation="4dp"
-        android:transitionName="moon"
         app:card_shadow_color="@color/bg_black1"
         app:layout_constraintDimensionRatio="152:172"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,14 +66,14 @@
         app:layout_constraintWidth_max="152dp">
 
         <ImageView
-            android:id="@+id/iv_rectangle_moon"
+            android:id="@+id/iv_rectangle_character"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_rectangle_moon_name" />
 
         <ImageView
-            android:id="@+id/iv_moon"
+            android:id="@+id/iv_character"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/character_moon"
@@ -80,7 +81,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.532" />
+            app:layout_constraintHeight_percent="0.720" />
     </happy.kiki.happic.module.core.ui.widget.BorderView>
 
     <EditText
@@ -97,7 +98,18 @@
         android:textColorHint="@color/gray6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bv_moon" />
+        app:layout_constraintTop_toBottomOf="@id/bv_character" />
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_cir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:indicatorColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bv_character" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
