@@ -27,7 +27,6 @@ class DailyHappicViewModel : ViewModel() {
             dailyHappicPhotosApi.call(Pair(year, month))
         }
         collectFlow(selectedYearMonth) { (year, month) ->
-            debugE(year, month)
             dailyHappicTagsApi.call(Pair(year, month))
         }
     }
