@@ -16,10 +16,7 @@ import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
-import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.core.util.yearMonthText
-import happy.kiki.happic.module.dailyhappic.data.YearMonthModel
-import kotlinx.coroutines.flow.MutableStateFlow
 
 class DailyHappicTagFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicTagBinding>()
@@ -33,9 +30,6 @@ class DailyHappicTagFragment : Fragment() {
         setTags()
     }
 
-    private val currentYear = MutableStateFlow(now.year)
-    private val selectedYearMonth = MutableStateFlow(YearMonthModel(now.year, now.monthValue))
-
     private fun configureMonthSelect() {
 
         binding.monthSelect.apply {
@@ -44,24 +38,24 @@ class DailyHappicTagFragment : Fragment() {
                     if (isVisible) fadeOut()
                     else fadeIn()
                 }
-                currentYear.value = selectedYearMonth.value.year
+                vm.currentYear.value = vm.selectedYearMonth.value.first
             }
 
             onSelectedCurrentYear = { currentYear ->
-                this@DailyHappicTagFragment.currentYear.value = currentYear
+                vm.currentYear.value = currentYear
             }
 
             onSelectedYearMonth = { year, month ->
-                selectedYearMonth.value = YearMonthModel(year, month)
+                vm.selectedYearMonth.value = year to month
                 fadeOut()
             }
 
-            collectFlowWhenStarted(selectedYearMonth) {
-                setSelectedYearMonth(it.year, it.month)
-                binding.tvMonth.text = yearMonthText(it.year, it.month)
+            collectFlowWhenStarted(vm.selectedYearMonth) {
+                setSelectedYearMonth(it.first, it.second)
+                binding.tvMonth.text = yearMonthText(it.first, it.second)
             }
 
-            collectFlowWhenStarted(currentYear) {
+            collectFlowWhenStarted(vm.currentYear) {
                 setCurrentYear(it)
             }
         }
