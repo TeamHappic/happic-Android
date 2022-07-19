@@ -14,9 +14,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
 import com.google.android.material.textview.MaterialTextView
 import happy.kiki.happic.R
-import happy.kiki.happic.module.core.ui.widget.util.bottomToBottom
+import happy.kiki.happic.module.core.ui.widget.util.applyConstraint
+import happy.kiki.happic.module.core.ui.widget.util.bottomToParent
+import happy.kiki.happic.module.core.ui.widget.util.centerHorizontallyParent
 import happy.kiki.happic.module.core.ui.widget.util.topToBottom
-import happy.kiki.happic.module.core.ui.widget.util.topToTop
+import happy.kiki.happic.module.core.ui.widget.util.topToParent
 import happy.kiki.happic.module.core.util.OnChangeProp
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.getColor
@@ -91,15 +93,12 @@ class MonthlyRecordPlanet @JvmOverloads constructor(context: Context, attrs: Att
         container.addView(monthTextView)
         container.addView(countTextView)
 
-        val pid = ConstraintSet.PARENT_ID
-        ConstraintSet().apply {
-            clone(container)
-            centerHorizontally(monthTextView.id, pid)
-            centerHorizontally(countTextView.id, pid)
-            topToTop(monthTextView)
+        container.applyConstraint {
+            centerHorizontallyParent(monthTextView)
+            centerHorizontallyParent(countTextView)
+            topToParent(monthTextView)
             topToBottom(countTextView, monthTextView)
-            bottomToBottom(countTextView)
-        }.applyTo(container)
+            bottomToParent(countTextView)
+        }
     }
-
 }

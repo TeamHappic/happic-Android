@@ -44,6 +44,11 @@ inline fun <reified T : Fragment> Fragment.replaceFragment(
     if (!skipAddToBackStack) addToBackStack(backStackEntryName)
 }
 
+fun Fragment.popChildBackStack() = childFragmentManager.popBackStack()
+fun Fragment.popChildBackStacksUntilNameFound(name: String) = childFragmentManager.popBackStack(name, 0)
+
+inline fun <reified T : Fragment> Fragment.isChildFragmentExistIn() = childFragmentManager.fragments.any { it is T }
+
 class FragmentArgumentDelegate<Arg : Parcelable> : ReadOnlyProperty<Fragment, Arg> {
     override fun getValue(thisRef: Fragment, property: KProperty<*>) =
         thisRef.arguments?.getParcelable<Arg>(_FRAGMENT_ARGUMENT_KEY_)

@@ -45,7 +45,6 @@ class SignInActivity : AppCompatActivity() {
             underline {
                 append("이용약관", object : ClickableSpan() {
                     override fun onClick(p0: View) {
-                        debugE("123")
                     }
 
                     override fun updateDrawState(ds: TextPaint) {
