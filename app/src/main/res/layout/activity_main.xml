@@ -13,6 +13,11 @@
         app:layout_constraintBottom_toTopOf="@id/bottom_tab"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <happy.kiki.happic.module.core.ui.widget.TimeWheelPicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <happy.kiki.happic.module.core.ui.widget.HappicBottomTab
         android:id="@+id/bottom_tab"
         android:layout_width="match_parent"

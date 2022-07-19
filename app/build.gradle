@@ -102,4 +102,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.7.10"
 
     implementation "com.thedeanda:lorem:2.1"
+    implementation "cn.aigestudio.wheelpicker:WheelPicker:1.1.3"
 }
