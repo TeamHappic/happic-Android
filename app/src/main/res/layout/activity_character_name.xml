@@ -81,7 +81,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.532" />
+            app:layout_constraintHeight_percent="0.720" />
     </happy.kiki.happic.module.core.ui.widget.BorderView>
 
     <EditText

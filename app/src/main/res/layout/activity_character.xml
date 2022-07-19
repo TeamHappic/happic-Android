@@ -66,7 +66,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.815" />
+            app:layout_constraintHeight_percent="0.62" />
     </happy.kiki.happic.module.core.ui.widget.BorderView>
 
     <happy.kiki.happic.module.core.ui.widget.BorderView
@@ -101,7 +101,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.815" />
+            app:layout_constraintHeight_percent="0.62" />
     </happy.kiki.happic.module.core.ui.widget.BorderView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
