@@ -5,6 +5,7 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.buildSpannedString
 import androidx.core.text.underline
@@ -14,11 +15,15 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivitySignInBinding
 import happy.kiki.happic.module.auth.provider.AuthProvider
 import happy.kiki.happic.module.core.util.debugE
+import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
+import happy.kiki.happic.module.core.util.extension.replaceActivity
 import happy.kiki.happic.module.core.util.extension.showToast
 import happy.kiki.happic.module.core.util.extension.windowHandler
+import happy.kiki.happic.module.main.ui.activity.MainActivity
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
+    private val viewModel by viewModels<SignInViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +45,6 @@ class SignInActivity : AppCompatActivity() {
             underline {
                 append("이용약관", object : ClickableSpan() {
                     override fun onClick(p0: View) {
-                        debugE("123")
                     }
 
                     override fun updateDrawState(ds: TextPaint) {
@@ -66,12 +70,24 @@ class SignInActivity : AppCompatActivity() {
                 kotlin.runCatching {
                     AuthProvider.signOut()
                     AuthProvider.signInWithKakao(this@SignInActivity)
-                }.onSuccess { token -> // TODO sign in
+                }.onSuccess { token ->
+                    debugE(token)
+                    viewModel.signInApi.call(token)
                 }.onFailure {
                     val isCancelled = it is ClientError && it.msg.contains("cancel")
                     if (!isCancelled) showToast("카카오 로그인 실패")
                 }
             }
+        }
+
+        collectFlowWhenStarted(viewModel.signInApi.isLoading) { isLoading ->
+            binding.kakaoButton.isLoading = isLoading
+        }
+        collectFlowWhenStarted(viewModel.onSignInSuccess.flow) {
+            replaceActivity<MainActivity>()
+        }
+        collectFlowWhenStarted(viewModel.onSignInFail.flow) {
+            replaceActivity<MainActivity>() // fixme
         }
     }
 }

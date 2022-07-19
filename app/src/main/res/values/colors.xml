@@ -18,4 +18,5 @@
     <color name="orange">#F9956A</color>
     <color name="ripple">#33000000</color>
     <color name="kakao_yellow">#FDE500</color>
+    <color name="transparent">#0fff</color>
 </resources>

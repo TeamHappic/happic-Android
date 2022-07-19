@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import happy.kiki.happic.BuildConfig
 import happy.kiki.happic.databinding.FragmentSettingBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.pushActivity
@@ -18,6 +19,7 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         configureNavigations()
+        setAppVersionText()
     }
 
     private fun configureNavigations() {
@@ -36,5 +38,9 @@ class SettingFragment : Fragment() {
         binding.developers.root.setOnClickListener {
 
         }
+    }
+
+    private fun setAppVersionText() = binding.version.apply {
+        text = "${BuildConfig.VERSION_NAME}(${BuildConfig.VERSION_CODE})"
     }
 }
