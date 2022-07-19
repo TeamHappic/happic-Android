@@ -75,9 +75,9 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
         return successApiResponse(
             KeywordRankingForUploadRes(
                 "2022-01-20 20:24",
-                listOf("연남", "연남", "연남", "연남", "연남", "연남", "연남", "연남", "연남"),
-                listOf("송경", "송경", "송경", "송경", "송경", "송경", "송경", "송경"),
-                listOf("귀여워", "귀여워", "귀여워", "귀여워", "귀여워", "귀여워", "귀여워", "귀여워", "귀여워")
+                listOf(Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5)),
+                listOf(Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5)),
+                listOf(Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),)
             )
         )
     }
