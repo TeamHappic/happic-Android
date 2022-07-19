@@ -22,7 +22,6 @@ import happy.kiki.happic.module.core.util.extension.showToast
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.parcelize.Parcelize
 
-
 class CharacterNameActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCharacterNameBinding
 
@@ -61,16 +60,16 @@ class CharacterNameActivity : AppCompatActivity() {
             }
         }
 
-        binding.etName.addTextChangedListener(object : TextWatcher{
+        binding.etName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (binding.etName.text.toString().isBlank()){
-                    with(binding){
+                if (binding.etName.text.toString().isBlank()) {
+                    with(binding) {
                         tvDone.setTextColor(getColor(R.color.gray7))
                     }
-                }else{
+                } else {
                     binding.tvDone.setTextColor(getColor(R.color.orange))
                 }
             }
@@ -88,16 +87,16 @@ class CharacterNameActivity : AppCompatActivity() {
 
         binding.tvDone.setOnClickListener {
             val characterName = binding.etName.text.toString()
-            if(characterName.isNotBlank()){
+            if (characterName.isNotBlank()) {
                 binding.textView.text = "당신의 $characterName 이(가) 오고 있어요\n잠시 기다려주세요"
 
                 val textView = binding.textView.text.toString()
                 val builder = SpannableStringBuilder(textView)
                 val colorSpan = ForegroundColorSpan(getColor(R.color.orange))
-                builder.setSpan(colorSpan,4,4 + characterName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                builder.setSpan(colorSpan, 4, 4 + characterName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                 binding.textView.text = builder
 
-                with(binding){
+                with(binding) {
                     ibBack.isInvisible = true
                     tvDone.isInvisible = true
                     etName.isInvisible = true

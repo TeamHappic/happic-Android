@@ -36,13 +36,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressbar_line"
-        style="@style/Widget.MaterialComponents.LinearProgressIndicator"
         android:layout_width="280dp"
         android:layout_height="4dp"
         android:layout_marginTop="8dp"
-        android:progressDrawable="@drawable/shape_progressbar"
+        app:trackColor="@color/gray5"
+        app:trackCornerRadius="10dp"
+        app:indicatorColor="@color/dark_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_mypage" />

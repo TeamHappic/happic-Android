@@ -15,6 +15,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         showButton(false)
+
+        binding.progressbarLine.setProgressCompat(16,true)
     }
 
     fun showButton(isShow:Boolean){
