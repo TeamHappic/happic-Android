@@ -10,7 +10,7 @@ import happy.kiki.happic.BuildConfig
 import happy.kiki.happic.databinding.FragmentSettingBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.pushActivity
-import happy.kiki.happic.module.home.ui.activity.CharacterSettingActivity
+import happy.kiki.happic.module.setting.ui.activity.CharacterSettingActivity
 
 class SettingFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentSettingBinding>()
