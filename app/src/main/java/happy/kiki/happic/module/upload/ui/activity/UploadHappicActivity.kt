@@ -58,7 +58,7 @@ class UploadHappicActivity : AppCompatActivity() {
             setOnFocusChangeListener { _, _ ->
                 viewModel.isUploadFieldFocused.value = false
                 val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(this.windowToken, 0);
+                imm.hideSoftInputFromWindow(this.windowToken, 0)
             }
         }
         collectFlowWhenStarted(viewModel.isUploadFieldFocused) {
@@ -67,46 +67,11 @@ class UploadHappicActivity : AppCompatActivity() {
     }
 
     private fun configureFields() {
-        listOf(
-            "#when" to "시간을 입력해주세요", "#where" to "장소를 입력해주세요", "#who" to "함께한 사람을 입력해주세요", "#what" to "무엇을 했는지 입력해주세요"
-        ).forEach {
+        listOf("#where" to "장소를 입력해주세요", "#who" to "함께한 사람을 입력해주세요", "#what" to "무엇을 했는지 입력해주세요").forEach {
             ItemUploadFieldBinding.inflate(layoutInflater).apply {
                 root.id = ViewCompat.generateViewId()
                 title = it.first
                 hint = it.second
-
-                // 서버 통신시 해당 코드 변경
-                val tagList = listOf("다섯글자임", "학교", "단골카페", "이마트", "일이삼사오육칠팔구십일이삼사오")
-
-                if (tagList.isNotEmpty()) {
-                    var idx = 0
-                    var linearLayout: LinearLayout? = null
-
-                    tagList.forEach { tag ->
-                        if (idx++ % 3 == 0) {
-                            linearLayout?.let { llTags.addView(it) }
-                            linearLayout = createLinearLayout()
-                        }
-
-                        createChip(tag).apply {
-                            setOnClickListener {
-                                etContent.setText(tag)
-                            }
-                            linearLayout?.addView(this)
-                        }
-                    }
-
-                    if (idx % 3 != 0) {
-                        repeat(3 - tagList.size % 3) {
-                            createChip("").apply {
-                                visibility = INVISIBLE
-                                linearLayout?.addView(this)
-                            }
-                        }
-                    }
-                    linearLayout?.let { llTags.addView(linearLayout) }
-                }
-
 
                 etContent.setOnFocusChangeListener { _, hasFocus ->
                     viewModel.isUploadFieldFocused.value = hasFocus
@@ -117,9 +82,46 @@ class UploadHappicActivity : AppCompatActivity() {
                     containerTags.visibility = if (hasFocus) VISIBLE else GONE
                 }
 
+                collectFlowWhenStarted(viewModel.todayHappicKeywordApi.data) {
+                    it?.run {
+                        llTags.removeAllViews()
+                        val tagList = when (title) {
+                            "#where" -> where
+                            "#who" -> who
+                            else -> what
+                        }
+                        if (tagList.isNotEmpty()) {
+                            var idx = 0
+                            var linearLayout: LinearLayout? = null
+
+                            tagList.forEach { tag ->
+                                if (idx++ % 3 == 0) {
+                                    linearLayout?.let { llTags.addView(linearLayout) }
+                                    linearLayout = createLinearLayout()
+                                }
+
+                                createChip(tag).apply {
+                                    setOnClickListener {
+                                        etContent.setText(tag)
+                                    }
+                                    linearLayout?.addView(this)
+                                }
+                            }
+
+                            if (idx % 3 != 0) {
+                                repeat(3 - tagList.size % 3) {
+                                    createChip("").apply {
+                                        visibility = INVISIBLE
+                                        linearLayout?.addView(this)
+                                    }
+                                }
+                            }
+                            linearLayout?.let { llTags.addView(linearLayout) }
+                        }
+                    }
+                }
                 binding.containerFields.addView(this.root)
             }
-
         }
     }
 

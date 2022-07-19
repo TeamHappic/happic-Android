@@ -5,7 +5,10 @@ import happy.kiki.happic.module.core.data.api.base.ApiResponse
 import happy.kiki.happic.module.core.data.api.base.ApiServiceFactory.createService
 import happy.kiki.happic.module.core.data.api.base.NoDataApiResponse
 import happy.kiki.happic.module.core.data.api.base.successApiResponse
+import happy.kiki.happic.module.todayhappic.data.api.TodayHappicService.IsTodayUploadedRes
 import happy.kiki.happic.module.todayhappic.data.api.TodayHappicService.KeywordRankingForUploadRes
+import happy.kiki.happic.module.todayhappic.data.api.TodayHappicService.TodayHappicUploadReq
+import happy.kiki.happic.module.todayhappic.data.api.TodayHappicService.TodayHappicUploadRes
 import happy.kiki.happic.module.todayhappic.data.model.TodayHappicPhotoListModel
 import happy.kiki.happic.module.todayhappic.data.model.TodayHappicPhotoModel
 import happy.kiki.happic.module.todayhappic.data.model.TodayHappicTagModel
@@ -75,5 +78,29 @@ val todayHappicKeywordMockService = if (!BuildConfig.DEBUG) todayHappicService e
                 listOf("귀여워", "귀여워", "귀여워", "귀여워", "귀여워", "귀여워", "귀여워", "귀여워", "귀여워")
             )
         )
+    }
+
+    override suspend fun photos(year: Int, month: Int): ApiResponse<List<TodayHappicPhotoListModel>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun photo(id: Int): ApiResponse<TodayHappicPhotoModel> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun isTodayUploaded(): ApiResponse<IsTodayUploadedRes> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun upload(req: TodayHappicUploadReq): ApiResponse<TodayHappicUploadRes> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun delete(id: Int): NoDataApiResponse {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun tags(year: Int, month: Int): ApiResponse<TodayHappicTagModel> {
+        TODO("Not yet implemented")
     }
 }
