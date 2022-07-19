@@ -5,14 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.Tab
 import com.google.android.material.tabs.TabLayoutMediator
 import happy.kiki.happic.databinding.FragmentDailyHappicBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
-import happy.kiki.happic.module.core.util.extension.addFragment
-import happy.kiki.happic.module.core.util.extension.isFragmentExist
 
 class DailyHappicFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicBinding>()
@@ -35,7 +30,9 @@ class DailyHappicFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        val adapter = DailyHappicTabViewPagerAdapter(requireActivity().supportFragmentManager.fragmentFactory, this@DailyHappicFragment)
+        val adapter = DailyHappicTabViewPagerAdapter(
+            requireActivity().supportFragmentManager.fragmentFactory, this@DailyHappicFragment
+        )
         binding.vpDailyHappic.adapter = adapter
     }
 }
