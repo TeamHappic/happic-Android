@@ -27,13 +27,7 @@ import kotlin.properties.Delegates
 
 class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
     LinearLayout(context, attrs) {
-
-    init {
-        orientation = HORIZONTAL
-        setBackgroundColor(context.getColor(R.color.bg_black2))
-        addViews()
-        applySelectedState()
-    }
+    private val buttons = mutableListOf<BorderView>()
 
     var onTabSelectedListener: ((Int) -> Unit)? = null
     var selectedTabIndex by Delegates.observable(0) { _, prev, cur ->
@@ -42,6 +36,15 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
             applySelectedState()
         }
     }
+
+
+    init {
+        orientation = HORIZONTAL
+        setBackgroundColor(context.getColor(R.color.bg_black2))
+        addViews()
+        applySelectedState()
+    }
+
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
@@ -80,8 +83,8 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     private fun addViews() {
-        addView(createMenuButton(R.drawable.hp_ic_home, "홈", 0))
-        addView(createMenuButton(R.drawable.hp_ic_dh, "하루해픽", 1))
+        addView(createMenuButton(R.drawable.hp_ic_home_off, "홈", 0).also { buttons.add(it) })
+        addView(createMenuButton(R.drawable.hp_ic_dh_off, "하루해픽", 1).also { buttons.add(it) })
         addView(FrameLayout(context).apply {
             val fab = FloatingActionButton(context).apply {
                 size = FloatingActionButton.SIZE_MINI
@@ -94,11 +97,14 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
                 gravity = Gravity.CENTER
             })
         }, LayoutParams(0, MATCH_PARENT, 1f))
-        addView(createMenuButton(R.drawable.hp_ic_hr, "해픽레포트", 2))
-        addView(createMenuButton(R.drawable.hp_ic_set, "설정", 3))
+        addView(createMenuButton(R.drawable.hp_ic_hr_off, "해픽레포트", 2).also { buttons.add(it) })
+        addView(createMenuButton(R.drawable.hp_ic_set_off, "설정", 3).also { buttons.add(it) })
     }
 
     private fun applySelectedState() {
-
+        (buttons[0].getChildAt(0) as? ImageView)?.setImageResource(if (selectedTabIndex == 0) R.drawable.hp_ic_home_on else R.drawable.hp_ic_home_off)
+        (buttons[1].getChildAt(0) as? ImageView)?.setImageResource(if (selectedTabIndex == 1) R.drawable.hp_ic_dh_on else R.drawable.hp_ic_dh_off)
+        (buttons[2].getChildAt(0) as? ImageView)?.setImageResource(if (selectedTabIndex == 2) R.drawable.hp_ic_hr_on else R.drawable.hp_ic_hr_off)
+        (buttons[3].getChildAt(0) as? ImageView)?.setImageResource(if (selectedTabIndex == 3) R.drawable.hp_ic_set_on else R.drawable.hp_ic_set_off)
     }
 }

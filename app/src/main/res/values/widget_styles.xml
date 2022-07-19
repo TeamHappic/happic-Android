@@ -34,4 +34,13 @@
         <item name="tabIndicatorColor">@color/orange</item>
         <item name="tabTextAppearance">@style/B1_P_B14</item>
     </style>
+
+    <style name="TabButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="backgroundTint">@color/bg_tab_button</item>
+        <item name="android:textAppearance">@style/C2_P_M12</item>
+        <item name="android:textColor">@color/text_color_tab_button</item>
+        <item name="cornerRadius">0dp</item>
+    </style>
 </resources>
