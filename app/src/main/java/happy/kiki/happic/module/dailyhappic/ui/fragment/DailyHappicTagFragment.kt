@@ -17,6 +17,7 @@ import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
 import happy.kiki.happic.module.core.util.yearMonthText
+import happy.kiki.happic.module.report.util.koFormat
 import java.time.LocalDate
 
 class DailyHappicTagFragment : Fragment() {
@@ -70,6 +71,8 @@ class DailyHappicTagFragment : Fragment() {
                     ItemDailyHappicTagBinding.inflate(layoutInflater).apply {
                         root.id = ViewCompat.generateViewId()
                         tag = it
+                        day = getDay(it.date).toString()
+                        dayOfWeek = getDayOfWeek(it.date)
                     }
                 }.forEach { itemBinding ->
                     binding.llTags.addView(
@@ -81,4 +84,21 @@ class DailyHappicTagFragment : Fragment() {
         }
     }
 
+    private fun getDay(date: String): Int? {
+        date.split("-", " ").apply {
+            if (size > 3) {
+                return this[2].toInt()
+            }
+            return null
+        }
+    }
+
+    private fun getDayOfWeek(date: String): String? {
+        date.split("-", " ").apply {
+            if (size > 3) {
+                return LocalDate.of(this[0].toInt(), this[1].toInt(), this[2].toInt()).dayOfWeek.koFormat
+            }
+            return null
+        }
+    }
 }

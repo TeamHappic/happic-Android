@@ -10,6 +10,10 @@
             type="String" />
 
         <variable
+            name="day"
+            type="String" />
+
+        <variable
             name="tag"
             type="happy.kiki.happic.module.dailyhappic.data.model.DailyHappicTagModel" />
     </data>
@@ -27,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="28dp"
-            android:text="@{tag.date}"
+            android:text="@{day}"
             android:textAppearance="@style/ExtraBold.16"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
