@@ -2,6 +2,7 @@ package happy.kiki.happic.module.dailyhappic.ui.fragment
 
 import androidx.lifecycle.ViewModel
 import happy.kiki.happic.module.core.data.api.base.useApi
+import happy.kiki.happic.module.core.util.extension.collectFlow
 import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicKeywordMockService
 import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicPhotoListModel
@@ -16,6 +17,8 @@ class DailyHappicViewModel : ViewModel() {
     val selectedYearMonth = MutableStateFlow(now.year to now.monthValue)
 
     init {
-        dailyHappicPhotosApi.call()
+        collectFlow(selectedYearMonth) { (year, month) ->
+            dailyHappicPhotosApi.call(Pair(year, month))
+        }
     }
 }
