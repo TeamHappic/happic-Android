@@ -57,20 +57,8 @@
             android:id="@+id/cl_cards"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="100dp">
+            android:paddingBottom="100dp" />
 
-            <androidx.constraintlayout.helper.widget.Flow
-                android:id="@+id/flow_cards"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:flow_horizontalGap="4dp"
-                app:flow_horizontalStyle="spread_inside"
-                app:flow_maxElementsWrap="4"
-                app:flow_verticalGap="18dp"
-                app:flow_verticalStyle="packed"
-                app:flow_wrapMode="aligned" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <happy.kiki.happic.module.core.ui.widget.MonthSelectView

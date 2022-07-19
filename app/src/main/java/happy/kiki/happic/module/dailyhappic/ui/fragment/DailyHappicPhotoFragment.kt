@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
@@ -67,6 +70,17 @@ class DailyHappicPhotoFragment : Fragment() {
     private fun setCards() {
         collectFlowWhenStarted(vm.dailyHappicPhotosApi.data) {
             it?.run {
+                binding.clCards.removeAllViews()
+                val flowCards = Flow(context).apply {
+                    id = ViewCompat.generateViewId()
+                    layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+                    setHorizontalGap(px(4))
+                    setVerticalGap(px(18))
+                    setWrapMode(Flow.WRAP_ALIGNED)
+                    setMaxElementsWrap(4)
+                    setHorizontalStyle(Flow.CHAIN_SPREAD_INSIDE)
+                    setVerticalStyle(Flow.CHAIN_PACKED)
+                }
                 map {
                     ItemDailyHappicPhotoBinding.inflate(layoutInflater).apply {
                         root.id = ViewCompat.generateViewId()
@@ -75,8 +89,9 @@ class DailyHappicPhotoFragment : Fragment() {
                 }.forEach { itemBinding ->
                     val width = (requireContext().screenWidth - requireContext().px(55)) / 4
                     binding.clCards.addView(itemBinding.root, ConstraintLayout.LayoutParams(width, WRAP_CONTENT))
-                    binding.flowCards.addView(itemBinding.root)
+                    flowCards.addView(itemBinding.root)
                 }
+                binding.clCards.addView(flowCards)
             }
         }
     }
