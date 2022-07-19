@@ -7,7 +7,7 @@
 
         <variable
             name="photo"
-            type="happy.kiki.happic.module.dailyhappic.data.PhotoModel" />
+            type="happy.kiki.happic.module.dailyhappic.data.model.DailyHappicPhotoListModel" />
     </data>
 
 
@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize8dp"
-            app:url="@{photo.imgUrl}"
+            app:url="@{photo.thumbnail}"
             tools:src="@drawable/bg_splash" />
 
         <TextView

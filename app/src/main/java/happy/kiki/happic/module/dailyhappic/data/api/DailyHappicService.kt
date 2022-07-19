@@ -1,11 +1,11 @@
-package happy.kiki.happic.module.todayhappic.data.api
+package happy.kiki.happic.module.dailyhappic.data.api
 
 import happy.kiki.happic.module.core.data.api.base.ApiResponse
 import happy.kiki.happic.module.core.data.api.base.ApiServiceFactory.createService
 import happy.kiki.happic.module.core.data.api.base.NoDataApiResponse
-import happy.kiki.happic.module.todayhappic.data.model.TodayHappicPhotoListModel
-import happy.kiki.happic.module.todayhappic.data.model.TodayHappicPhotoModel
-import happy.kiki.happic.module.todayhappic.data.model.TodayHappicTagModel
+import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicPhotoListModel
+import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicPhotoModel
+import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicTagModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import retrofit2.http.Body
@@ -15,14 +15,14 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface TodayHappicService {
+interface DailyHappicService {
     @GET("daily")
     suspend fun photos(
         @Query("year") year: Int, @Query("month") month: Int
-    ): ApiResponse<List<TodayHappicPhotoListModel>>
+    ): ApiResponse<List<DailyHappicPhotoListModel>>
 
     @GET("daily/{id}")
-    suspend fun photo(@Path("id") id: Int): ApiResponse<TodayHappicPhotoModel>
+    suspend fun photo(@Path("id") id: Int): ApiResponse<DailyHappicPhotoModel>
 
     @Serializable
     data class IsTodayUploadedRes(
@@ -57,7 +57,7 @@ interface TodayHappicService {
     suspend fun delete(@Path("id") id: Int): NoDataApiResponse
 
     @GET("daily/title")
-    suspend fun tags(@Query("year") year: Int, @Query("month") month: Int): ApiResponse<TodayHappicTagModel>
+    suspend fun tags(@Query("year") year: Int, @Query("month") month: Int): ApiResponse<DailyHappicTagModel>
 }
 
-val todayHappicService: TodayHappicService = createService()
+val todayHappicService: DailyHappicService = createService()

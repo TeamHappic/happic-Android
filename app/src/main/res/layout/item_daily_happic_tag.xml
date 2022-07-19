@@ -7,7 +7,7 @@
 
         <variable
             name="tag"
-            type="happy.kiki.happic.module.dailyhappic.data.TagModel" />
+            type="happy.kiki.happic.module.dailyhappic.data.model.DailyHappicTagModel" />
     </data>
 
 
@@ -37,11 +37,11 @@
             android:layout_marginStart="4dp"
             android:text="@{tag.dayOfWeek}"
             android:textAppearance="@style/Medium.16"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/tv_date"
             app:layout_constraintStart_toEndOf="@id/tv_date"
             app:layout_constraintTop_toTopOf="@id/tv_date"
-            tools:text="토"
-            android:textColor="@color/white"/>
+            tools:text="토" />
 
         <LinearLayout
             android:id="@+id/ll_tags"
@@ -66,7 +66,7 @@
                     android:id="@+id/tv_when"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{tag.time}"
+                    android:text="@{tag.when1}"
                     android:textAppearance="@style/Medium.14"
                     android:textColor="@color/gray2"
                     app:layout_constraintEnd_toEndOf="parent"

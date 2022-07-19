@@ -17,8 +17,8 @@ import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
 import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.core.util.yearMonthText
-import happy.kiki.happic.module.dailyhappic.data.TagModel
 import happy.kiki.happic.module.dailyhappic.data.YearMonthModel
+import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicTagModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class DailyHappicTagFragment : Fragment() {
@@ -70,7 +70,7 @@ class DailyHappicTagFragment : Fragment() {
         (0..30).map {
             ItemDailyHappicTagBinding.inflate(layoutInflater).apply {
                 root.id = ViewCompat.generateViewId()
-                tag = TagModel("id", "21", "일", "오후7시", "홍대", "안드랑", "코딩하기이")
+                tag = DailyHappicTagModel("id", "21", "오후7시", "홍대", "안드랑", "코딩하기이")
             }
         }.forEach { itemBinding ->
             binding.llTags.addView(

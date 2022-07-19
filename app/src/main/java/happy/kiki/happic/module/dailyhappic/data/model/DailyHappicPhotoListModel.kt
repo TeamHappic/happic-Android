@@ -1,8 +1,8 @@
-package happy.kiki.happic.module.todayhappic.data.model
+package happy.kiki.happic.module.dailyhappic.data.model
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TodayHappicPhotoListModel(
+data class DailyHappicPhotoListModel(
     val id: String, val day: String, val thumbnail: String
 )
