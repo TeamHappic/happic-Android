@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import happy.kiki.happic.databinding.FragmentDailyHappicTagBinding
 import happy.kiki.happic.databinding.ItemDailyHappicTagBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
@@ -18,11 +19,11 @@ import happy.kiki.happic.module.core.util.extension.fadeOut
 import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.dailyhappic.data.YearMonthModel
-import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicTagModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class DailyHappicTagFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicTagBinding>()
+    private val vm by viewModels<DailyHappicViewModel>({ requireParentFragment() })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         FragmentDailyHappicTagBinding.inflate(inflater, container, false).let { binding = it; it.root }
@@ -40,8 +41,8 @@ class DailyHappicTagFragment : Fragment() {
         binding.monthSelect.apply {
             binding.borderMonth.setOnClickListener {
                 with(this) {
-                    if (this.isVisible) this.fadeOut()
-                    else this.fadeIn()
+                    if (isVisible) fadeOut()
+                    else fadeIn()
                 }
                 currentYear.value = selectedYearMonth.value.year
             }
@@ -52,7 +53,7 @@ class DailyHappicTagFragment : Fragment() {
 
             onSelectedYearMonth = { year, month ->
                 selectedYearMonth.value = YearMonthModel(year, month)
-                this.fadeOut()
+                fadeOut()
             }
 
             collectFlowWhenStarted(selectedYearMonth) {
@@ -67,15 +68,21 @@ class DailyHappicTagFragment : Fragment() {
     }
 
     private fun setTags() {
-        (0..30).map {
-            ItemDailyHappicTagBinding.inflate(layoutInflater).apply {
-                root.id = ViewCompat.generateViewId()
-                tag = DailyHappicTagModel("id", "21", "오후7시", "홍대", "안드랑", "코딩하기이")
+        collectFlowWhenStarted(vm.dailyHappicTagsApi.data) {
+            it?.run {
+                binding.llTags.removeAllViews()
+                map {
+                    ItemDailyHappicTagBinding.inflate(layoutInflater).apply {
+                        root.id = ViewCompat.generateViewId()
+                        tag = it
+                    }
+                }.forEach { itemBinding ->
+                    binding.llTags.addView(
+                        itemBinding.root,
+                        ConstraintLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                    )
+                }
             }
-        }.forEach { itemBinding ->
-            binding.llTags.addView(
-                itemBinding.root, ConstraintLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-            )
         }
     }
 
