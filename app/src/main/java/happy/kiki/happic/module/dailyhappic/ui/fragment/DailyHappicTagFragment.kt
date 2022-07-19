@@ -1,44 +1,35 @@
+package happy.kiki.happic.module.dailyhappic.ui.fragment
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.ViewGroup.LayoutParams
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import happy.kiki.happic.databinding.FragmentDailyHappicPhotoBinding
-import happy.kiki.happic.databinding.ItemDailyHappicPhotoBinding
+import happy.kiki.happic.databinding.FragmentDailyHappicTagBinding
+import happy.kiki.happic.databinding.ItemDailyHappicTagBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
-import happy.kiki.happic.module.core.util.extension.px
-import happy.kiki.happic.module.core.util.extension.screenWidth
 import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.core.util.yearMonthText
-import happy.kiki.happic.module.home.data.YearMonthModel
+import happy.kiki.happic.module.dailyhappic.data.YearMonthModel
+import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicTagModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
-class DailyHappicPhotoFragment : Fragment() {
-    private var binding by AutoCleardValue<FragmentDailyHappicPhotoBinding>()
+class DailyHappicTagFragment : Fragment() {
+    private var binding by AutoCleardValue<FragmentDailyHappicTagBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-        FragmentDailyHappicPhotoBinding.inflate(inflater, container, false).let { binding = it; it.root }
+        FragmentDailyHappicTagBinding.inflate(inflater, container, false).let { binding = it; it.root }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initData()
-        setCards()
         configureMonthSelect()
-    }
-
-    private fun initData() {
-        with(binding) {
-            val now = LocalDate.now()
-            tvMonth.text = now.format(DateTimeFormatter.ofPattern("yyyy.MM")).toString()
-        }
+        setTags()
     }
 
     private val currentYear = MutableStateFlow(now.year)
@@ -52,14 +43,16 @@ class DailyHappicPhotoFragment : Fragment() {
                     if (this.isVisible) this.fadeOut()
                     else this.fadeIn()
                 }
+                currentYear.value = selectedYearMonth.value.year
             }
 
             onSelectedCurrentYear = { currentYear ->
-                this@DailyHappicPhotoFragment.currentYear.value = currentYear
+                this@DailyHappicTagFragment.currentYear.value = currentYear
             }
 
             onSelectedYearMonth = { year, month ->
                 selectedYearMonth.value = YearMonthModel(year, month)
+                this.fadeOut()
             }
 
             collectFlowWhenStarted(selectedYearMonth) {
@@ -73,16 +66,17 @@ class DailyHappicPhotoFragment : Fragment() {
         }
     }
 
-    private fun setCards() {
+    private fun setTags() {
         (0..30).map {
-            ItemDailyHappicPhotoBinding.inflate(layoutInflater).apply {
+            ItemDailyHappicTagBinding.inflate(layoutInflater).apply {
                 root.id = ViewCompat.generateViewId()
+                tag = DailyHappicTagModel("id", "21", "오후7시", "홍대", "안드랑", "코딩하기이")
             }
         }.forEach { itemBinding ->
-            val width = (requireContext().screenWidth - requireContext().px(55)) / 4
-            binding.clCards.addView(itemBinding.root, ConstraintLayout.LayoutParams(width, WRAP_CONTENT))
-            binding.flowCards.addView(itemBinding.root)
+            binding.llTags.addView(
+                itemBinding.root, ConstraintLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+            )
         }
     }
-}
 
+}
