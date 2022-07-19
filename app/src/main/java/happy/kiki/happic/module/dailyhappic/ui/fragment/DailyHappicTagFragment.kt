@@ -9,20 +9,19 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import happy.kiki.happic.databinding.FragmentDailyHappicTagBinding
 import happy.kiki.happic.databinding.ItemDailyHappicTagBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
-import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.core.util.yearMonthText
-import happy.kiki.happic.module.dailyhappic.data.YearMonthModel
-import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicTagModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import java.time.LocalDate
 
 class DailyHappicTagFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicTagBinding>()
+    private val vm by viewModels<DailyHappicViewModel>({ requireParentFragment() })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         FragmentDailyHappicTagBinding.inflate(inflater, container, false).let { binding = it; it.root }
@@ -32,50 +31,53 @@ class DailyHappicTagFragment : Fragment() {
         setTags()
     }
 
-    private val currentYear = MutableStateFlow(now.year)
-    private val selectedYearMonth = MutableStateFlow(YearMonthModel(now.year, now.monthValue))
-
     private fun configureMonthSelect() {
 
         binding.monthSelect.apply {
             binding.borderMonth.setOnClickListener {
                 with(this) {
-                    if (this.isVisible) this.fadeOut()
-                    else this.fadeIn()
+                    if (isVisible) fadeOut()
+                    else fadeIn()
                 }
-                currentYear.value = selectedYearMonth.value.year
+                vm.currentYear.value = vm.selectedYearMonth.value.first
             }
 
             onSelectedCurrentYear = { currentYear ->
-                this@DailyHappicTagFragment.currentYear.value = currentYear
+                vm.currentYear.value = currentYear
             }
 
             onSelectedYearMonth = { year, month ->
-                selectedYearMonth.value = YearMonthModel(year, month)
-                this.fadeOut()
+                vm.selectedYearMonth.value = year to month
+                fadeOut()
             }
 
-            collectFlowWhenStarted(selectedYearMonth) {
-                setSelectedYearMonth(it.year, it.month)
-                binding.tvMonth.text = yearMonthText(it.year, it.month)
+            collectFlowWhenStarted(vm.selectedYearMonth) {
+                setSelectedYearMonth(it.first, it.second)
+                binding.tvMonth.text = yearMonthText(it.first, it.second)
             }
 
-            collectFlowWhenStarted(currentYear) {
+            collectFlowWhenStarted(vm.currentYear) {
                 setCurrentYear(it)
             }
         }
     }
 
     private fun setTags() {
-        (0..30).map {
-            ItemDailyHappicTagBinding.inflate(layoutInflater).apply {
-                root.id = ViewCompat.generateViewId()
-                tag = DailyHappicTagModel("id", "21", "오후7시", "홍대", "안드랑", "코딩하기이")
+        collectFlowWhenStarted(vm.dailyHappicTagsApi.data) {
+            it?.run {
+                binding.llTags.removeAllViews()
+                map {
+                    ItemDailyHappicTagBinding.inflate(layoutInflater).apply {
+                        root.id = ViewCompat.generateViewId()
+                        tag = it
+                    }
+                }.forEach { itemBinding ->
+                    binding.llTags.addView(
+                        itemBinding.root,
+                        ConstraintLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                    )
+                }
             }
-        }.forEach { itemBinding ->
-            binding.llTags.addView(
-                itemBinding.root, ConstraintLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-            )
         }
     }
 }
