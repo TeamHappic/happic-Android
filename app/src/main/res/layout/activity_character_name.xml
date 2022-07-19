@@ -100,5 +100,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bv_character" />
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_cir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:indicatorColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bv_character" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
