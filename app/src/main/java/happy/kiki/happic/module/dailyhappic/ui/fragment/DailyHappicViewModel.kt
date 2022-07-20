@@ -2,8 +2,10 @@ package happy.kiki.happic.module.dailyhappic.ui.fragment
 
 import androidx.lifecycle.ViewModel
 import happy.kiki.happic.module.core.data.api.base.useApi
+import happy.kiki.happic.module.core.data.api.base.useApiNoParams
 import happy.kiki.happic.module.core.util.extension.collectFlow
 import happy.kiki.happic.module.core.util.now
+import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.IsTodayUploadedRes
 import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicMockService
 import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicPhotoListModel
 import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicTagModel
@@ -22,6 +24,10 @@ class DailyHappicViewModel : ViewModel() {
         dailyHappicMockService.tags(year, month)
     }
 
+    val isTodayUploadedApi = useApiNoParams<IsTodayUploadedRes> {
+        dailyHappicMockService.isTodayUploaded()
+    }
+
     init {
         collectFlow(selectedYearMonth) { (year, month) ->
             photosApi.call(Pair(year, month))
@@ -29,5 +35,6 @@ class DailyHappicViewModel : ViewModel() {
         collectFlow(selectedYearMonth) { (year, month) ->
             tagsApi.call(Pair(year, month))
         }
+        isTodayUploadedApi.call()
     }
 }

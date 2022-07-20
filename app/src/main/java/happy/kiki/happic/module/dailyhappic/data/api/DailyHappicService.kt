@@ -74,8 +74,7 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
     override suspend fun keywordRankingForUpload(): ApiResponse<KeywordRankingForUploadRes> {
         return successApiResponse(
             KeywordRankingForUploadRes(
-                "2022-01-20 20:24",
-                listOf(
+                "2022-01-20 20:24", listOf(
                     Ipsum.text(5),
                     Ipsum.text(5),
                     Ipsum.text(5),
@@ -84,8 +83,7 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
                     Ipsum.text(5),
                     Ipsum.text(5),
                     Ipsum.text(5)
-                ),
-                listOf(
+                ), listOf(
                     Ipsum.text(5),
                     Ipsum.text(5),
                     Ipsum.text(5),
@@ -93,8 +91,7 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
                     Ipsum.text(5),
                     Ipsum.text(5),
                     Ipsum.text(5)
-                ),
-                listOf(
+                ), listOf(
                     Ipsum.text(5),
                     Ipsum.text(5),
                     Ipsum.text(5),
@@ -146,7 +143,7 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
     }
 
     override suspend fun isTodayUploaded(): ApiResponse<IsTodayUploadedRes> {
-        TODO("Not yet implemented")
+        return successApiResponse(IsTodayUploadedRes(true))
     }
 
     override suspend fun upload(req: DailyHappicUploadReq): ApiResponse<DailyHappicUploadRes> {
