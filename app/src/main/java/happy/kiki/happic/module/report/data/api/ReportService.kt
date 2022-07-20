@@ -18,6 +18,7 @@ import happy.kiki.happic.module.report.data.model.ReportHomeModel
 import happy.kiki.happic.module.report.data.model.ReportHomeModel.Rank2
 import happy.kiki.happic.module.report.data.model.ReportHomeModel.Rank3
 import happy.kiki.happic.module.report.data.model.ReportHomeModel.Rank4
+import kotlinx.coroutines.delay
 import retrofit2.http.GET
 import retrofit2.http.Query
 import kotlin.random.Random
@@ -47,6 +48,7 @@ interface ReportService {
 val reportService: ReportService = createService()
 val reportMockService = if (!BuildConfig.DEBUG) reportService else object : ReportService {
     override suspend fun reportHome(year: Int, month: Int, option: ReportCategoryOption): ApiResponse<ReportHomeModel> {
+        delay(2000)
         return successApiResponse(
             ReportHomeModel(
                 listOf(), listOf(
@@ -67,6 +69,7 @@ val reportMockService = if (!BuildConfig.DEBUG) reportService else object : Repo
     }
 
     override suspend fun reportByKeyword(year: Int, month: Int): ApiResponse<List<ReportByKeywordModel>> {
+        delay(2000)
         return successApiResponse(
             listOf(
                 ReportByKeywordModel("햄식달식이", who, 20),
@@ -80,6 +83,7 @@ val reportMockService = if (!BuildConfig.DEBUG) reportService else object : Repo
     override suspend fun reportByCategory(
         year: Int, month: Int, option: ReportCategoryOption
     ): ApiResponse<List<ReportByCategoryModel>> {
+        delay(2000)
         return successApiResponse(
             listOf(
                 ReportByCategoryModel(
@@ -106,6 +110,7 @@ val reportMockService = if (!BuildConfig.DEBUG) reportService else object : Repo
     }
 
     override suspend fun reportByMonthly(year: Int, month: Int): ApiResponse<ReportByMonthlyModel> {
+        delay(2000)
         return successApiResponse(ReportByMonthlyModel(month, Random.nextInt(0, 30), listOf(1, 3, 5)))
     }
 }
