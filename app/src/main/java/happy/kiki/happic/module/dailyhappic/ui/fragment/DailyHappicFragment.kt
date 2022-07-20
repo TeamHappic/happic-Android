@@ -6,16 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import happy.kiki.happic.databinding.FragmentDailyHappicBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.pushActivity
+import happy.kiki.happic.module.core.util.extension.showToast
 import happy.kiki.happic.module.upload.ui.activity.UploadHappicActivity
 import happy.kiki.happic.module.upload.ui.activity.UploadHappicActivity.Argument
 
 class DailyHappicFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicBinding>()
     private lateinit var dailyHappicTabViewPagerAdapter: DailyHappicTabViewPagerAdapter
+    private val vm by viewModels<DailyHappicViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         FragmentDailyHappicBinding.inflate(inflater, container, false).let { binding = it; it.root }
@@ -48,8 +52,13 @@ class DailyHappicFragment : Fragment() {
     }
 
     private fun configureNavigation() {
-        binding.ivAddImage.setOnClickListener {
-            launcher.launch("image/*")
+        collectFlowWhenStarted(vm.isTodayUploadedApi.data) {
+            it?.run {
+                binding.ivAddImage.setOnClickListener {
+                    if (isPosted) showToast("하루해픽은 1일 1회 등록만 가능합니다.")
+                    else launcher.launch("image/*")
+                }
+            }
         }
     }
 }
