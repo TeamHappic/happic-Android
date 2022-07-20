@@ -34,6 +34,7 @@
             android:name=".module.main.ui.activity.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait" >
+<<<<<<< HEAD
         </activity>
         <activity
             android:name=".module.characterselect.ui.activity.CharacterActivity"
@@ -41,6 +42,20 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
+=======
+        </activity>
+        <activity
+            android:name=".module.characterselect.ui.activity.CharacterActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+>>>>>>> create-character
             android:name=".module.characterselect.ui.activity.CharacterSelectActivity"
             android:screenOrientation="portrait" />
         <activity

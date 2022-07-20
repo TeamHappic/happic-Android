@@ -13,4 +13,11 @@ class CharacterSelectViewModel : ViewModel() {
     val characterQueryApi = useApi<RegisterCharacterNameReq> {
         characterService.registerCharacterName(it)
     }
+<<<<<<< HEAD
+=======
+
+    init {
+        characterQueryApi.call(RegisterCharacterNameReq(characterType.value, characterName.value))
+    }
+>>>>>>> create-character
 }
