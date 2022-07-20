@@ -1,5 +1,6 @@
 package happy.kiki.happic.module.dailyhappic.ui.fragment
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,16 +13,19 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentDailyHappicPhotoBinding
 import happy.kiki.happic.databinding.ItemDailyHappicPhotoBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
+import happy.kiki.happic.module.core.util.extension.getColor
 import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
 import happy.kiki.happic.module.core.util.yearMonthText
 import kotlinx.coroutines.flow.drop
+import java.time.LocalDate
 
 class DailyHappicPhotoFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicPhotoBinding>()
@@ -86,6 +90,12 @@ class DailyHappicPhotoFragment : Fragment() {
                     ItemDailyHappicPhotoBinding.inflate(layoutInflater).apply {
                         root.id = ViewCompat.generateViewId()
                         photo = it
+                        if (isToday(vm.selectedYearMonth.value, it.day.toInt())) {
+                            ivPhoto.strokeColor = ColorStateList.valueOf(getColor(R.color.orange))
+                            ivPhoto.strokeWidth = requireContext().px(1).toFloat()
+                            tvDay.setTextColor(getColor(R.color.orange))
+                        }
+
                     }
                 }.forEach { itemBinding ->
                     val width = (requireContext().screenWidth - requireContext().px(55)) / 4
@@ -97,5 +107,7 @@ class DailyHappicPhotoFragment : Fragment() {
         }
     }
 
+    private fun isToday(yearMonth: Pair<Int, Int>, day: Int): Boolean =
+        LocalDate.of(yearMonth.first, yearMonth.second, day) == LocalDate.now()
 }
 
