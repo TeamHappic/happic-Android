@@ -43,4 +43,10 @@
         <item name="android:textColor">@color/text_color_tab_button</item>
         <item name="cornerRadius">0dp</item>
     </style>
+
+    <style name="Indicator" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="android:indeterminate">true</item>
+        <item name="android:clickable">false</item>
+        <item name="indicatorColor">@color/white</item>
+    </style>
 </resources>

@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory.Builder
 import com.google.android.material.imageview.ShapeableImageView
-import com.google.android.material.shape.ShapeAppearanceModel
+import com.google.android.material.shape.CornerFamily
 import happy.kiki.happic.R
 import happy.kiki.happic.module.core.util.extension.getColor
 import happy.kiki.happic.module.core.util.extension.pxFloat
@@ -85,6 +85,7 @@ fun TextView.setTextColorWithResources(@ColorRes id: Int) {
 }
 
 fun ShapeableImageView.setCornerSize(cornerSize: Int) {
-    shapeAppearanceModel = ShapeAppearanceModel().withCornerSize(pxFloat(cornerSize))
+    shapeAppearanceModel =
+        this.shapeAppearanceModel.toBuilder().setAllCorners(CornerFamily.ROUNDED, pxFloat(cornerSize)).build()
 }
 
