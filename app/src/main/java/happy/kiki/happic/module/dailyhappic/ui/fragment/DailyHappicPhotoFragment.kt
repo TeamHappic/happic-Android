@@ -10,7 +10,6 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import happy.kiki.happic.databinding.FragmentDailyHappicPhotoBinding
@@ -22,6 +21,7 @@ import happy.kiki.happic.module.core.util.extension.fadeOut
 import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
 import happy.kiki.happic.module.core.util.yearMonthText
+import kotlinx.coroutines.flow.drop
 
 class DailyHappicPhotoFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicPhotoBinding>()
@@ -31,39 +31,40 @@ class DailyHappicPhotoFragment : Fragment() {
         FragmentDailyHappicPhotoBinding.inflate(inflater, container, false).let { binding = it; it.root }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = vm
         setCards()
         configureMonthSelect()
     }
 
-    private fun configureMonthSelect() {
+    private fun configureMonthSelect() = binding.monthSelect.apply {
+        binding.borderMonth.setOnClickListener {
+            vm.isMonthSelectOpened.value = !vm.isMonthSelectOpened.value
+        }
+        collectFlowWhenStarted(vm.isMonthSelectOpened.drop(1)) { isOpen ->
+            if (isOpen) binding.monthSelect.fadeIn()
+            else binding.monthSelect.fadeOut()
 
-        binding.monthSelect.apply {
-            binding.borderMonth.setOnClickListener {
-                with(this) {
-                    if (this.isVisible) this.fadeOut()
-                    else this.fadeIn()
-                }
-                vm.currentYear.value = vm.selectedYearMonth.value.first
-            }
+            binding.ivArrow.animate().rotation(if (isOpen) 0f else 180f).start()
+        }
+        vm.currentYear.value = vm.selectedYearMonth.value.first
 
+        onSelectedCurrentYear = {
+            vm.currentYear.value = it
+        }
 
-            onSelectedCurrentYear = { currentYear ->
-                vm.currentYear.value = currentYear
-            }
+        onSelectedYearMonth = { year, month ->
+            vm.selectedYearMonth.value = year to month
+            vm.isMonthSelectOpened.value = false
+        }
 
-            onSelectedYearMonth = { year, month ->
-                vm.selectedYearMonth.value = year to month
-                this.fadeOut()
-            }
+        collectFlowWhenStarted(vm.selectedYearMonth) {
+            setSelectedYearMonth(it.first, it.second)
+            binding.tvMonth.text = yearMonthText(it.first, it.second)
+        }
 
-            collectFlowWhenStarted(vm.selectedYearMonth) {
-                setSelectedYearMonth(it.first, it.second)
-                binding.tvMonth.text = yearMonthText(it.first, it.second)
-            }
-
-            collectFlowWhenStarted(vm.currentYear) {
-                setCurrentYear(it)
-            }
+        collectFlowWhenStarted(vm.currentYear) {
+            setCurrentYear(it)
         }
     }
 
@@ -95,6 +96,6 @@ class DailyHappicPhotoFragment : Fragment() {
             }
         }
     }
-}
 
+}
 
