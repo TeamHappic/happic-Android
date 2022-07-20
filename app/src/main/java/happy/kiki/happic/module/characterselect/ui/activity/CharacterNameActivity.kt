@@ -13,10 +13,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityCharacterNameBinding
-<<<<<<< HEAD
 import happy.kiki.happic.module.characterselect.data.api.CharacterService.RegisterCharacterNameReq
-=======
->>>>>>> create-character
 import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType
 import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType.MOON
 import happy.kiki.happic.module.core.util.extension.addLengthFilter
@@ -110,12 +107,8 @@ class CharacterNameActivity : AppCompatActivity() {
                 }
             }
 
-<<<<<<< HEAD
             vm.characterQueryApi.call(RegisterCharacterNameReq(vm.characterType.value, vm.characterName.value))
-=======
->>>>>>> create-character
             pushActivity<MainActivity>()
-
         }
     }
 }
