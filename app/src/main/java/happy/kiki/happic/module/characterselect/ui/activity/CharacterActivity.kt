@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import happy.kiki.happic.databinding.ActivityCharacterBinding
+import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType.CLOUD
+import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType.MOON
 import happy.kiki.happic.module.characterselect.ui.activity.CharacterSelectActivity.Argument
 import happy.kiki.happic.module.core.util.extension.pushActivity
 import android.util.Pair as UtilPair
@@ -26,13 +28,13 @@ class CharacterActivity : AppCompatActivity() {
 
         binding.bvMoon.setOnClickListener {
             pushActivity<CharacterSelectActivity>(
-                Argument("moon"), sharedElementPairs = sharedElementPairs
+                Argument(MOON), sharedElementPairs = sharedElementPairs
             )
         }
 
         binding.bvCloud.setOnClickListener {
             pushActivity<CharacterSelectActivity>(
-                Argument("cloud"), sharedElementPairs = sharedElementPairs
+                Argument(CLOUD), sharedElementPairs = sharedElementPairs
             )
         }
     }
