@@ -8,7 +8,6 @@ import happy.kiki.happic.module.report.data.api.reportMockService
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
 import happy.kiki.happic.module.report.data.model.ReportHomeModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
 
 class ReportViewModel : ViewModel() {
     val currentYear = MutableStateFlow(now.year)
@@ -17,14 +16,12 @@ class ReportViewModel : ViewModel() {
     val isMonthSelectOpened = MutableStateFlow(false)
     val selectedCategoryTab = MutableStateFlow(ReportCategoryOption.who)
 
-    val reportHomeApi = useApi<Triple<Int, Int, ReportCategoryOption>, ReportHomeModel> { (year, month, category) ->
-        reportMockService.reportHome(year, month, category)
+    val reportHomeApi = useApi<Pair<Int, Int>, ReportHomeModel> { (year, month) ->
+        reportMockService.reportHome(year, month)
     }
 
     init {
-        collectFlow(combine(selectedYearMonth, selectedCategoryTab) { (year, month), category ->
-            Triple(year, month, category)
-        }) {
+        collectFlow(selectedYearMonth) {
             reportHomeApi.call(it)
         }
     }

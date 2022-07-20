@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,9 +12,7 @@
             type="happy.kiki.happic.module.report.ui.fragment.ReportViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -111,29 +111,127 @@
                         android:src="@drawable/bg_dark_blue_gradient_top_right" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/moment_data_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="0dp"
                         android:layout_marginVertical="28dp"
-                        android:layout_marginStart="36dp">
+                        android:paddingStart="36dp"
+                        android:paddingEnd="12dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="spread">
+
+
+                        <androidx.constraintlayout.widget.Barrier
+                            android:id="@+id/b"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:barrierDirection="end"
+                            app:barrierMargin="12dp"
+                            app:constraint_referenced_ids="moment_what, moment_when, moment_who, moment_where" />
 
                         <TextView
                             android:id="@+id/moment_when"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="@style/GMarketBold.20"
+                            android:textAppearance="@style/H1_G_B20"
                             android:textColor="@color/gray2"
+                            app:layout_constraintBottom_toTopOf="@+id/moment_where"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="오전9시" />
+
+                        <TextView
+                            android:id="@+id/moment_where"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/H1_G_B20"
+                            android:textColor="@color/gray2"
+                            app:layout_constraintBottom_toTopOf="@+id/moment_who"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/moment_when"
+                            tools:text="울집방구석" />
+
+                        <TextView
+                            android:id="@+id/moment_who"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/H1_G_B20"
+                            android:textColor="@color/gray2"
+                            app:layout_constraintBottom_toTopOf="@+id/moment_what"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/moment_where"
+                            tools:text="햄식이" />
+
+                        <TextView
+                            android:id="@+id/moment_what"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/H1_G_B20"
+                            android:textColor="@color/gray2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/moment_who"
+                            tools:text="귀여워" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:text="에"
+                            android:textAppearance="@style/B2_P_M14"
+                            android:textColor="@color/gray2"
+                            app:layout_constraintBottom_toBottomOf="@id/moment_when"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/b"
+                            app:layout_constraintTop_toTopOf="@id/moment_when" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="에서"
+                            android:textAppearance="@style/B2_P_M14"
+                            android:textColor="@color/gray2"
+                            app:layout_constraintBottom_toBottomOf="@id/moment_where"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/b"
+                            app:layout_constraintTop_toTopOf="@id/moment_where" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="와 함께"
+                            android:textAppearance="@style/B2_P_M14"
+                            android:textColor="@color/gray2"
+                            app:layout_constraintBottom_toBottomOf="@id/moment_who"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/b"
+                            app:layout_constraintTop_toTopOf="@id/moment_who" />
+
+                        <TextView
+                            android:id="@+id/moment_what_suffix"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="하는 순간 가장 행복했어요"
+                            android:textAppearance="@style/B2_P_M14"
+                            android:textColor="@color/gray2"
+                            app:layout_constraintBottom_toBottomOf="@id/moment_what"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/b"
+                            app:layout_constraintTop_toTopOf="@id/moment_what" />
+
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
+                        android:id="@+id/moment_empty"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="수집된 해픽이 부족해요"
                         android:textAppearance="@style/GMarketBold.20"
                         android:textColor="@color/gray2"
-                        android:visibility="@{true}"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -141,6 +239,16 @@
 
                     </TextView>
 
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/moment_indicator"
+                        style="@style/Indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </happy.kiki.happic.module.core.ui.widget.BorderView>
 
@@ -196,12 +304,35 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </happy.kiki.happic.module.core.ui.widget.BorderView>
 
+
                 <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/barrier_keyword_content_bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="keyword_rank_container" />
+                    app:constraint_referenced_ids="keyword_rank_container, empty_keyword" />
+
+                <happy.kiki.happic.module.core.ui.widget.BorderView
+                    android:id="@+id/empty_keyword"
+                    android:layout_width="match_parent"
+                    android:layout_height="268dp"
+                    android:layout_marginTop="4dp"
+                    android:visibility="gone"
+                    app:card_background_color="@color/gray9"
+                    app:card_corner_radius="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/section_keyword">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="수집된 해픽이 부족해요"
+                        android:textAppearance="@style/GMarketBold.20"
+                        android:textColor="@color/gray2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </happy.kiki.happic.module.core.ui.widget.BorderView>
 
                 <LinearLayout
                     android:id="@+id/keyword_rank_container"
@@ -286,7 +417,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="category_rank_container" />
+                    app:constraint_referenced_ids="category_rank_container, empty_category" />
+
+                <happy.kiki.happic.module.core.ui.widget.BorderView
+                    android:id="@+id/empty_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="268dp"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone"
+                    app:card_background_color="@color/gray9"
+                    app:card_corner_radius="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/section_category_tab_layout">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="수집된 해픽이 부족해요"
+                        android:textAppearance="@style/GMarketBold.20"
+                        android:textColor="@color/gray2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </happy.kiki.happic.module.core.ui.widget.BorderView>
 
                 <LinearLayout
                     android:id="@+id/category_rank_container"

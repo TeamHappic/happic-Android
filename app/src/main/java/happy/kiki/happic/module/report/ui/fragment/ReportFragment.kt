@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
-import android.widget.LinearLayout
+import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.tabs.TabLayout.Tab
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentReportBinding
@@ -27,11 +26,15 @@ import happy.kiki.happic.module.core.util.extension.fadeOut
 import happy.kiki.happic.module.core.util.extension.getColor
 import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
-import happy.kiki.happic.module.core.util.loadUrlAsync
-import happy.kiki.happic.module.core.util.setCornerSize
 import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.hour
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.what
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.where
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.who
 import happy.kiki.happic.module.report.ui.fragment.ReportDetailFragment.Argument
+import happy.kiki.happic.module.report.ui.widget.ReportRoundImageView
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
 
 class ReportFragment : Fragment() {
@@ -94,17 +97,47 @@ class ReportFragment : Fragment() {
             }
             append("모멘트는 이거야!")
         }
+
+        binding.momentWhatSuffix.text = buildSpannedString {
+            append("하는 순간 ")
+            bold {
+                append("가장 ")
+                color(getColor(R.color.orange)) {
+                    append("행복")
+                }
+                append("했어요")
+            }
+        }
+
+        collectFlowWhenStarted(vm.reportHomeApi.isLoading) {
+            binding.momentIndicator.isVisible = it
+            binding.momentDataContainer.isVisible = !it
+        }
+
+        collectFlowWhenStarted(vm.reportHomeApi.data) {
+            it?.let { data ->
+                binding.momentDataContainer.isVisible = data.rank1s.size == 4
+                binding.momentEmpty.isVisible = data.rank1s.size != 4
+                if (data.rank1s.size == 4) {
+                    binding.momentWhen.text = data.rank1s[0].content
+                    binding.momentWhere.text = data.rank1s[1].content
+                    binding.momentWho.text = data.rank1s[2].content
+                    binding.momentWhat.text = data.rank1s[3].content
+                }
+            }
+        }
     }
 
     private fun configureKeywordSection() {
         binding.sectionKeyword.setOnClickListener {
             emitEvent(navigationVm.onNavigateDetail, Argument(0))
         }
-        collectFlowWhenStarted(vm.reportHomeApi.data) {
 
-            it?.run {
+        collectFlowWhenStarted(vm.reportHomeApi.data) {
+            it?.let { data ->
                 binding.keywordRankContainer.removeAllViews()
-                rank2s.map {
+                binding.emptyKeyword.isVisible = data.rank2s.isEmpty()
+                data.rank2s.map {
                     ItemReportYourKeywordBinding.inflate(
                         layoutInflater, binding.keywordRankContainer, false
                     ) to it
@@ -136,10 +169,20 @@ class ReportFragment : Fragment() {
         collectFlowWhenStarted(vm.selectedCategoryTab) {
             binding.sectionCategoryTabLayout.getTabAt(it.index)?.select()
         }
-        collectFlowWhenStarted(vm.reportHomeApi.data) {
-            it?.run {
+        collectFlowWhenStarted(vm.reportHomeApi.data.combine(vm.selectedCategoryTab, ::Pair)) { (data, category) ->
+            data?.run {
                 binding.categoryRankContainer.removeAllViews()
-                rank3s.map {
+
+                val contents = when (category) {
+                    hour -> data.rank3s.whenX
+                    where -> data.rank3s.where
+                    who -> data.rank3s.who
+                    what -> data.rank3s.what
+                }
+
+                binding.emptyCategory.isVisible = contents.isEmpty()
+
+                contents.map {
                     ItemReportCategoryBinding.inflate(
                         layoutInflater, binding.categoryRankContainer, false
                     ) to it
@@ -151,16 +194,16 @@ class ReportFragment : Fragment() {
 
                     itemBinding.imageContainer.removeAllViews()
                     itemBinding.imageContainer.isVisible = item.images.isNotEmpty()
-                    item.images.map { image ->
-                        ShapeableImageView(context).apply {
-                            val imageSize = (screenWidth - px(96)) / 3
 
-                            layoutParams = LinearLayout.LayoutParams(imageSize, imageSize, 1f)
-                            loadUrlAsync(image)
-                            setCornerSize(8)
+                    if (item.images.isNotEmpty()) {
+                        val dummyImage: (Int) -> String = { "dummy" }
+
+                        val filledCount = 3 - item.images.size
+                        (item.images.take(3) + List(filledCount, dummyImage)).forEachIndexed { idx, image ->
+                            itemBinding.imageContainer.addView(ReportRoundImageView(requireContext()).apply {
+                                bind(image, (screenWidth - px(96)) / 3, if (idx == 0) 0 else px(12))
+                            })
                         }
-                    }.forEach {
-                        itemBinding.imageContainer.addView(it)
                     }
 
                     binding.categoryRankContainer.addView(itemBinding.root.apply {

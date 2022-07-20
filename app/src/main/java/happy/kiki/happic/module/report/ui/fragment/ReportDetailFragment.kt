@@ -35,6 +35,7 @@ import happy.kiki.happic.module.core.util.setCornerSize
 import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.hour
+import happy.kiki.happic.module.report.ui.widget.ReportRoundImageView
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
 import kotlinx.parcelize.Parcelize
@@ -189,16 +190,16 @@ class ReportDetailFragment : Fragment() {
 
                     itemBinding.imageContainer.removeAllViews()
                     itemBinding.imageContainer.isVisible = item.images.isNotEmpty()
-                    item.images.map { image ->
-                        ShapeableImageView(context).apply {
-                            val imageSize = (screenWidth - px(96)) / 3
-                            layoutParams = LinearLayout.LayoutParams(imageSize, imageSize, 1f)
-                            loadUrlAsync(image)
-                            setCornerSize(8)
+
+                    if (item.images.isNotEmpty()) {
+                        val filledCount = 3 - item.images.size
+                        (item.images.take(3) + List(filledCount) { "dummy" }).forEachIndexed { idx, image ->
+                            itemBinding.imageContainer.addView(ReportRoundImageView(requireContext()).apply {
+                                bind(image, (screenWidth - px(96)) / 3, if (idx == 0) 0 else px(12))
+                            })
                         }
-                    }.forEach {
-                        itemBinding.imageContainer.addView(it)
                     }
+
                     binding.categoryList.addView(itemBinding.root.apply {
                         updateLayoutParams<MarginLayoutParams> {
                             bottomMargin = px(8)
