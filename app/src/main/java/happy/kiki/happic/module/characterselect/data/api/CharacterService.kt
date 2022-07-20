@@ -5,17 +5,17 @@ import happy.kiki.happic.module.core.data.api.base.ApiServiceFactory.createServi
 import happy.kiki.happic.module.core.data.api.base.NoDataApiResponse
 import kotlinx.serialization.Serializable
 import retrofit2.http.Body
-import retrofit2.http.POST
+import retrofit2.http.PATCH
 
 interface CharacterService {
     @Serializable
-    data class RegisterCharacterNameReq(
+    data class UpdateCharacterReq(
         val characterId: CharacterType,
         val characterName: String,
     )
 
-    @POST("character")
-    suspend fun registerCharacterName(@Body req: RegisterCharacterNameReq): NoDataApiResponse
+    @PATCH("setting")
+    suspend fun updateCharacter(@Body req: UpdateCharacterReq): NoDataApiResponse
 }
 
 val characterService: CharacterService = createService()

@@ -79,9 +79,9 @@
             android:src="@drawable/character_moon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.720"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHeight_percent="0.720" />
+            app:layout_constraintTop_toTopOf="parent" />
     </happy.kiki.happic.module.core.ui.widget.BorderView>
 
     <EditText
@@ -91,6 +91,7 @@
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/gray4"
         android:hint="최대 5글자"
+        android:lines="1"
         android:maxLength="5"
         android:textAlignment="center"
         android:textAppearance="@style/Medium.16"
@@ -106,7 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:indeterminate="true"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:indicatorColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
