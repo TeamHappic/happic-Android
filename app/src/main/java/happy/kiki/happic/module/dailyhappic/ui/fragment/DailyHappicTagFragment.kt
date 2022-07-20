@@ -9,12 +9,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentDailyHappicTagBinding
 import happy.kiki.happic.databinding.ItemDailyHappicTagBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
+import happy.kiki.happic.module.core.util.extension.getColor
 import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.report.util.koFormat
 import kotlinx.coroutines.flow.drop
@@ -73,6 +75,12 @@ class DailyHappicTagFragment : Fragment() {
                         tag = it
                         day = getDay(it.date).toString()
                         dayOfWeek = getDayOfWeek(it.date)
+                        if (isToday(it.date)) {
+                            listOf(
+                                tvDate,
+                                tvDayOfWeek
+                            ).forEach { textView -> textView.setTextColor(getColor(R.color.orange)) }
+                        }
                     }
                 }.forEach { itemBinding ->
                     binding.llTags.addView(
@@ -81,6 +89,12 @@ class DailyHappicTagFragment : Fragment() {
                     )
                 }
             }
+        }
+    }
+
+    private fun isToday(date: String): Boolean {
+        date.split("-", " ").apply {
+            return LocalDate.of(this[0].toInt(), this[1].toInt(), this[2].toInt()) == LocalDate.now()
         }
     }
 
