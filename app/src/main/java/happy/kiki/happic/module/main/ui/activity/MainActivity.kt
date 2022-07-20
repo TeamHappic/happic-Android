@@ -1,6 +1,6 @@
 package happy.kiki.happic.module.main.ui.activity
 
-import DailyHappicFragment
+import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicFragment
 import HomeFragment
 import android.os.Bundle
 import androidx.activity.viewModels

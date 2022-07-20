@@ -21,6 +21,7 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentReportDetailBinding
 import happy.kiki.happic.databinding.ItemReportCategoryBinding
 import happy.kiki.happic.databinding.ItemReportYourKeywordBinding
+import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
 import happy.kiki.happic.module.core.ui.widget.util.OnTabSelectedListenerAdapter
 import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.argument
@@ -34,6 +35,7 @@ import happy.kiki.happic.module.core.util.setCornerSize
 import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.hour
+import happy.kiki.happic.module.report.ui.widget.ReportRoundImageView
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
 import kotlinx.parcelize.Parcelize
@@ -108,18 +110,11 @@ class ReportDetailFragment : Fragment() {
         binding.tabMonthly.setOnClickListener { vm.tabIndex.value = 2 }
 
         collectFlowWhenStarted(vm.tabIndex) {
-            binding.keywordContainer.scheduleLayoutAnimation()
-            binding.categoryContainer.scheduleLayoutAnimation()
-            binding.monthlyContainer.scheduleLayoutAnimation()
-
-            binding.keywordContainer.isVisible = it == 0
-            binding.categoryContainer.isVisible = it == 1
-            binding.monthlyContainer.isVisible = it == 2
-
-            binding.sectionText.text = when (it) {
-                0 -> "당신의 행복 키워드 순위"
-                1 -> "카테고리 별 행복 키워드 순위"
-                else -> "월 별 해픽 기록"
+            listOf(
+                binding.containerKeyword, binding.containerCategory, binding.containerMonthly
+            ).forEachIndexed { idx, v ->
+                v.scheduleLayoutAnimation()
+                v.isVisible = idx == it
             }
         }
     }
@@ -144,9 +139,27 @@ class ReportDetailFragment : Fragment() {
     }
 
     private fun bindingDatas() {
+        collectFlowWhenStarted(vm.keywordApi.isLoading) { binding.keywordIndicator.isVisible = it }
+        collectFlowWhenStarted(vm.categoryApi.isLoading) { binding.categoryIndicator.isVisible = it }
+        collectFlowWhenStarted(vm.monthlyApi.isLoading) { binding.monthlyIndicator.isVisible = it }
+
+        collectFlowWhenStarted(vm.keywordApi.state) { state ->
+            when (state) {
+                is Success -> binding.keywordEmpty.root.isVisible = state.data.isEmpty()
+                else -> {}
+            }
+        }
+
+        collectFlowWhenStarted(vm.categoryApi.state) { state ->
+            when (state) {
+                is Success -> binding.categoryEmpty.root.isVisible = state.data.isEmpty()
+                else -> {}
+            }
+        }
+
         collectFlowWhenStarted(vm.keywordApi.data) { data ->
-            if (data != null) {
-                binding.keywordContainer.removeAllViews()
+            binding.keywordContainer.removeAllViews()
+            if (!data.isNullOrEmpty()) {
                 data.mapIndexed { index, it ->
                     ItemReportYourKeywordBinding.inflate(layoutInflater, binding.keywordContainer, false).apply {
                         rank.text = (index + 1).toString()
@@ -163,8 +176,8 @@ class ReportDetailFragment : Fragment() {
         }
 
         collectFlowWhenStarted(vm.categoryApi.data) { data ->
-            if (data != null) {
-                binding.categoryList.removeAllViews()
+            binding.categoryList.removeAllViews()
+            if (!data.isNullOrEmpty()) {
                 data.map {
                     ItemReportCategoryBinding.inflate(
                         layoutInflater, binding.categoryList, false
@@ -177,16 +190,16 @@ class ReportDetailFragment : Fragment() {
 
                     itemBinding.imageContainer.removeAllViews()
                     itemBinding.imageContainer.isVisible = item.images.isNotEmpty()
-                    item.images.map { image ->
-                        ShapeableImageView(context).apply {
-                            val imageSize = (screenWidth - px(96)) / 3
-                            layoutParams = LinearLayout.LayoutParams(imageSize, imageSize, 1f)
-                            loadUrlAsync(image)
-                            setCornerSize(8)
+
+                    if (item.images.isNotEmpty()) {
+                        val filledCount = 3 - item.images.size
+                        (item.images.take(3) + List(filledCount) { "dummy" }).forEachIndexed { idx, image ->
+                            itemBinding.imageContainer.addView(ReportRoundImageView(requireContext()).apply {
+                                bind(image, (screenWidth - px(96)) / 3, if (idx == 0) 0 else px(12))
+                            })
                         }
-                    }.forEach {
-                        itemBinding.imageContainer.addView(it)
                     }
+
                     binding.categoryList.addView(itemBinding.root.apply {
                         updateLayoutParams<MarginLayoutParams> {
                             bottomMargin = px(8)
