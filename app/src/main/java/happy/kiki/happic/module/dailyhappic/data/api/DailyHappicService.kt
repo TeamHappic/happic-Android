@@ -84,6 +84,7 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
 
     override suspend fun photos(year: Int, month: Int): ApiResponse<List<DailyHappicPhotoListModel>> {
         return successApiResponse(
+//            listOf()
             listOf(
                 DailyHappicPhotoListModel("id", "25", Picsum.uri(100)),
                 DailyHappicPhotoListModel("id", "24", Picsum.uri(100)),
@@ -110,7 +111,7 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
                 DailyHappicPhotoListModel("id", "3", Picsum.uri(100)),
                 DailyHappicPhotoListModel("id", "2", Picsum.uri(100)),
                 DailyHappicPhotoListModel("id", "1", Picsum.uri(100)),
-            )
+//            )
         )
     }
 

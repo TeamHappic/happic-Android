@@ -11,6 +11,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import happy.kiki.happic.R
@@ -76,33 +77,37 @@ class DailyHappicPhotoFragment : Fragment() {
         collectFlowWhenStarted(vm.photosApi.data) {
             it?.run {
                 binding.clCards.removeAllViews()
-                val flowCards = Flow(context).apply {
-                    id = ViewCompat.generateViewId()
-                    layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-                    setHorizontalGap(px(4))
-                    setVerticalGap(px(18))
-                    setWrapMode(Flow.WRAP_ALIGNED)
-                    setMaxElementsWrap(4)
-                    setHorizontalStyle(Flow.CHAIN_SPREAD_INSIDE)
-                    setVerticalStyle(Flow.CHAIN_PACKED)
-                }
-                map {
-                    ItemDailyHappicPhotoBinding.inflate(layoutInflater).apply {
-                        root.id = ViewCompat.generateViewId()
-                        photo = it
-                        if (isToday(vm.selectedYearMonth.value, it.day.toInt())) {
-                            ivPhoto.strokeColor = ColorStateList.valueOf(getColor(R.color.orange))
-                            ivPhoto.strokeWidth = requireContext().px(1).toFloat()
-                            tvDay.setTextColor(getColor(R.color.orange))
-                        }
-
+                binding.photoEmpty.root.isVisible = it.isEmpty()
+                if (it.isNotEmpty()) {
+                    val flowCards = Flow(context).apply {
+                        id = ViewCompat.generateViewId()
+                        layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+                        setHorizontalGap(px(4))
+                        setVerticalGap(px(18))
+                        setWrapMode(Flow.WRAP_ALIGNED)
+                        setMaxElementsWrap(4)
+                        setHorizontalStyle(Flow.CHAIN_SPREAD_INSIDE)
+                        setVerticalStyle(Flow.CHAIN_PACKED)
                     }
-                }.forEach { itemBinding ->
-                    val width = (requireContext().screenWidth - requireContext().px(55)) / 4
-                    binding.clCards.addView(itemBinding.root, ConstraintLayout.LayoutParams(width, WRAP_CONTENT))
-                    flowCards.addView(itemBinding.root)
+                    map {
+                        ItemDailyHappicPhotoBinding.inflate(layoutInflater).apply {
+                            root.id = ViewCompat.generateViewId()
+                            photo = it
+                            if (isToday(vm.selectedYearMonth.value, it.day.toInt())) {
+                                ivPhoto.strokeColor = ColorStateList.valueOf(getColor(R.color.orange))
+                                ivPhoto.strokeWidth = requireContext().px(1).toFloat()
+                                tvDay.setTextColor(getColor(R.color.orange))
+                            }
+
+                        }
+                    }.forEach { itemBinding ->
+                        val width = (requireContext().screenWidth - requireContext().px(55)) / 4
+                        binding.clCards.addView(itemBinding.root, ConstraintLayout.LayoutParams(width, WRAP_CONTENT))
+                        flowCards.addView(itemBinding.root)
+                    }
+                    binding.clCards.addView(flowCards)
                 }
-                binding.clCards.addView(flowCards)
+
             }
         }
     }
