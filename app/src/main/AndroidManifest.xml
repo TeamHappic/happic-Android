@@ -36,12 +36,13 @@
         <activity
             android:name=".module.main.ui.activity.MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
-
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".module.characterselect.ui.activity.CharacterActivity"
-            android:screenOrientation="portrait"></activity>
+            android:exported="true"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".module.characterselect.ui.activity.CharacterSelectActivity"
             android:screenOrientation="portrait" />

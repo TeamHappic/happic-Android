@@ -7,33 +7,33 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
-import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityCharacterNameBinding
+import happy.kiki.happic.module.characterselect.data.api.CharacterService.RegisterCharacterNameReq
+import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType
+import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType.MOON
 import happy.kiki.happic.module.core.util.extension.addLengthFilter
 import happy.kiki.happic.module.core.util.extension.addNoSpaceFilter
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
+import happy.kiki.happic.module.core.util.extension.pushActivity
 import happy.kiki.happic.module.core.util.extension.showToast
-import kotlinx.coroutines.flow.MutableStateFlow
+import happy.kiki.happic.module.main.ui.activity.MainActivity
 import kotlinx.parcelize.Parcelize
-
 
 class CharacterNameActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCharacterNameBinding
 
     @Parcelize
-    data class Argument(val name: String) : Parcelable
+    data class Argument(val characterType: CharacterType) : Parcelable
 
     private val arg by argument<Argument>()
 
-    private val selectedCharacter by lazy {
-        MutableStateFlow(arg.name)
-    }
+    private val vm by viewModels<CharacterSelectViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,30 +47,31 @@ class CharacterNameActivity : AppCompatActivity() {
     }
 
     private fun initEvent() {
-        collectFlowWhenStarted(selectedCharacter) {
-            if (it == "moon") {
-                with(binding) {
-                    ivRectangleCharacter.setImageResource(R.drawable.ic_rectangle_moon_name)
-                    ivCharacter.setImageResource(R.drawable.character_moon)
-                }
-            } else {
-                with(binding) {
-                    ivRectangleCharacter.setImageResource(R.drawable.ic_rectangle_cloud_name)
-                    ivCharacter.setImageResource(R.drawable.character_cloud)
+        vm.characterType.value = arg.characterType
+        collectFlowWhenStarted(vm.characterType) {
+            it?.run {
+                if (it == MOON) {
+                    with(binding) { //ivRectangleCharacter.setImageResource(R.drawable.ic_rectangle_moon_name)
+                        ivCharacter.setImageResource(R.drawable.character_moon)
+                    }
+                } else {
+                    with(binding) { //ivRectangleCharacter.setImageResource(R.drawable.ic_rectangle_cloud_name)
+                        ivCharacter.setImageResource(R.drawable.character_cloud)
+                    }
                 }
             }
         }
 
-        binding.etName.addTextChangedListener(object : TextWatcher{
+        binding.etName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (binding.etName.text.toString().isBlank()){
-                    with(binding){
+                if (binding.etName.text.toString().isBlank()) {
+                    with(binding) {
                         tvDone.setTextColor(getColor(R.color.gray7))
                     }
-                }else{
+                } else {
                     binding.tvDone.setTextColor(getColor(R.color.orange))
                 }
             }
@@ -88,22 +89,26 @@ class CharacterNameActivity : AppCompatActivity() {
 
         binding.tvDone.setOnClickListener {
             val characterName = binding.etName.text.toString()
-            if(characterName.isNotBlank()){
+            if (characterName.isNotBlank()) {
+                vm.characterName.value = characterName
                 binding.textView.text = "당신의 $characterName 이(가) 오고 있어요\n잠시 기다려주세요"
 
                 val textView = binding.textView.text.toString()
                 val builder = SpannableStringBuilder(textView)
                 val colorSpan = ForegroundColorSpan(getColor(R.color.orange))
-                builder.setSpan(colorSpan,4,4 + characterName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                builder.setSpan(colorSpan, 4, 4 + characterName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                 binding.textView.text = builder
 
-                with(binding){
+                with(binding) {
                     ibBack.isInvisible = true
                     tvDone.isInvisible = true
                     etName.isInvisible = true
                     progressCir.isVisible = true
                 }
             }
+
+            vm.characterQueryApi.call(RegisterCharacterNameReq(vm.characterType.value, vm.characterName.value))
+            pushActivity<MainActivity>()
         }
     }
 }
