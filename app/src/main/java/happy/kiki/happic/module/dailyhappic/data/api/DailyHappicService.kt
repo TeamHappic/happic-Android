@@ -75,16 +75,42 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
         return successApiResponse(
             KeywordRankingForUploadRes(
                 "2022-01-20 20:24",
-                listOf(Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5)),
-                listOf(Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5)),
-                listOf(Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),Ipsum.text(5),)
+                listOf(
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5)
+                ),
+                listOf(
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5)
+                ),
+                listOf(
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                )
             )
         )
     }
 
     override suspend fun photos(year: Int, month: Int): ApiResponse<List<DailyHappicPhotoListModel>> {
-        return successApiResponse(
-//            listOf()
+        return successApiResponse( //            listOf()
             listOf(
                 DailyHappicPhotoListModel("id", "25", Picsum.uri(100)),
                 DailyHappicPhotoListModel("id", "24", Picsum.uri(100)),
@@ -111,7 +137,7 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
                 DailyHappicPhotoListModel("id", "3", Picsum.uri(100)),
                 DailyHappicPhotoListModel("id", "2", Picsum.uri(100)),
                 DailyHappicPhotoListModel("id", "1", Picsum.uri(100)),
-//            )
+            )
         )
     }
 
@@ -135,116 +161,46 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
         return successApiResponse(
             listOf(
                 DailyHappicTagModel(
-                    "id",
-                    "2022-07-20 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-07-20 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-19 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-19 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-18 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-18 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-17 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-17 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-16 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-16 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-15 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-15 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-14 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-14 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-13 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-13 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-12 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-12 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-11 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-11 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-10 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-10 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-09 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-09 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-08 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-08 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicTagModel(
-                    "id",
-                    "2022-01-07 20:24",
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5)
+                    "id", "2022-01-07 20:24", Ipsum.text(5), Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
             )
         )

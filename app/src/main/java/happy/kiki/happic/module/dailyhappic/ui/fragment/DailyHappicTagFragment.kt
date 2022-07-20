@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import happy.kiki.happic.R
@@ -69,6 +70,7 @@ class DailyHappicTagFragment : Fragment() {
         collectFlowWhenStarted(vm.tagsApi.data) {
             it?.run {
                 binding.llTags.removeAllViews()
+                binding.photoEmpty.root.isVisible = it.isEmpty()
                 map {
                     ItemDailyHappicTagBinding.inflate(layoutInflater).apply {
                         root.id = ViewCompat.generateViewId()
