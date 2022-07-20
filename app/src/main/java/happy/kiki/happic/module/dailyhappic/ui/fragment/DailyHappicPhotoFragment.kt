@@ -73,7 +73,7 @@ class DailyHappicPhotoFragment : Fragment() {
     }
 
     private fun setCards() {
-        collectFlowWhenStarted(vm.dailyHappicPhotosApi.data) {
+        collectFlowWhenStarted(vm.photosApi.data) {
             it?.run {
                 binding.clCards.removeAllViews()
                 val flowCards = Flow(context).apply {

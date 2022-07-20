@@ -66,7 +66,7 @@ class DailyHappicTagFragment : Fragment() {
     }
 
     private fun setTags() {
-        collectFlowWhenStarted(vm.dailyHappicTagsApi.data) {
+        collectFlowWhenStarted(vm.tagsApi.data) {
             it?.run {
                 binding.llTags.removeAllViews()
                 map {

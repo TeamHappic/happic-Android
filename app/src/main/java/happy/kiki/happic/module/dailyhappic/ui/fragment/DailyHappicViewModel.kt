@@ -14,20 +14,20 @@ class DailyHappicViewModel : ViewModel() {
     val selectedYearMonth = MutableStateFlow(now.year to now.monthValue)
     val isMonthSelectOpened = MutableStateFlow(false)
 
-    val dailyHappicPhotosApi = useApi<Pair<Int, Int>, List<DailyHappicPhotoListModel>> { (year, month) ->
+    val photosApi = useApi<Pair<Int, Int>, List<DailyHappicPhotoListModel>> { (year, month) ->
         dailyHappicMockService.photos(year, month)
     }
 
-    val dailyHappicTagsApi = useApi<Pair<Int, Int>, List<DailyHappicTagModel>> { (year, month) ->
+    val tagsApi = useApi<Pair<Int, Int>, List<DailyHappicTagModel>> { (year, month) ->
         dailyHappicMockService.tags(year, month)
     }
 
     init {
         collectFlow(selectedYearMonth) { (year, month) ->
-            dailyHappicPhotosApi.call(Pair(year, month))
+            photosApi.call(Pair(year, month))
         }
         collectFlow(selectedYearMonth) { (year, month) ->
-            dailyHappicTagsApi.call(Pair(year, month))
+            tagsApi.call(Pair(year, month))
         }
     }
 }
