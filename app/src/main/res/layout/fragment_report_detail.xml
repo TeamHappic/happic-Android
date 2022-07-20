@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_black1"
+        android:clickable="true">
+
+        <happy.kiki.happic.module.core.ui.widget.BorderView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:elevation="1dp"
+            android:outlineProvider="none"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/yearMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Medium.16"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2020.06" />
+
+            <ImageView
+                android:id="@+id/header_chevron"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:rotation="180"
+                android:src="@drawable/chevron_up_20"
+                app:layout_constraintBottom_toBottomOf="@id/yearMonth"
+                app:layout_constraintStart_toEndOf="@id/yearMonth"
+                app:layout_constraintTop_toTopOf="@id/yearMonth" />
+        </happy.kiki.happic.module.core.ui.widget.BorderView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/bg_shadow"
+            android:elevation="1dp"
+            android:outlineProvider="none"
+            app:layout_constraintTop_toBottomOf="@id/header" />
+
+        <happy.kiki.happic.module.core.ui.widget.MonthSelectView
+            android:id="@+id/month_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:elevation="12dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/header"
+            tools:alpha="0.01"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/header">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/tab_keyword"
+                style="@style/TabButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="키워드 순위" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/tab_category"
+                style="@style/TabButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="카테고리 별 순위" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/tab_monthly"
+                style="@style/TabButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="월 기록 횟수" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="40dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_keyword"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/star_image_keyword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/hp_img_star"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/section_text_keyword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="당신의 행복 키워드 순위"
+                        android:textAppearance="@style/H4_P_B16"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toBottomOf="@id/star_image_keyword" />
+
+                    <LinearLayout
+                        android:id="@+id/keyword_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:clipChildren="false"
+                        android:layoutAnimation="@anim/common_layout_fast"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/section_text_keyword" />
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/keyword_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        android:visibility="gone"
+                        app:indicatorColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <include
+                        android:id="@+id/keyword_empty"
+                        layout="@layout/view_empty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/star_image_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/hp_img_star"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/section_text_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="카테고리 별 행복 키워드 순위"
+                        android:textAppearance="@style/H4_P_B16"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toBottomOf="@id/star_image_category" />
+
+
+                    <LinearLayout
+                        android:id="@+id/category_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:clipChildren="false"
+                        android:layoutAnimation="@anim/common_layout_fast"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/section_text_category">
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/section_category_tab_layout"
+                            style="@style/CategoryTab"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#0000"
+                            app:layout_constraintTop_toBottomOf="@id/section_category">
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="#when" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="#where" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="#who" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="#what" />
+                        </com.google.android.material.tabs.TabLayout>
+
+                        <LinearLayout
+                            android:id="@+id/category_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layoutAnimation="@anim/common_layout_fast"
+                            android:orientation="vertical" />
+                    </LinearLayout>
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/category_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        android:visibility="gone"
+                        app:indicatorColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <include
+                        android:id="@+id/category_empty"
+                        layout="@layout/view_empty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_monthly"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/star_image_monthly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/hp_img_star"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/section_text_monthly"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="월 별 해픽 기록"
+                        android:textAppearance="@style/H4_P_B16"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toBottomOf="@id/star_image_monthly" />
+
+                    <LinearLayout
+                        android:id="@+id/monthly_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:clipChildren="false"
+                        android:layoutAnimation="@anim/common_layout_fast"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/section_text_monthly">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_marginTop="16dp">
+
+                            <happy.kiki.happic.module.core.ui.widget.MonthlyRecordPlanet
+                                android:id="@+id/monthly_record_planet"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center" />
+                        </FrameLayout>
+
+                        <ImageView
+                            android:id="@+id/monthly_star_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="28dp"
+                            android:src="@drawable/hp_img_star" />
+
+                        <TextView
+                            android:id="@+id/monthly_section_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="이번달 모은 해픽의 조각"
+                            android:textAppearance="@style/H4_P_B16"
+                            android:textColor="@color/white" />
+
+                        <happy.kiki.happic.module.core.ui.widget.BorderView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:paddingHorizontal="28dp"
+                            android:paddingVertical="16dp"
+                            app:card_background_color="@color/bg_black2"
+                            app:card_corner_radius="10dp">
+
+                            <happy.kiki.happic.module.report.ui.widget.CalendarView
+                                android:id="@+id/calendar"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </happy.kiki.happic.module.core.ui.widget.BorderView>
+
+
+                    </LinearLayout>
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/monthly_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        android:visibility="gone"
+                        app:indicatorColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

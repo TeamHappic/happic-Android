@@ -7,6 +7,7 @@ import android.text.InputFilter.LengthFilter
 import android.view.View
 import android.widget.EditText
 import androidx.annotation.Px
+import androidx.core.view.ViewCompat
 import kotlin.math.roundToInt
 
 fun View.setShadowColorIfAvailable(color: Int) {
@@ -41,4 +42,8 @@ fun EditText.addLengthFilter(length: Int): EditText {
         add(LengthFilter(length))
     }.toTypedArray()
     return this
+}
+
+fun View.injectViewId() {
+    id = ViewCompat.generateViewId()
 }

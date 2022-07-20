@@ -13,11 +13,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory.Builder
 import com.google.android.material.imageview.ShapeableImageView
-import com.google.android.material.shape.ShapeAppearanceModel
+import com.google.android.material.shape.CornerFamily
 import happy.kiki.happic.R
 import happy.kiki.happic.module.core.util.extension.getColor
-import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.pxFloat
+import kotlin.math.roundToInt
 
 @BindingAdapter("android:visibility")
 fun View.setVisibilityBinding(visible: Boolean) {
@@ -38,6 +38,7 @@ fun ImageView.loadUrlAsync(url: String?) {
                 R.color.white, R.color.dark_blue, R.color.orange
             ).map { context.getColor(it) }.toIntArray()
         )
+        setStyle((width * 0.5).roundToInt())
         start()
     }
 
@@ -84,6 +85,7 @@ fun TextView.setTextColorWithResources(@ColorRes id: Int) {
 }
 
 fun ShapeableImageView.setCornerSize(cornerSize: Int) {
-    shapeAppearanceModel = ShapeAppearanceModel().withCornerSize(pxFloat(cornerSize))
+    shapeAppearanceModel =
+        this.shapeAppearanceModel.toBuilder().setAllCorners(CornerFamily.ROUNDED, pxFloat(cornerSize)).build()
 }
 
