@@ -77,7 +77,7 @@ class UploadHappicActivity : AppCompatActivity() {
                     viewModel.isUploadFieldFocused.value = hasFocus
                     borderField.apply {
                         strokeColor = if (hasFocus) context.getColor(R.color.dark_blue) else Color.TRANSPARENT
-                        strokeWidth = if (hasFocus) this@UploadHappicActivity.px(1).toFloat() else 0f
+                        strokeWidth = if (hasFocus) px(1).toFloat() else 0f
                     }
                     containerTags.visibility = if (hasFocus) VISIBLE else GONE
                 }
@@ -151,11 +151,11 @@ class UploadHappicActivity : AppCompatActivity() {
         val photoMarginHorizontal = if (hasFocus) 140 else 50
         val containerMarginTop = if (hasFocus) 32 else 20
         binding.ivPhoto.updateLayoutParams<MarginLayoutParams> {
-            leftMargin = this@UploadHappicActivity.px(photoMarginHorizontal)
-            rightMargin = this@UploadHappicActivity.px(photoMarginHorizontal)
+            leftMargin = px(photoMarginHorizontal)
+            rightMargin = px(photoMarginHorizontal)
         }
         binding.containerFields.updateLayoutParams<MarginLayoutParams> {
-            topMargin = this@UploadHappicActivity.px(containerMarginTop)
+            topMargin = px(containerMarginTop)
         }
     }
 }
