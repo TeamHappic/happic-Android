@@ -102,19 +102,19 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
         return successApiResponse(
             listOf(
                 DailyHappicModel(
-                    "id", 1, Picsum.uri(400), Picsum.uri(100), 24, Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
+                    "id", 1, Picsum.uri(400), Picsum.uri(100), 2, Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicModel(
-                    "id", 3, Picsum.uri(400), Picsum.uri(100), 24, Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
+                    "id", 3, Picsum.uri(400), Picsum.uri(100), 3, Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicModel(
-                    "id", 5, Picsum.uri(400), Picsum.uri(100), 24, Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
+                    "id", 5, Picsum.uri(400), Picsum.uri(100), 18, Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicModel(
-                    "id", 7, Picsum.uri(400), Picsum.uri(100), 24, Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
+                    "id", 7, Picsum.uri(400), Picsum.uri(100), 4, Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
                 DailyHappicModel(
-                    "id", 22, Picsum.uri(400), Picsum.uri(100), 24, Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
+                    "id", 22, Picsum.uri(400), Picsum.uri(100), 17, Ipsum.text(5), Ipsum.text(5), Ipsum.text(5)
                 ),
             )
         )

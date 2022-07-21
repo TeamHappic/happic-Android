@@ -1,6 +1,7 @@
 package happy.kiki.happic.module.dailyhappic.ui.fragment
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import happy.kiki.happic.module.core.data.api.base.useApi
 import happy.kiki.happic.module.core.data.api.base.useApiNoParams
 import happy.kiki.happic.module.core.util.SimpleEventFlow
@@ -9,6 +10,9 @@ import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicMockService
 import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 
 class DailyHappicViewModel : ViewModel() {
     val currentYear = MutableStateFlow(now.year)
@@ -18,6 +22,14 @@ class DailyHappicViewModel : ViewModel() {
     val dailyHappicApi = useApi<Pair<Int, Int>, List<DailyHappicModel>> { (year, month) ->
         dailyHappicMockService.dailyHappics(year, month)
     }
+    val detailDailyHappicIndex = MutableStateFlow(-1)
+    val detailDailyHappicItem = dailyHappicApi.dataOnlySuccess.combine(detailDailyHappicIndex) { data, index ->
+        if (data != null && index >= 0 && data.size > index) {
+            data[index]
+        } else {
+            null
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     val onNavigateUpload = SimpleEventFlow()
     val onNavigateUploadFailedByMultipleUpload = SimpleEventFlow()

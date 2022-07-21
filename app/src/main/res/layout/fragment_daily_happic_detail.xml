@@ -26,6 +26,7 @@
         app:layout_constraintBottom_toTopOf="@id/pager">
 
         <TextView
+            android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/H4_P_B16"
@@ -58,6 +59,7 @@
         app:layout_constraintVertical_bias="0.54" />
 
     <TextView
+        android:id="@+id/tag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

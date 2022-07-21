@@ -92,16 +92,17 @@ class DailyHappicPhotoFragment : Fragment() {
                         setHorizontalStyle(Flow.CHAIN_SPREAD_INSIDE)
                         setVerticalStyle(Flow.CHAIN_PACKED)
                     }
-                    map {
+                    mapIndexed { index, dailyHappic ->
                         ItemDailyHappicPhotoBinding.inflate(layoutInflater).apply {
                             root.injectViewId()
-                            photo = it
-                            if (isToday(vm.selectedYearMonth.value, it.day.toInt())) {
+                            photo = dailyHappic
+                            if (isToday(vm.selectedYearMonth.value, dailyHappic.day)) {
                                 ivPhoto.strokeColor = ColorStateList.valueOf(getColor(R.color.orange))
                                 ivPhoto.strokeWidth = requireContext().px(1).toFloat()
                                 tvDay.setTextColor(getColor(R.color.orange))
                             }
                             root.setOnClickListener {
+                                vm.detailDailyHappicIndex.value = index
                                 emitEvent(navigationVm.onNavigateDetail)
                             }
                         }
@@ -112,7 +113,6 @@ class DailyHappicPhotoFragment : Fragment() {
                     }
                     binding.clCards.addView(flowCards)
                 }
-
             }
         }
     }

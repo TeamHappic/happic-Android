@@ -30,15 +30,13 @@ class DailyHappicDetailAdapter : ListAdapter<DailyHappicModel, DailyHappicDetail
     companion object {
         private val DIFF = object : DiffUtil.ItemCallback<DailyHappicModel>() {
             override fun areItemsTheSame(
-                oldItem: DailyHappicModel,
-                newItem: DailyHappicModel
+                oldItem: DailyHappicModel, newItem: DailyHappicModel
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: DailyHappicModel,
-                newItem: DailyHappicModel
+                oldItem: DailyHappicModel, newItem: DailyHappicModel
             ): Boolean {
                 return oldItem == newItem
             }

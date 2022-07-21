@@ -12,8 +12,13 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentDailyHappicDetailBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.screenWidth
+import happy.kiki.happic.module.report.util.koFormat
+import happy.kiki.happic.module.report.util.padZero
+import kotlinx.coroutines.flow.combine
 import kotlin.math.absoluteValue
+import kotlin.math.min
 
 class DailyHappicDetailFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicDetailBinding>()
@@ -42,16 +47,48 @@ class DailyHappicDetailFragment : Fragment() {
             }
 
             this.adapter = DailyHappicDetailAdapter().apply {
-                submitList(vm.dailyHappicApi.data.value)
+                submitList(vm.dailyHappicApi.data.value) {
+                    val data = vm.dailyHappicApi.dataOnlySuccess.value
+                    val index = vm.detailDailyHappicIndex.value
+                    if (data != null && index >= 0 && data.size > index) {
+                        binding.pager.setCurrentItem(index, true)
+                    }
+                }
             }
             setShowSideItems(pageMarginPx, pageOffsetPx)
             overScrollMode = ViewPager2.OVER_SCROLL_NEVER
 
             registerOnPageChangeCallback(object : OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
+                    vm.detailDailyHappicIndex.value = position
+                }
 
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                    val offset = min(positionOffset, 1 - positionOffset)
+                    binding.date.alpha = 1 - offset * 0.5f
+                    binding.tag.alpha = 1 - offset * 0.5f
+                    binding.date.scaleX = 1 + offset
+                    binding.date.scaleY = 1 + offset
+                    binding.tag.scaleX = 1 + offset
+                    binding.tag.scaleY = 1 + offset
                 }
             })
+        }
+
+        collectFlowWhenStarted(
+            vm.dailyHappicApi.dataOnlySuccess.combine(
+                vm.detailDailyHappicIndex, ::Pair
+            )
+        ) { (data, index) ->
+            if (data != null && index >= 0 && data.size > index && index != binding.pager.currentItem) {
+                binding.pager.setCurrentItem(index, false)
+            }
+        }
+
+        collectFlowWhenStarted(vm.detailDailyHappicItem) {
+            val (year, month) = vm.selectedYearMonth.value
+            binding.date.text = it?.run { "$year.${month.padZero(2)}.${it.day.padZero(2)}" } ?: ""
+            binding.tag.text = it?.run { "#${it.hour.koFormat} #${it.where} #${it.who} #${it.what}" } ?: ""
         }
     }
 }

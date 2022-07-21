@@ -14,6 +14,7 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentDailyHappicTagBinding
 import happy.kiki.happic.databinding.ItemDailyHappicTagBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.emitEvent
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
@@ -27,6 +28,7 @@ import java.time.LocalDate
 class DailyHappicTagFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicTagBinding>()
     private val vm by activityViewModels<DailyHappicViewModel>()
+    private val navigationVm by activityViewModels<DailyHappicNavigationViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         FragmentDailyHappicTagBinding.inflate(inflater, container, false).let { binding = it; it.root }
@@ -74,18 +76,23 @@ class DailyHappicTagFragment : Fragment() {
             binding.llTags.removeAllViews()
             it?.run {
                 binding.photoEmpty.root.isVisible = it.isEmpty()
-                map {
+                mapIndexed { index, dailyHappic ->
                     ItemDailyHappicTagBinding.inflate(layoutInflater).apply {
                         root.id = ViewCompat.generateViewId()
-                        tag = it
+                        tag = dailyHappic
 
-                        val date = LocalDate.of(year, month, it.day)
-                        day = it.day.toString()
+                        val date = LocalDate.of(year, month, dailyHappic.day)
+                        day = dailyHappic.day.toString()
                         dayOfWeek = date.dayOfWeek.koFormat
                         if (date == now.toLocalDate()) {
                             listOf(
                                 tvDate, tvDayOfWeek
                             ).forEach { textView -> textView.setTextColor(getColor(R.color.orange)) }
+                        }
+
+                        root.setOnClickListener {
+                            vm.detailDailyHappicIndex.value = index
+                            emitEvent(navigationVm.onNavigateDetail)
                         }
                     }
                 }.forEach { itemBinding ->
