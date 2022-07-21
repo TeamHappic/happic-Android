@@ -31,7 +31,7 @@ import kotlinx.android.parcel.Parcelize
 
 class UploadHappicActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadHappicBinding
-    private val viewModel by viewModels<UploadHappicViewModel>()
+    private val vm by viewModels<UploadHappicViewModel>()
 
     @Parcelize
     data class Argument(val uri: Uri) : Parcelable
@@ -53,12 +53,12 @@ class UploadHappicActivity : AppCompatActivity() {
                 isFocusableInTouchMode = true
             }
             setOnFocusChangeListener { _, _ ->
-                viewModel.isUploadFieldFocused.value = false
+                vm.isUploadFieldFocused.value = false
                 val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(this.windowToken, 0)
             }
         }
-        collectFlowWhenStarted(viewModel.isUploadFieldFocused) {
+        collectFlowWhenStarted(vm.isUploadFieldFocused) {
             updateUi(it)
         }
     }
@@ -68,7 +68,7 @@ class UploadHappicActivity : AppCompatActivity() {
     }
 
     private fun configureHeader() {
-        collectFlowWhenStarted(viewModel.dailyHappicKeywordApi.data) {
+        collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
             it?.run {
                 binding.date = getDate(it.currentDate)
             }
@@ -83,7 +83,7 @@ class UploadHappicActivity : AppCompatActivity() {
                 hint = it.second
 
                 etContent.setOnFocusChangeListener { _, hasFocus ->
-                    viewModel.isUploadFieldFocused.value = hasFocus
+                    vm.isUploadFieldFocused.value = hasFocus
                     borderField.apply {
                         strokeColor = if (hasFocus) context.getColor(R.color.dark_blue) else Color.TRANSPARENT
                         strokeWidth = if (hasFocus) px(1).toFloat() else 0f
@@ -91,7 +91,7 @@ class UploadHappicActivity : AppCompatActivity() {
                     containerTags.visibility = if (hasFocus) VISIBLE else GONE
                 }
 
-                collectFlowWhenStarted(viewModel.dailyHappicKeywordApi.data) {
+                collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
                     it?.run {
                         llTags.removeAllViews()
                         val tagList = when (title) {
