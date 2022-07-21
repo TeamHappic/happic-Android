@@ -42,6 +42,7 @@ class UploadHappicActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ActivityUploadHappicBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
         setTouchEvent()
+        configureHeader()
         configureImageView()
         configureFields()
     }
@@ -64,6 +65,14 @@ class UploadHappicActivity : AppCompatActivity() {
 
     private fun configureImageView() {
         binding.ivPhoto.setImageURI(arg.uri)
+    }
+
+    private fun configureHeader() {
+        collectFlowWhenStarted(viewModel.dailyHappicKeywordApi.data) {
+            it?.run {
+                binding.tvDate.text = getDate(it.currentDate)
+            }
+        }
     }
 
     private fun configureFields() {
@@ -145,6 +154,15 @@ class UploadHappicActivity : AppCompatActivity() {
     private fun getDivider(): ShapeDrawable = ShapeDrawable().apply {
         intrinsicWidth = px(6)
         alpha = 0
+    }
+
+    private fun getDate(date: String): String? {
+        date.split("-", " ").apply {
+            if (size > 3) {
+                return "${this[1]}.${this[2]}"
+            }
+            return null
+        }
     }
 
     private fun updateUi(hasFocus: Boolean) {

@@ -59,17 +59,30 @@
 
 
             <TextView
-                android:id="@+id/tv_title"
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="06.26"
+                android:textAppearance="@style/Bold.16"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/cl_x"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintEnd_toStartOf="@id/tv_happic"
+                app:layout_constraintTop_toTopOf="@id/cl_x" />
+
+            <TextView
+                android:id="@+id/tv_happic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:text="@string/happic"
                 android:textAppearance="@style/Medium.16"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/cl_x"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/tv_date"
+                app:layout_constraintTop_toTopOf="@id/cl_x" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
