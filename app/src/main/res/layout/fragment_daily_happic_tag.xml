@@ -9,7 +9,7 @@
         android:id="@+id/border_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="2dp"
         android:padding="10dp"
         app:card_corner_radius="4dp"
         app:layout_constraintEnd_toEndOf="parent"

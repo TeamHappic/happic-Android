@@ -129,7 +129,7 @@ class UploadHappicActivity : AppCompatActivity() {
                         binding.containerPicker.visibility = if (hasFocus) VISIBLE else GONE
                     }
                 }
-                
+
                 if (fieldType == WHEN) {
                     etContent.inputType = EditText.LAYER_TYPE_NONE
                     binding.btnComplete.setOnClickListener { // TODO: timePicker onHourChangedListener 함수 이용해서 변경

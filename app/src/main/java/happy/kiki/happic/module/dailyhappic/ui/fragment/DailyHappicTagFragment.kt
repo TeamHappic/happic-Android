@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentDailyHappicTagBinding
@@ -25,7 +26,7 @@ import java.time.LocalDate
 
 class DailyHappicTagFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicTagBinding>()
-    private val vm by viewModels<DailyHappicViewModel>({ requireParentFragment() })
+    private val vm by activityViewModels<DailyHappicViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         FragmentDailyHappicTagBinding.inflate(inflater, container, false).let { binding = it; it.root }
