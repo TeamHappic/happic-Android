@@ -1,6 +1,5 @@
 package happy.kiki.happic.module.main.ui.activity
 
-import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicFragment
 import HomeFragment
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -11,6 +10,7 @@ import happy.kiki.happic.databinding.ActivityMainBinding
 import happy.kiki.happic.module.core.util.extension.addFragment
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.isFragmentExist
+import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicFragment
 import happy.kiki.happic.module.report.ui.fragment.ReportContainerFragment
 import happy.kiki.happic.module.setting.ui.fragment.SettingFragment
 

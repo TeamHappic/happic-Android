@@ -27,7 +27,6 @@ inline fun <reified T : Activity> Activity.pushActivity(
     intentConfig(
         Intent(this, T::class.java),
     ).apply {
-        debugE(flags)
         arg?.run { putExtra(_ACTIVITY_ARGUMENT_KEY_, arg) }
     }, if (sharedElementPairs.isNotEmpty()) ActivityOptions.makeSceneTransitionAnimation(
         this, *sharedElementPairs.toTypedArray()

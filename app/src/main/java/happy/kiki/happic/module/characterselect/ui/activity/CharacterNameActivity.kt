@@ -18,13 +18,13 @@ import happy.kiki.happic.module.characterselect.data.api.CharacterService.Update
 import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType.MOON
 import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider
 import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider.Usage.SIGNUP
-import happy.kiki.happic.module.core.data.api.base.NetworkState.Failure
-import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
+import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.addLengthFilter
 import happy.kiki.happic.module.core.util.extension.addNoSpaceFilter
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.pushActivity
 import happy.kiki.happic.module.core.util.extension.showToast
+import happy.kiki.happic.module.core.util.extension.windowHandler
 import happy.kiki.happic.module.main.ui.activity.MainActivity
 
 class CharacterNameActivity : AppCompatActivity() {
@@ -86,76 +86,67 @@ class CharacterNameActivity : AppCompatActivity() {
             val characterName = binding.etName.text.toString()
             if (characterName.isNotBlank()) {
                 CharacterSelectFlowProvider.name.value = characterName
-                binding.textView.text = "당신의 $characterName 이(가) 오고 있어요\n잠시 기다려주세요"
 
-                val textView = binding.textView.text.toString()
-                val builder = SpannableStringBuilder(textView)
-                val colorSpan = ForegroundColorSpan(getColor(R.color.orange))
-                builder.setSpan(colorSpan, 4, 4 + characterName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                binding.textView.text = builder
-
-                with(binding) {
-                    ibBack.isInvisible = true
-                    tvDone.isInvisible = true
-                    etName.isInvisible = true
-                    progressCir.isVisible = true
+                if (CharacterSelectFlowProvider.usage == SIGNUP) {
+                    vm.signUpAndSignInApi.call(
+                        SignUpReq(
+                            "kakao",
+                            CharacterSelectFlowProvider.character.value,
+                            CharacterSelectFlowProvider.name.value,
+                            CharacterSelectFlowProvider.snsAccessToken
+                        )
+                    )
+                } else {
+                    vm.updateCharacter.call(
+                        UpdateCharacterReq(
+                            CharacterSelectFlowProvider.character.value,
+                            CharacterSelectFlowProvider.name.value,
+                        )
+                    )
                 }
-            }
-
-            if (CharacterSelectFlowProvider.usage == SIGNUP) {
-                vm.signUpAndSignInApi.call(
-                    SignUpReq(
-                        "kakao",
-                        CharacterSelectFlowProvider.character.value,
-                        CharacterSelectFlowProvider.name.value,
-                        CharacterSelectFlowProvider.snsAccessToken
-                    )
-                )
-            } else {
-                vm.updateCharacter.call(
-                    UpdateCharacterReq(
-                        CharacterSelectFlowProvider.character.value,
-                        CharacterSelectFlowProvider.name.value,
-                    )
-                )
             }
         }
     }
 
     private fun bindSignUpApiState() {
-        collectFlowWhenStarted(vm.signUpAndSignInApi.isLoading) {
-            binding.ibBack.isInvisible = it
-            binding.tvDone.isInvisible = it
-            binding.etName.isInvisible = it
-            binding.progressCir.isVisible = it
-        }
-        collectFlowWhenStarted(vm.signUpAndSignInApi.state) {
-            when (it) {
-                is Success -> pushActivity<MainActivity>(intentConfig = {
-                    it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                })
-                is Failure -> pushActivity<MainActivity>(intentConfig = {
-                    it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                })
-            }
+        collectFlowWhenStarted(vm.signUpAndSignInApi.isLoading, ::bindWithLoadingState)
+        collectFlowWhenStarted(vm.signUpAndSignInApi.isSuccess) {
+            debugE(it)
+            if (it) pushActivity<MainActivity>(intentConfig = {
+                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            })
         }
     }
 
     private fun bindUpdateApiState() {
-        collectFlowWhenStarted(vm.updateCharacter.isLoading) {
-            binding.ibBack.isInvisible = it
-            binding.tvDone.isInvisible = it
-            binding.etName.isInvisible = it
-            binding.progressCir.isVisible = it
-        }
+        collectFlowWhenStarted(vm.updateCharacter.isLoading, ::bindWithLoadingState)
 
         collectFlowWhenStarted(vm.updateCharacter.isSuccess) {
-            if (it) {
-                pushActivity<MainActivity>(intentConfig = {
-                    it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                })
-            }
+            if (it) pushActivity<MainActivity>(intentConfig = {
+                it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            })
         }
+    }
+
+    private fun bindWithLoadingState(isLoading: Boolean) {
+        val characterName = binding.etName.text.toString()
+        if (isLoading) {
+            binding.textView.text = "당신의 $characterName 이(가) 오고 있어요\n잠시 기다려주세요"
+            val textView = binding.textView.text.toString()
+            val builder = SpannableStringBuilder(textView)
+            val colorSpan = ForegroundColorSpan(getColor(R.color.orange))
+            builder.setSpan(colorSpan, 4, 4 + characterName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            binding.textView.text = builder
+        } else {
+            binding.textView.text = "어떤 길잡이와 함께 하실래요"
+        }
+
+        binding.ibBack.isInvisible = isLoading
+        binding.tvDone.isInvisible = isLoading
+        binding.etName.isInvisible = isLoading
+        binding.progressCir.isVisible = isLoading
+
+        if (isLoading) windowHandler.hideKeyboard()
     }
 }
 
