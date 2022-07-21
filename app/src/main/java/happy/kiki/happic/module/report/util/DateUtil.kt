@@ -64,14 +64,9 @@ val LocalDate.lastYearMonthFormat: String
  * 0 ~ 6
  */
 val LocalDate.weekOfMonth: Int
-    get() { // Or use a specific locale, or configure your own rules
+    get() {
         val weekFields: WeekFields = WeekFields.of(Locale.KOREA)
         return get(weekFields.weekOfMonth())
-
-        //        val gc = GregorianCalendar.from(atStartOfDay(ZoneId.systemDefault()))
-        //        gc.firstDayOfWeek = SUNDAY
-        //        gc.minimalDaysInFirstWeek = 1
-        //        return gc[WEEK_OF_MONTH]
     }
 
 /**

@@ -18,6 +18,7 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentDailyHappicPhotoBinding
 import happy.kiki.happic.databinding.ItemDailyHappicPhotoBinding
 import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.emitEvent
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
@@ -32,6 +33,7 @@ import java.time.LocalDate
 class DailyHappicPhotoFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicPhotoBinding>()
     private val vm by activityViewModels<DailyHappicViewModel>()
+    private val navigationVm by activityViewModels<DailyHappicNavigationViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         FragmentDailyHappicPhotoBinding.inflate(inflater, container, false).let { binding = it; it.root }
@@ -75,9 +77,9 @@ class DailyHappicPhotoFragment : Fragment() {
     }
 
     private fun setCards() {
-        collectFlowWhenStarted(vm.photosApi.data) {
+        collectFlowWhenStarted(vm.dailyHappicApi.dataOnlySuccess) {
+            binding.clCards.removeAllViews()
             it?.run {
-                binding.clCards.removeAllViews()
                 binding.photoEmpty.root.isVisible = it.isEmpty()
                 if (it.isNotEmpty()) {
                     val flowCards = Flow(context).apply {
@@ -100,7 +102,7 @@ class DailyHappicPhotoFragment : Fragment() {
                                 tvDay.setTextColor(getColor(R.color.orange))
                             }
                             root.setOnClickListener {
-
+                                emitEvent(navigationVm.onNavigateDetail)
                             }
                         }
                     }.forEach { itemBinding ->

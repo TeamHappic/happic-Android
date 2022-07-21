@@ -1,17 +1,12 @@
 package happy.kiki.happic.module.auth.ui.activity
 
 import android.os.Bundle
-import android.text.TextPaint
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.buildSpannedString
 import androidx.core.text.underline
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.common.model.ClientError
-import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivitySignInBinding
 import happy.kiki.happic.module.auth.provider.AuthProvider
 import happy.kiki.happic.module.characterselect.ui.activity.CharacterActivity
@@ -37,23 +32,10 @@ class SignInActivity : AppCompatActivity() {
             allowViewOverlapWithStatusBar()
         }
 
-        // FIXME clickable implementation
-        binding.bottomText.isClickable = true
-        binding.bottomText.movementMethod = LinkMovementMethod.getInstance()
         binding.bottomText.text = buildSpannedString {
             append("로그인 시 ")
-
             underline {
-                append("이용약관", object : ClickableSpan() {
-                    override fun onClick(p0: View) {
-                    }
-
-                    override fun updateDrawState(ds: TextPaint) {
-                        super.updateDrawState(ds)
-                        ds.isUnderlineText = false
-                        ds.color = getColor(R.color.gray6)
-                    }
-                }, 0)
+                append("이용약관")
             }
             append("과 ")
             underline {

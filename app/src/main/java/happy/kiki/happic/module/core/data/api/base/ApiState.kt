@@ -33,6 +33,8 @@ open class ApiState<TData, TParam>(
     val isLoading = state.map { it is NetworkState.Loading }.asStateFlow(false)
     val isFail = state.map { it is NetworkState.Failure }.asStateFlow(false)
 
+    val dataOnlySuccess = state.map { if (it is NetworkState.Success) it.data else null }.asStateFlow(null)
+
     private var latestCallId = 0L
     private fun getNextCallId(): Long {
         latestCallId += 1
