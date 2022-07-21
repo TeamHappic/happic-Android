@@ -74,11 +74,11 @@ class UploadHappicActivity : AppCompatActivity() {
             with(vm) {
                 uploadApi.call(
                     DailyHappicUploadReq(
-                        it,
-                        inputs[WHEN]?.value.toString(),
-                        inputs[WHERE]?.value.toString(),
-                        inputs[WHO]?.value.toString(),
-                        inputs[WHAT]?.value.toString()
+                        photo = it,
+                        when1 = inputs[WHEN]?.value.toString(),
+                        where = inputs[WHERE]?.value.toString(),
+                        who = inputs[WHO]?.value.toString(),
+                        what = inputs[WHAT]?.value.toString()
                     )
                 )
             }
