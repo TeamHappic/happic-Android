@@ -20,6 +20,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
+import androidx.core.widget.addTextChangedListener
 import com.google.android.material.chip.Chip
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityUploadHappicBinding
@@ -43,9 +44,9 @@ class UploadHappicActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ActivityUploadHappicBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
         setTouchEvent()
-        configureHeader()
-        configureImageView()
+        bindingDatas()
         configureFields()
+        configureCompleteBtn()
     }
 
     private fun setTouchEvent() {
@@ -64,14 +65,26 @@ class UploadHappicActivity : AppCompatActivity() {
         }
     }
 
-    private fun configureImageView() {
+    private fun bindingDatas() {
         binding.ivPhoto.setImageURI(arg.uri)
-    }
-
-    private fun configureHeader() {
         collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
             it?.run {
                 binding.date = getDate(it.currentDate)
+            }
+        }
+
+    }
+
+    private fun configureCompleteBtn() {
+        collectFlowWhenStarted(vm.isUploadBtnEnabled) { isEnable ->
+            binding.tvUpload.setTextColor(getColor(if (isEnable) R.color.orange else R.color.gray7))
+            binding.clUpload.isClickable = isEnable
+        }
+        vm.inputs.forEach { flowMapEntry ->
+            collectFlowWhenStarted(flowMapEntry.value) {
+                var check = true
+                vm.inputs.map { it.value.value }.forEach { check = check && it }
+                vm.isUploadBtnEnabled.value = check
             }
         }
     }
@@ -84,6 +97,11 @@ class UploadHappicActivity : AppCompatActivity() {
                 root.id = ViewCompat.generateViewId()
                 title = it.first
                 hint = it.second
+
+                etContent.addTextChangedListener {
+                    vm.inputs?.get(title)?.value = (it.toString() != "")
+                }
+
                 etContent.setOnFocusChangeListener { _, hasFocus ->
                     vm.isUploadFieldFocused.value = hasFocus
                     borderField.apply {
@@ -94,8 +112,7 @@ class UploadHappicActivity : AppCompatActivity() {
                     containerTags.visibility = when (title) {
                         "#when" -> GONE
                         else -> if (hasFocus) VISIBLE else GONE
-                    }
-                    // when) 키보드 숨기고, Picker 보이기
+                    } // when) 키보드 숨기고, Picker 보이기
                     if (title == "#when") {
                         val imm: InputMethodManager =
                             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -105,6 +122,10 @@ class UploadHappicActivity : AppCompatActivity() {
                 }
                 if (title == "#when") {
                     etContent.inputType = EditText.LAYER_TYPE_NONE
+                    binding.btnComplete.setOnClickListener { // TODO: timePicker onHourChangedListener 함수 이용해서 변경
+                        etContent.setText("오후1시")
+                        binding.containerPicker.visibility = GONE
+                    }
                 } else {
                     collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
                         it?.run {
