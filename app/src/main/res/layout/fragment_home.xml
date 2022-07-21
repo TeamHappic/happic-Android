@@ -41,47 +41,50 @@
         android:layout_width="280dp"
         android:layout_height="4dp"
         android:layout_marginTop="8dp"
-        app:trackColor="@color/gray5"
-        app:trackCornerRadius="10dp"
         app:indicatorColor="@color/dark_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_mypage" />
+        app:layout_constraintTop_toBottomOf="@id/layout_mypage"
+        app:trackColor="@color/gray5"
+        app:trackCornerRadius="10dp" />
 
     <ImageView
-        android:id="@+id/iv_moon"
+        android:id="@+id/iv_character"
         android:layout_width="124dp"
         android:layout_height="124dp"
-        android:layout_marginTop="224dp"
+        android:layout_marginTop="144dp"
         android:src="@drawable/character_moon"
+        app:layout_constraintBottom_toTopOf="@id/tv_character_name"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/progressbar_line" />
 
     <TextView
         android:id="@+id/tv_character_name"
         style="@style/H4_P_B16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="124dp"
         android:text="이름뭐하지"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/bv_mypage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_moon" />
+        app:layout_constraintTop_toBottomOf="@id/iv_character" />
 
     <happy.kiki.happic.module.core.ui.widget.BorderView
         android:id="@+id/bv_mypage"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:card_corner_radius="10dp"
         android:layout_marginTop="124dp"
+        android:layout_marginBottom="20dp"
+        app:card_corner_radius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="320:184"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_character_name"
         app:layout_constraintWidth_max="320dp">
 
         <ImageView
@@ -99,9 +102,8 @@
             android:text="아니 왜 밥 안줌\n너 오늘 뭐했는데\n바빴다고? 그럼 어쩔 수 없지"
             android:textAlignment="center"
             android:textColor="@color/gray2"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_upload"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -110,6 +112,7 @@
             android:layout_width="288dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
