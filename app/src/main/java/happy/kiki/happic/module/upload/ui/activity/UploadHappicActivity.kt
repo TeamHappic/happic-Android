@@ -70,7 +70,7 @@ class UploadHappicActivity : AppCompatActivity() {
     private fun configureHeader() {
         collectFlowWhenStarted(viewModel.dailyHappicKeywordApi.data) {
             it?.run {
-                binding.tvDate.text = getDate(it.currentDate)
+                binding.date = getDate(it.currentDate)
             }
         }
     }
