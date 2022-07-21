@@ -77,7 +77,6 @@ class TimeWheelPicker @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     init {
-        injectViewId()
         setBackgroundColor(getColor(R.color.bg_black2))
         addViews()
         bindHourToUi()
