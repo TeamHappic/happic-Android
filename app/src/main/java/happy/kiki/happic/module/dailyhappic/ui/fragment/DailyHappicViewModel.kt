@@ -7,8 +7,7 @@ import happy.kiki.happic.module.core.util.SimpleEventFlow
 import happy.kiki.happic.module.core.util.extension.collectFlow
 import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicMockService
-import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicPhotoListModel
-import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicTagModel
+import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class DailyHappicViewModel : ViewModel() {
@@ -16,12 +15,8 @@ class DailyHappicViewModel : ViewModel() {
     val selectedYearMonth = MutableStateFlow(now.year to now.monthValue)
     val isMonthSelectOpened = MutableStateFlow(false)
 
-    val photosApi = useApi<Pair<Int, Int>, List<DailyHappicPhotoListModel>> { (year, month) ->
-        dailyHappicMockService.photos(year, month)
-    }
-
-    val tagsApi = useApi<Pair<Int, Int>, List<DailyHappicTagModel>> { (year, month) ->
-        dailyHappicMockService.tags(year, month)
+    val dailyHappicApi = useApi<Pair<Int, Int>, List<DailyHappicModel>> { (year, month) ->
+        dailyHappicMockService.dailyHappics(year, month)
     }
 
     val onNavigateUpload = SimpleEventFlow()
@@ -35,11 +30,6 @@ class DailyHappicViewModel : ViewModel() {
     }
 
     init {
-        collectFlow(selectedYearMonth) { (year, month) ->
-            photosApi.call(Pair(year, month))
-        }
-        collectFlow(selectedYearMonth) { (year, month) ->
-            tagsApi.call(Pair(year, month))
-        }
+        collectFlow(selectedYearMonth) { (year, month) -> dailyHappicApi.call(Pair(year, month)) }
     }
 }

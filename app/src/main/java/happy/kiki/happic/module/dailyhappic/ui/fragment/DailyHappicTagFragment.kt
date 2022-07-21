@@ -10,7 +10,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentDailyHappicTagBinding
 import happy.kiki.happic.databinding.ItemDailyHappicTagBinding
@@ -19,6 +18,7 @@ import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
 import happy.kiki.happic.module.core.util.extension.getColor
+import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.report.util.koFormat
 import kotlinx.coroutines.flow.drop
@@ -68,20 +68,23 @@ class DailyHappicTagFragment : Fragment() {
     }
 
     private fun setTags() {
-        collectFlowWhenStarted(vm.tagsApi.data) {
+        collectFlowWhenStarted(vm.dailyHappicApi.dataOnlySuccess) {
+            val (year, month) = vm.selectedYearMonth.value
+
+            binding.llTags.removeAllViews()
             it?.run {
-                binding.llTags.removeAllViews()
                 binding.photoEmpty.root.isVisible = it.isEmpty()
                 map {
                     ItemDailyHappicTagBinding.inflate(layoutInflater).apply {
                         root.id = ViewCompat.generateViewId()
                         tag = it
-                        day = getDay(it.date).toString()
-                        dayOfWeek = getDayOfWeek(it.date)
-                        if (isToday(it.date)) {
+
+                        val date = LocalDate.of(year, month, it.day)
+                        day = it.day.toString()
+                        dayOfWeek = date.dayOfWeek.koFormat
+                        if (date == now.toLocalDate()) {
                             listOf(
-                                tvDate,
-                                tvDayOfWeek
+                                tvDate, tvDayOfWeek
                             ).forEach { textView -> textView.setTextColor(getColor(R.color.orange)) }
                         }
                     }
@@ -92,30 +95,6 @@ class DailyHappicTagFragment : Fragment() {
                     )
                 }
             }
-        }
-    }
-
-    private fun isToday(date: String): Boolean {
-        date.split("-", " ").apply {
-            return LocalDate.of(this[0].toInt(), this[1].toInt(), this[2].toInt()) == LocalDate.now()
-        }
-    }
-
-    private fun getDay(date: String): Int? {
-        date.split("-", " ").apply {
-            if (size > 3) {
-                return this[2].toInt()
-            }
-            return null
-        }
-    }
-
-    private fun getDayOfWeek(date: String): String? {
-        date.split("-", " ").apply {
-            if (size > 3) {
-                return LocalDate.of(this[0].toInt(), this[1].toInt(), this[2].toInt()).dayOfWeek.koFormat
-            }
-            return null
         }
     }
 }

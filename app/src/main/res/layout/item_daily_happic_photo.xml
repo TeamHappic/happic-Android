@@ -7,7 +7,7 @@
 
         <variable
             name="photo"
-            type="happy.kiki.happic.module.dailyhappic.data.model.DailyHappicPhotoListModel" />
+            type="happy.kiki.happic.module.dailyhappic.data.model.DailyHappicModel" />
     </data>
 
 
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:text="@{photo.day}"
+            android:text='@{photo.day + ""}'
             android:textAppearance="@style/Medium.12"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
