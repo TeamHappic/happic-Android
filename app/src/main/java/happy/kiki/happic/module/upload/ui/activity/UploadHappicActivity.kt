@@ -29,6 +29,10 @@ import happy.kiki.happic.databinding.ItemUploadFieldBinding
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.px
+import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHAT
+import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHEN
+import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHERE
+import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHO
 import kotlinx.android.parcel.Parcelize
 
 class UploadHappicActivity : AppCompatActivity() {
@@ -93,15 +97,15 @@ class UploadHappicActivity : AppCompatActivity() {
 
     private fun configureFields() {
         listOf(
-            "#when" to "시간을 입력해주세요", "#where" to "장소를 입력해주세요", "#who" to "함께한 사람을 입력해주세요", "#what" to "무엇을 했는지 입력해주세요"
+            WHEN to "시간을 입력해주세요", WHERE to "장소를 입력해주세요", WHO to "함께한 사람을 입력해주세요", WHAT to "무엇을 했는지 입력해주세요"
         ).forEach {
             ItemUploadFieldBinding.inflate(layoutInflater).apply {
                 root.id = ViewCompat.generateViewId()
-                title = it.first
+                title = it.first.toString()
                 hint = it.second
-
+                val fieldType = it.first
                 etContent.addTextChangedListener {
-                    vm.inputs?.get(title)?.value = (it.toString().isNotBlank())
+                    vm.inputs?.get(fieldType)?.value = (it.toString().isNotBlank())
                 }
 
                 etContent.setOnFocusChangeListener { _, hasFocus ->
@@ -111,18 +115,18 @@ class UploadHappicActivity : AppCompatActivity() {
                         strokeWidth = if (hasFocus) px(1).toFloat() else 0f
                     }
 
-                    containerTags.visibility = when (title) {
-                        "#when" -> GONE
+                    containerTags.visibility = when (fieldType) {
+                        WHEN -> GONE
                         else -> if (hasFocus) VISIBLE else GONE
                     } // when) 키보드 숨기고, Picker 보이기
-                    if (title == "#when") {
+                    if (fieldType == WHEN) {
                         val imm: InputMethodManager =
                             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         imm.hideSoftInputFromWindow(binding.whole.windowToken, 0)
                         binding.containerPicker.visibility = if (hasFocus) VISIBLE else GONE
                     }
                 }
-                if (title == "#when") {
+                if (fieldType == WHEN) {
                     etContent.inputType = EditText.LAYER_TYPE_NONE
                     binding.btnComplete.setOnClickListener { // TODO: timePicker onHourChangedListener 함수 이용해서 변경
                         etContent.setText("오후1시")
@@ -132,9 +136,9 @@ class UploadHappicActivity : AppCompatActivity() {
                     collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
                         it?.run {
                             llTags.removeAllViews()
-                            val tagList = when (title) {
-                                "#where" -> where
-                                "#who" -> who
+                            val tagList = when (fieldType) {
+                                WHERE -> where
+                                WHO -> who
                                 else -> what
                             }
                             if (tagList.isEmpty()) {
