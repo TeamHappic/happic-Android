@@ -6,6 +6,7 @@ import happy.kiki.happic.module.core.data.api.base.useApiNoParams
 import happy.kiki.happic.module.core.util.SimpleEventFlow
 import happy.kiki.happic.module.core.util.extension.collectFlow
 import happy.kiki.happic.module.core.util.now
+import happy.kiki.happic.module.dailyhappic.data.api.dailyHappic
 import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicMockService
 import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicPhotoListModel
 import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicTagModel
@@ -17,11 +18,13 @@ class DailyHappicViewModel : ViewModel() {
     val isMonthSelectOpened = MutableStateFlow(false)
 
     val photosApi = useApi<Pair<Int, Int>, List<DailyHappicPhotoListModel>> { (year, month) ->
-        dailyHappicMockService.photos(year, month)
+        dailyHappic.photos(year,month)
+//        dailyHappicMockService.photos(year, month)
     }
 
     val tagsApi = useApi<Pair<Int, Int>, List<DailyHappicTagModel>> { (year, month) ->
-        dailyHappicMockService.tags(year, month)
+        dailyHappic.tags(year,month)
+//        dailyHappicMockService.tags(year, month)
     }
 
     val onNavigateUpload = SimpleEventFlow()

@@ -26,16 +26,22 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityUploadHappicBinding
 import happy.kiki.happic.databinding.ItemUploadChipBinding
 import happy.kiki.happic.databinding.ItemUploadFieldBinding
-import happy.kiki.happic.module.core.util.extension.addLengthFilter
-import happy.kiki.happic.module.core.util.extension.addNoSpaceFilter
+import happy.kiki.happic.module.core.data.api.base.NetworkState.Loading
+import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
+import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.px
+import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadReq
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHAT
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHEN
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHERE
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHO
 import kotlinx.android.parcel.Parcelize
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 
 class UploadHappicActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadHappicBinding
@@ -54,6 +60,38 @@ class UploadHappicActivity : AppCompatActivity() {
         bindingDatas()
         configureFields()
         configureHeader()
+        configureUploadEvent()
+    }
+
+    private fun configureUploadEvent() {
+        binding.clUpload.setOnClickListener {
+            val file = File(imageUri.toString())
+            val requestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+            val body = MultipartBody.Part.createFormData("file", file.name.trim(), requestBody)
+            vm.uploadPhotoApi.call(body)
+        }
+
+        collectFlowWhenStarted(vm.onImageUpload.flow) {
+            it?.run {
+                with(vm) {
+                    uploadApi.call(
+                        DailyHappicUploadReq(
+                            it,
+                            inputs[WHEN].toString(),
+                            inputs[WHERE].toString(),
+                            inputs[WHO].toString(),
+                            inputs[WHAT].toString()
+                        )
+                    )
+                }
+            }
+        }
+
+        collectFlowWhenStarted(vm.uploadApi.state) {
+            when (it) {
+                is Success -> debugE(it.data)
+            }
+        }
     }
 
     private fun configureUIChangeEvent() {
@@ -74,7 +112,7 @@ class UploadHappicActivity : AppCompatActivity() {
 
     private fun bindingDatas() {
         binding.ivPhoto.setImageURI(imageUri)
-        collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
+        collectFlowWhenStarted(vm.keywordApi.data) {
             it?.run {
                 binding.date = getDate(it.currentDate)
             }
@@ -86,10 +124,10 @@ class UploadHappicActivity : AppCompatActivity() {
             binding.tvUpload.setTextColor(getColor(if (isEnable) R.color.orange else R.color.gray7))
             binding.clUpload.isClickable = isEnable
         }
-        vm.inputs.forEach { flowMapEntry ->
+        vm.isNotEmptyInputs.forEach { flowMapEntry ->
             collectFlowWhenStarted(flowMapEntry.value) {
                 var check = true
-                vm.inputs.map { it.value.value }.forEach { check = check && it }
+                vm.isNotEmptyInputs.map { it.value.value }.forEach { check = check && it }
                 vm.isUploadBtnEnabled.value = check
             }
         }
@@ -108,7 +146,8 @@ class UploadHappicActivity : AppCompatActivity() {
                 hint = it.second
                 val fieldType = it.first
                 etContent.addTextChangedListener {
-                    vm.inputs?.get(fieldType)?.value = (it.toString().isNotBlank())
+                    vm.isNotEmptyInputs[fieldType]?.value = (it.toString().isNotBlank())
+                    vm.inputs[fieldType]?.value = (it.toString())
                 }
 
                 etContent.setOnFocusChangeListener { _, hasFocus ->
@@ -137,7 +176,7 @@ class UploadHappicActivity : AppCompatActivity() {
                         binding.containerPicker.visibility = GONE
                     }
                 } else {
-                    collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
+                    collectFlowWhenStarted(vm.keywordApi.data) {
                         it?.run {
                             llTags.removeAllViews()
                             val tagList = when (fieldType) {
