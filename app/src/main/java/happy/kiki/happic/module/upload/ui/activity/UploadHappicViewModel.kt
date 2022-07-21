@@ -8,6 +8,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class UploadHappicViewModel : ViewModel() {
     val isUploadFieldFocused = MutableStateFlow(false)
+    val isUploadBtnEnabled = MutableStateFlow(false)
+
+    val inputs = mapOf(
+        "#when" to MutableStateFlow(false),
+        "#where" to MutableStateFlow(false),
+        "#who" to MutableStateFlow(false),
+        "#what" to MutableStateFlow(false)
+    )
 
     val dailyHappicKeywordApi = useApiNoParams<KeywordRankingForUploadRes> {
         dailyHappicMockService.keywordRankingForUpload()
