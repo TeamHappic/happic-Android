@@ -18,8 +18,8 @@ import happy.kiki.happic.module.core.util.loadUrlAsync
 import happy.kiki.happic.module.dailyhappic.data.model.GalleryModel
 import happy.kiki.happic.module.dailyhappic.ui.activity.GalleryAdapter.GalleryHolder
 
-class GalleryAdapter(private val onClickCamera: () -> Unit) : ListAdapter<GalleryModel, GalleryHolder>(DIFF) {
-
+class GalleryAdapter(private val onClickCamera: () -> Unit, private val onClickItem: (uri: String) -> Unit) :
+    ListAdapter<GalleryModel, GalleryHolder>(DIFF) {
     override fun getItemViewType(position: Int) = when (position) {
         0 -> 0
         else -> 1
@@ -46,7 +46,7 @@ class GalleryAdapter(private val onClickCamera: () -> Unit) : ListAdapter<Galler
         private val imageView get() = container.getChildAt(0) as ImageView
         fun bind(item: GalleryModel) {
             if (itemViewType == 0) container.setOnClickListener { onClickCamera() }
-            else container.setOnClickListener(null)
+            else container.setOnClickListener { onClickItem(item.uri) }
 
             if (itemViewType == 0) {
                 imageView.scaleType = CENTER_INSIDE

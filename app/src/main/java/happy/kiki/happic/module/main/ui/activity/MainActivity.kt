@@ -1,17 +1,16 @@
 package happy.kiki.happic.module.main.ui.activity
 
 import HomeFragment
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import happy.kiki.happic.databinding.ActivityMainBinding
 import happy.kiki.happic.module.core.util.PermissionDexterUtil
 import happy.kiki.happic.module.core.util.PermissionDexterUtil.PermissionListener
-import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.addFragment
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.isFragmentExist
@@ -22,6 +21,8 @@ import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicContainerFrag
 import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicViewModel
 import happy.kiki.happic.module.report.ui.fragment.ReportContainerFragment
 import happy.kiki.happic.module.setting.ui.fragment.SettingFragment
+import happy.kiki.happic.module.upload.ui.activity.UploadHappicActivity
+import happy.kiki.happic.module.upload.ui.activity.UploadHappicActivity.Argument
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -51,6 +52,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val galleryActivityLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+    ) {
+        if (it.resultCode == 100) {
+            it.data?.getStringExtra("uri")?.let {
+                pushActivity<UploadHappicActivity>(Argument(it))
+            }
+        }
+    }
+
     private fun navigateUploadDailyHappic() {
         binding.bottomTab.setFabClickListener {
             dailyHappicVm.navigateUploadApi.call()
@@ -59,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             PermissionDexterUtil().requestPermissions(
                 this, object : PermissionListener {
                     override fun onPermissionGranted() {
-                        pushActivity<GalleryActivity>()
+                        galleryActivityLauncher.launch(Intent(this@MainActivity, GalleryActivity::class.java))
                     }
 
                     override fun onPermissionShouldBeGranted(deniedPermissions: List<String>) {
@@ -72,10 +83,9 @@ class MainActivity : AppCompatActivity() {
                         showToast("갤러리 권한을 [설정] - [앱] 에서허용해주세요")
                     }
                 }, listOf(
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             )
-
         }
         collectFlowWhenStarted(dailyHappicVm.onNavigateUploadFailedByMultipleUpload.flow) {
             showToast("하루해픽은 1일 1회 등록만 가능합니다.")

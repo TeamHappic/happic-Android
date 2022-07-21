@@ -42,9 +42,10 @@ class UploadHappicActivity : AppCompatActivity() {
     private val vm by viewModels<UploadHappicViewModel>()
 
     @Parcelize
-    data class Argument(val uri: Uri) : Parcelable
+    data class Argument(val uri: String) : Parcelable
 
     private val arg by argument<Argument>()
+    private val imageUri get() = Uri.parse(arg.uri)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +73,7 @@ class UploadHappicActivity : AppCompatActivity() {
     }
 
     private fun bindingDatas() {
-        binding.ivPhoto.setImageURI(arg.uri)
+        binding.ivPhoto.setImageURI(imageUri)
         collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
             it?.run {
                 binding.date = getDate(it.currentDate)

@@ -15,7 +15,6 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivitySignInBinding
 import happy.kiki.happic.module.auth.provider.AuthProvider
 import happy.kiki.happic.module.characterselect.ui.activity.CharacterActivity
-import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.pushActivity
 import happy.kiki.happic.module.core.util.extension.replaceActivity
@@ -68,12 +67,10 @@ class SignInActivity : AppCompatActivity() {
 
     private fun configureKaKaoLogin() {
         fun onKakaoLoginSuccess(accessToken: String) {
-            debugE(accessToken)
             viewModel.signInApi.call(accessToken)
         }
 
         fun onKakaoLoginFailed(throwable: Throwable) {
-            debugE(throwable)
             val isCancelled = throwable is ClientError && throwable.msg.contains("cancel")
             if (!isCancelled) showToast("카카오 로그인 실패")
         }

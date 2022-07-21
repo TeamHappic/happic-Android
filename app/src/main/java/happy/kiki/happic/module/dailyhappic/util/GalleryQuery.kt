@@ -18,7 +18,7 @@ class GalleryQuery(private val context: Context) {
             MediaStore.Images.Media._ID, MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.DATA
         )
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        context.contentResolver.query(uri, projection, null, null, null)?.run {
+        context.contentResolver.query(uri, projection, null, null, MediaStore.Images.Media.DATE_TAKEN + " DESC")?.run {
             block(this)
             close()
         }
