@@ -77,7 +77,7 @@ jobs:
           ref: 'develop'
 
       - name: Decode firebase config
-        run: touch app/google-services.json && echo $GOOGLE_SERVICE_JSON | base64 -di > app/google-services.json
+        run: touch app/google-services.json && echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 -di > app/google-services.json
 
       - name: Build Release
         run: ./gradlew assembleRelease
