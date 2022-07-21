@@ -27,7 +27,6 @@ import happy.kiki.happic.databinding.ActivityUploadHappicBinding
 import happy.kiki.happic.databinding.ItemUploadChipBinding
 import happy.kiki.happic.databinding.ItemUploadFieldBinding
 import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
-import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.px
@@ -100,8 +99,7 @@ class UploadHappicActivity : AppCompatActivity() {
             }
             setOnFocusChangeListener { _, _ ->
                 vm.isUploadFieldFocused.value = false
-                val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(windowToken, 0)
+                hideKeyboard()
             }
         }
         collectFlowWhenStarted(vm.isUploadFieldFocused) {
@@ -159,11 +157,11 @@ class UploadHappicActivity : AppCompatActivity() {
                     containerTags.visibility = when (fieldType) {
                         WHEN -> GONE
                         else -> if (hasFocus) VISIBLE else GONE
-                    } // when) 키보드 숨기고, Picker 보이기
+                    }
+
+                    // when) 키보드 숨기고, Picker 보이기
                     if (fieldType == WHEN) {
-                        val imm: InputMethodManager =
-                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        imm.hideSoftInputFromWindow(binding.whole.windowToken, 0)
+                        hideKeyboard()
                         binding.containerPicker.visibility = if (hasFocus) VISIBLE else GONE
                     }
                 }
@@ -248,6 +246,11 @@ class UploadHappicActivity : AppCompatActivity() {
             }
             return null
         }
+    }
+
+    private fun hideKeyboard() {
+        val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.whole.windowToken, 0)
     }
 
     private fun updateUi(hasFocus: Boolean) {
