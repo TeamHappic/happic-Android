@@ -26,6 +26,8 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityUploadHappicBinding
 import happy.kiki.happic.databinding.ItemUploadChipBinding
 import happy.kiki.happic.databinding.ItemUploadFieldBinding
+import happy.kiki.happic.module.core.util.extension.addLengthFilter
+import happy.kiki.happic.module.core.util.extension.addNoSpaceFilter
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.px
@@ -104,6 +106,7 @@ class UploadHappicActivity : AppCompatActivity() {
                 title = it.first.title
                 hint = it.second
                 val fieldType = it.first
+                etContent.addLengthFilter(if(fieldType == WHAT) 15 else 6)
                 etContent.addTextChangedListener {
                     vm.inputs?.get(fieldType)?.value = (it.toString().isNotBlank())
                 }
@@ -126,6 +129,7 @@ class UploadHappicActivity : AppCompatActivity() {
                         binding.containerPicker.visibility = if (hasFocus) VISIBLE else GONE
                     }
                 }
+                
                 if (fieldType == WHEN) {
                     etContent.inputType = EditText.LAYER_TYPE_NONE
                     binding.btnComplete.setOnClickListener { // TODO: timePicker onHourChangedListener 함수 이용해서 변경
