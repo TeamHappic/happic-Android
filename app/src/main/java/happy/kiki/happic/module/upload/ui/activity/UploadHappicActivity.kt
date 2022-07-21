@@ -99,7 +99,7 @@ class UploadHappicActivity : AppCompatActivity() {
                 hint = it.second
 
                 etContent.addTextChangedListener {
-                    vm.inputs?.get(title)?.value = (it.toString() != "")
+                    vm.inputs?.get(title)?.value = (it.toString().isNotBlank())
                 }
 
                 etContent.setOnFocusChangeListener { _, hasFocus ->
