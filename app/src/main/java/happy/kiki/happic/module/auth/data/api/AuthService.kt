@@ -18,7 +18,12 @@ interface AuthService {
     suspend fun signIn(@Body req: SignInReq): ApiResponse<SignInRes>
 
     @Serializable
-    data class SignUpReq(val characterId: CharacterType, val characterName: String, val accessToken: String)
+    data class SignUpReq(
+        val social: String,
+        val characterId: CharacterType,
+        val characterName: String,
+        val accessToken: String
+    )
 
     @Serializable
     data class SignUpRes(val jwtToken: String)

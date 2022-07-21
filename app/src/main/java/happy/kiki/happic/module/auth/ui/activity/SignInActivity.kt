@@ -17,6 +17,7 @@ import happy.kiki.happic.module.auth.provider.AuthProvider
 import happy.kiki.happic.module.characterselect.ui.activity.CharacterActivity
 import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
+import happy.kiki.happic.module.core.util.extension.pushActivity
 import happy.kiki.happic.module.core.util.extension.replaceActivity
 import happy.kiki.happic.module.core.util.extension.showToast
 import happy.kiki.happic.module.core.util.extension.windowHandler
@@ -67,6 +68,7 @@ class SignInActivity : AppCompatActivity() {
 
     private fun configureKaKaoLogin() {
         fun onKakaoLoginSuccess(accessToken: String) {
+            debugE(accessToken)
             viewModel.signInApi.call(accessToken)
         }
 
@@ -92,7 +94,7 @@ class SignInActivity : AppCompatActivity() {
             replaceActivity<MainActivity>()
         }
         collectFlowWhenStarted(viewModel.onSignInFail.flow) {
-            replaceActivity<CharacterActivity>()
+            pushActivity<CharacterActivity>()
         }
     }
 }

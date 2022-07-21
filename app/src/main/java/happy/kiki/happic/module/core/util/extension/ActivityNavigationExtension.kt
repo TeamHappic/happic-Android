@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import happy.kiki.happic.module.core.util.debugE
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -26,6 +27,7 @@ inline fun <reified T : Activity> Activity.pushActivity(
     intentConfig(
         Intent(this, T::class.java),
     ).apply {
+        debugE(flags)
         arg?.run { putExtra(_ACTIVITY_ARGUMENT_KEY_, arg) }
     }, if (sharedElementPairs.isNotEmpty()) ActivityOptions.makeSceneTransitionAnimation(
         this, *sharedElementPairs.toTypedArray()

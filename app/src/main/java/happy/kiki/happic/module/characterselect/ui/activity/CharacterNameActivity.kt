@@ -1,5 +1,6 @@
 package happy.kiki.happic.module.characterselect.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
@@ -17,6 +18,8 @@ import happy.kiki.happic.module.characterselect.data.api.CharacterService.Update
 import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType.MOON
 import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider
 import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider.Usage.SIGNUP
+import happy.kiki.happic.module.core.data.api.base.NetworkState.Failure
+import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
 import happy.kiki.happic.module.core.util.extension.addLengthFilter
 import happy.kiki.happic.module.core.util.extension.addNoSpaceFilter
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
@@ -102,6 +105,7 @@ class CharacterNameActivity : AppCompatActivity() {
             if (CharacterSelectFlowProvider.usage == SIGNUP) {
                 vm.signUpAndSignInApi.call(
                     SignUpReq(
+                        "kakao",
                         CharacterSelectFlowProvider.character.value,
                         CharacterSelectFlowProvider.name.value,
                         CharacterSelectFlowProvider.snsAccessToken
@@ -120,22 +124,36 @@ class CharacterNameActivity : AppCompatActivity() {
 
     private fun bindSignUpApiState() {
         collectFlowWhenStarted(vm.signUpAndSignInApi.isLoading) {
+            binding.ibBack.isInvisible = it
+            binding.tvDone.isInvisible = it
+            binding.etName.isInvisible = it
             binding.progressCir.isVisible = it
         }
-        collectFlowWhenStarted(vm.signUpAndSignInApi.isSuccess) {
-            if (it) {
-                pushActivity<MainActivity>()
+        collectFlowWhenStarted(vm.signUpAndSignInApi.state) {
+            when (it) {
+                is Success -> pushActivity<MainActivity>(intentConfig = {
+                    it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                })
+                is Failure -> pushActivity<MainActivity>(intentConfig = {
+                    it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                })
             }
         }
     }
 
     private fun bindUpdateApiState() {
         collectFlowWhenStarted(vm.updateCharacter.isLoading) {
+            binding.ibBack.isInvisible = it
+            binding.tvDone.isInvisible = it
+            binding.etName.isInvisible = it
             binding.progressCir.isVisible = it
         }
+
         collectFlowWhenStarted(vm.updateCharacter.isSuccess) {
             if (it) {
-                finish()
+                pushActivity<MainActivity>(intentConfig = {
+                    it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                })
             }
         }
     }

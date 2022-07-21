@@ -19,6 +19,7 @@
         <activity
             android:name=".module.auth.ui.activity.AuthActivity"
             android:exported="true"
+            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Splash">
             <intent-filter>
