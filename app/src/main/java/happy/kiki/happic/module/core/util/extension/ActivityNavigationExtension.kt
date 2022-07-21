@@ -11,7 +11,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import happy.kiki.happic.module.core.util.debugE
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -49,7 +48,7 @@ inline fun <reified T : Fragment> AppCompatActivity.addFragment(
     skipAddToBackStack: Boolean = false,
     backStackEntryName: String? = null,
 ) = supportFragmentManager.commit {
-    add(container.id, T::class.java, bundleOf(_FRAGMENT_ARGUMENT_KEY_ to arg), tag)
+    add(container.id, T::class.java, bundleOf(FRAGMENT_ARGUMENT_KEY_ to arg), tag)
     if (!skipAddToBackStack) addToBackStack(backStackEntryName)
 }
 
@@ -60,7 +59,7 @@ inline fun <reified T : Fragment> AppCompatActivity.replaceFragment(
     skipAddToBackStack: Boolean = false,
     backStackEntryName: String? = null
 ) = supportFragmentManager.commit {
-    replace<T>(container.id, tag, bundleOf(_FRAGMENT_ARGUMENT_KEY_ to arg))
+    replace<T>(container.id, tag, bundleOf(FRAGMENT_ARGUMENT_KEY_ to arg))
 
     if (!skipAddToBackStack) addToBackStack(backStackEntryName)
 }

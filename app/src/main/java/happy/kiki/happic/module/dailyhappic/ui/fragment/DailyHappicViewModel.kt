@@ -7,7 +7,6 @@ import happy.kiki.happic.module.core.data.api.base.useApiNoParams
 import happy.kiki.happic.module.core.util.SimpleEventFlow
 import happy.kiki.happic.module.core.util.extension.collectFlow
 import happy.kiki.happic.module.core.util.now
-import happy.kiki.happic.module.dailyhappic.data.api.dailyHappic
 import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicMockService
 import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +39,13 @@ class DailyHappicViewModel : ViewModel() {
         else onNavigateUploadFailedByMultipleUpload.emit()
     }) {
         dailyHappicMockService.isTodayUploaded()
+    }
+
+    val onDeleteHappic = SimpleEventFlow()
+    val deleteHappic = useApi<String>(onSuccess = {
+        onDeleteHappic.emit()
+    }) {
+        dailyHappicMockService.delete(it)
     }
 
     init {

@@ -58,6 +58,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.54" />
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/indicator"
+        style="@style/Indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/pager"
+        app:layout_constraintEnd_toEndOf="@id/pager"
+        app:layout_constraintStart_toStartOf="@id/pager"
+        app:layout_constraintTop_toTopOf="@id/pager" />
+
     <TextView
         android:id="@+id/tag"
         android:layout_width="match_parent"

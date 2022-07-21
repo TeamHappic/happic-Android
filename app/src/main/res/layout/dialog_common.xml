@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:paddingHorizontal="20dp"
     android:paddingTop="40dp"
     android:paddingBottom="20dp"
@@ -13,6 +15,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:layoutAnimation="@anim/common_layout_fast"
         tools:layoutAnimation="@null">
 
@@ -30,56 +34,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="캐릭터 변경 주의사항"
             android:textAlignment="center"
             android:textAppearance="@style/H2_G_B16"
             android:textColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/icon" />
+            app:layout_constraintTop_toBottomOf="@id/icon"
+            tools:text="캐릭터 변경 주의사항" />
 
         <TextView
             android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="변경 시 현재 캐릭터 성장이\n초기화됩니다.\n정말 변경하시겠습니까?"
             android:textAlignment="center"
             android:textAppearance="@style/B2_P_M14"
             android:textColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="변경 시 현재 캐릭터 성장이\n초기화됩니다.\n정말 변경하시겠습니까?" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel"
+            android:id="@+id/left"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginTop="50dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="취소"
             android:textAppearance="@style/H5_P_M16"
             app:backgroundTint="@color/bg_black2"
             app:cornerRadius="12dp"
-            app:layout_constraintEnd_toStartOf="@id/change"
+            app:layout_constraintEnd_toStartOf="@id/right"
             app:layout_constraintHorizontal_weight="10"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/body" />
+            app:layout_constraintTop_toBottomOf="@id/body"
+            tools:text="취소" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/change"
+            android:id="@+id/right"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="50dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="캐릭터 변경"
             android:textAppearance="@style/H4_P_B16"
             android:textColor="@color/orange"
             app:backgroundTint="@color/bg_black2"
             app:cornerRadius="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="16"
-            app:layout_constraintStart_toEndOf="@id/cancel"
-            app:layout_constraintTop_toBottomOf="@id/body" />
+            app:layout_constraintStart_toEndOf="@id/left"
+            app:layout_constraintTop_toBottomOf="@id/body"
+            tools:text="캐릭터 변경" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

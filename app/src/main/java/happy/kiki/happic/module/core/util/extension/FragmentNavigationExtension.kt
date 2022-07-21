@@ -12,7 +12,7 @@ import androidx.fragment.app.replace
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-const val _FRAGMENT_ARGUMENT_KEY_ = "_FRAGMENT_ARGUMENT_KEY_"
+const val FRAGMENT_ARGUMENT_KEY_ = "_FRAGMENT_ARGUMENT_KEY_"
 
 inline fun <reified T : Activity> Fragment.pushActivity(
     arg: Parcelable? = null, intentConfig: (Intent) -> Intent = { it },
@@ -26,7 +26,7 @@ inline fun <reified T : Fragment> Fragment.addFragment(
     backStackEntryName: String? = null,
     fragmentManager: FragmentManager? = null
 ) = (fragmentManager ?: parentFragmentManager).commit {
-    add(container.id, T::class.java, bundleOf(_FRAGMENT_ARGUMENT_KEY_ to arg), tag)
+    add(container.id, T::class.java, bundleOf(FRAGMENT_ARGUMENT_KEY_ to arg), tag)
 
     if (!skipAddToBackStack) addToBackStack(backStackEntryName)
 }
@@ -39,7 +39,7 @@ inline fun <reified T : Fragment> Fragment.replaceFragment(
     backStackEntryName: String? = null,
     fragmentManager: FragmentManager? = null,
 ) = (fragmentManager ?: parentFragmentManager).commit {
-    replace<T>(container.id, tag, bundleOf(_FRAGMENT_ARGUMENT_KEY_ to arg))
+    replace<T>(container.id, tag, bundleOf(FRAGMENT_ARGUMENT_KEY_ to arg))
 
     if (!skipAddToBackStack) addToBackStack(backStackEntryName)
 }
@@ -51,7 +51,7 @@ inline fun <reified T : Fragment> Fragment.isChildFragmentExistIn() = childFragm
 
 class FragmentArgumentDelegate<Arg : Parcelable> : ReadOnlyProperty<Fragment, Arg> {
     override fun getValue(thisRef: Fragment, property: KProperty<*>) =
-        thisRef.arguments?.getParcelable<Arg>(_FRAGMENT_ARGUMENT_KEY_)
+        thisRef.arguments?.getParcelable<Arg>(FRAGMENT_ARGUMENT_KEY_)
             ?: throw RuntimeException("${this::class.java.simpleName}이 argument를 가져오는 데 실패했습니다")
 }
 

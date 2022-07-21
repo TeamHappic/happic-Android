@@ -62,7 +62,7 @@ class UploadHappicActivity : AppCompatActivity() {
     }
 
     private fun configureUploadEvent() {
-        binding.clUpload.setOnClickListener {
+        binding.tvUpload.setOnClickListener {
             val file = File(imageUri.toString())
             val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("file", file.name.trim(), requestBody)
@@ -70,18 +70,16 @@ class UploadHappicActivity : AppCompatActivity() {
         }
 
         collectFlowWhenStarted(vm.onImageUpload.flow) {
-            it?.run {
-                with(vm) {
-                    uploadApi.call(
-                        DailyHappicUploadReq(
-                            it,
-                            inputs[WHEN]?.value.toString(),
-                            inputs[WHERE]?.value.toString(),
-                            inputs[WHO]?.value.toString(),
-                            inputs[WHAT]?.value.toString()
-                        )
+            with(vm) {
+                uploadApi.call(
+                    DailyHappicUploadReq(
+                        it,
+                        inputs[WHEN]?.value.toString(),
+                        inputs[WHERE]?.value.toString(),
+                        inputs[WHO]?.value.toString(),
+                        inputs[WHAT]?.value.toString()
                     )
-                }
+                )
             }
         }
 
@@ -119,7 +117,7 @@ class UploadHappicActivity : AppCompatActivity() {
     private fun configureHeader() {
         collectFlowWhenStarted(vm.isUploadBtnEnabled) { isEnable ->
             binding.tvUpload.setTextColor(getColor(if (isEnable) R.color.orange else R.color.gray7))
-            binding.clUpload.isClickable = isEnable
+            binding.tvUpload.isClickable = isEnable
         }
         vm.isNotEmptyInputs.forEach { flowMapEntry ->
             collectFlowWhenStarted(flowMapEntry.value) {
@@ -128,7 +126,7 @@ class UploadHappicActivity : AppCompatActivity() {
                 vm.isUploadBtnEnabled.value = check
             }
         }
-        binding.clX.setOnClickListener {
+        binding.close.setOnClickListener {
             finish()
         }
     }
