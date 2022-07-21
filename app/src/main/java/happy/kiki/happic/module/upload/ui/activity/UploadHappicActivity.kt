@@ -15,7 +15,6 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -66,6 +65,7 @@ class UploadHappicActivity : AppCompatActivity() {
     private fun configureImageView() {
         binding.ivPhoto.setImageURI(arg.uri)
     }
+
     private fun configureFields() {
         listOf("#where" to "장소를 입력해주세요", "#who" to "함께한 사람을 입력해주세요", "#what" to "무엇을 했는지 입력해주세요").forEach {
             ItemUploadFieldBinding.inflate(layoutInflater).apply {
@@ -90,7 +90,10 @@ class UploadHappicActivity : AppCompatActivity() {
                             "#who" -> who
                             else -> what
                         }
-                        if (tagList.isNotEmpty()) {
+                        if (tagList.isEmpty()) {
+                            tvEmpty.visibility = VISIBLE
+                        } else {
+                            tvEmpty.visibility = GONE
                             var idx = 0
                             var linearLayout: LinearLayout? = null
 
@@ -120,7 +123,7 @@ class UploadHappicActivity : AppCompatActivity() {
                         }
                     }
                 }
-                binding.containerFields.addView(this.root)
+                binding.containerFields.addView(root)
             }
         }
     }

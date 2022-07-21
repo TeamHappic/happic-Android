@@ -92,15 +92,15 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
                     Ipsum.text(5),
                     Ipsum.text(5)
                 ), listOf(
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
-                    Ipsum.text(5),
+//                    Ipsum.text(5),
+//                    Ipsum.text(5),
+//                    Ipsum.text(5),
+//                    Ipsum.text(5),
+//                    Ipsum.text(5),
+//                    Ipsum.text(5),
+//                    Ipsum.text(5),
+//                    Ipsum.text(5),
+//                    Ipsum.text(5),
                 )
             )
         )
@@ -143,7 +143,7 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
     }
 
     override suspend fun isTodayUploaded(): ApiResponse<IsTodayUploadedRes> {
-        return successApiResponse(IsTodayUploadedRes(true))
+        return successApiResponse(IsTodayUploadedRes(false))
     }
 
     override suspend fun upload(req: DailyHappicUploadReq): ApiResponse<DailyHappicUploadRes> {
