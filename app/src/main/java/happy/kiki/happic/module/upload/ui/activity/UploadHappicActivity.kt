@@ -26,10 +26,22 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityUploadHappicBinding
 import happy.kiki.happic.databinding.ItemUploadChipBinding
 import happy.kiki.happic.databinding.ItemUploadFieldBinding
+import happy.kiki.happic.module.core.data.api.base.NetworkState.Loading
+import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
+import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.px
+import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadReq
+import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHAT
+import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHEN
+import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHERE
+import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHO
 import kotlinx.android.parcel.Parcelize
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 
 class UploadHappicActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadHappicBinding
@@ -48,6 +60,38 @@ class UploadHappicActivity : AppCompatActivity() {
         bindingDatas()
         configureFields()
         configureHeader()
+        configureUploadEvent()
+    }
+
+    private fun configureUploadEvent() {
+        binding.clUpload.setOnClickListener {
+            val file = File(imageUri.toString())
+            val requestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+            val body = MultipartBody.Part.createFormData("file", file.name.trim(), requestBody)
+            vm.uploadPhotoApi.call(body)
+        }
+
+        collectFlowWhenStarted(vm.onImageUpload.flow) {
+            it?.run {
+                with(vm) {
+                    uploadApi.call(
+                        DailyHappicUploadReq(
+                            it,
+                            inputs[WHEN].toString(),
+                            inputs[WHERE].toString(),
+                            inputs[WHO].toString(),
+                            inputs[WHAT].toString()
+                        )
+                    )
+                }
+            }
+        }
+
+        collectFlowWhenStarted(vm.uploadApi.state) {
+            when (it) {
+                is Success -> finish()
+            }
+        }
     }
 
     private fun configureUIChangeEvent() {
@@ -68,7 +112,7 @@ class UploadHappicActivity : AppCompatActivity() {
 
     private fun bindingDatas() {
         binding.ivPhoto.setImageURI(imageUri)
-        collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
+        collectFlowWhenStarted(vm.keywordApi.data) {
             it?.run {
                 binding.date = getDate(it.currentDate)
             }
@@ -80,10 +124,10 @@ class UploadHappicActivity : AppCompatActivity() {
             binding.tvUpload.setTextColor(getColor(if (isEnable) R.color.orange else R.color.gray7))
             binding.clUpload.isClickable = isEnable
         }
-        vm.inputs.forEach { flowMapEntry ->
+        vm.isNotEmptyInputs.forEach { flowMapEntry ->
             collectFlowWhenStarted(flowMapEntry.value) {
                 var check = true
-                vm.inputs.map { it.value.value }.forEach { check = check && it }
+                vm.isNotEmptyInputs.map { it.value.value }.forEach { check = check && it }
                 vm.isUploadBtnEnabled.value = check
             }
         }
@@ -94,15 +138,16 @@ class UploadHappicActivity : AppCompatActivity() {
 
     private fun configureFields() {
         listOf(
-            "#when" to "시간을 입력해주세요", "#where" to "장소를 입력해주세요", "#who" to "함께한 사람을 입력해주세요", "#what" to "무엇을 했는지 입력해주세요"
+            WHEN to "시간을 입력해주세요", WHERE to "장소를 입력해주세요", WHO to "함께한 사람을 입력해주세요", WHAT to "무엇을 했는지 입력해주세요"
         ).forEach {
             ItemUploadFieldBinding.inflate(layoutInflater).apply {
                 root.id = ViewCompat.generateViewId()
-                title = it.first
+                title = it.first.title
                 hint = it.second
-
+                val fieldType = it.first
                 etContent.addTextChangedListener {
-                    vm.inputs?.get(title)?.value = (it.toString().isNotBlank())
+                    vm.isNotEmptyInputs[fieldType]?.value = (it.toString().isNotBlank())
+                    vm.inputs[fieldType]?.value = (it.toString())
                 }
 
                 etContent.setOnFocusChangeListener { _, hasFocus ->
@@ -112,30 +157,31 @@ class UploadHappicActivity : AppCompatActivity() {
                         strokeWidth = if (hasFocus) px(1).toFloat() else 0f
                     }
 
-                    containerTags.visibility = when (title) {
-                        "#when" -> GONE
+                    containerTags.visibility = when (fieldType) {
+                        WHEN -> GONE
                         else -> if (hasFocus) VISIBLE else GONE
                     } // when) 키보드 숨기고, Picker 보이기
-                    if (title == "#when") {
+                    if (fieldType == WHEN) {
                         val imm: InputMethodManager =
                             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         imm.hideSoftInputFromWindow(binding.whole.windowToken, 0)
                         binding.containerPicker.visibility = if (hasFocus) VISIBLE else GONE
                     }
                 }
-                if (title == "#when") {
+
+                if (fieldType == WHEN) {
                     etContent.inputType = EditText.LAYER_TYPE_NONE
                     binding.btnComplete.setOnClickListener { // TODO: timePicker onHourChangedListener 함수 이용해서 변경
                         etContent.setText("오후1시")
                         binding.containerPicker.visibility = GONE
                     }
                 } else {
-                    collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
+                    collectFlowWhenStarted(vm.keywordApi.data) {
                         it?.run {
                             llTags.removeAllViews()
-                            val tagList = when (title) {
-                                "#where" -> where
-                                "#who" -> who
+                            val tagList = when (fieldType) {
+                                WHERE -> where
+                                WHO -> who
                                 else -> what
                             }
                             if (tagList.isEmpty()) {

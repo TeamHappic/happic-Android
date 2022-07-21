@@ -125,7 +125,7 @@ val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappic else object : D
     }
 
     override suspend fun upload(req: DailyHappicUploadReq): ApiResponse<DailyHappicUploadRes> {
-        TODO("Not yet implemented")
+        return successApiResponse(DailyHappicUploadRes("mockId"))
     }
 
     override suspend fun delete(id: Int): NoDataApiResponse {
