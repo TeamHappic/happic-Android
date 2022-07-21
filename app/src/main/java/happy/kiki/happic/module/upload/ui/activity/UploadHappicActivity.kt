@@ -106,7 +106,6 @@ class UploadHappicActivity : AppCompatActivity() {
                 title = it.first.title
                 hint = it.second
                 val fieldType = it.first
-                etContent.addLengthFilter(if(fieldType == WHAT) 15 else 6)
                 etContent.addTextChangedListener {
                     vm.inputs?.get(fieldType)?.value = (it.toString().isNotBlank())
                 }
