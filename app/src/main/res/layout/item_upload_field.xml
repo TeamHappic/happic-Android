@@ -84,6 +84,20 @@
                 app:card_background_color="@color/bg_black2"
                 app:layout_constraintTop_toBottomOf="@id/cl_text_field">
 
+                <TextView
+                    android:id="@+id/tv_empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="22dp"
+                    android:text="자주 입력한 키워드가 아직 없어요"
+                    android:textAppearance="@style/Regular.12"
+                    android:textColor="@color/gray3"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <LinearLayout
                     android:id="@+id/ll_tags"
                     android:layout_width="match_parent"
