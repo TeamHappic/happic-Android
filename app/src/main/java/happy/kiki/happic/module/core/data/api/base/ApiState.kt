@@ -52,13 +52,13 @@ open class ApiState<TData, TParam>(
             if (isLatestCall()) {
                 when (response) {
                     is ApiResponse<TData> -> {
+                        onSuccess(response.data)
                         _state.value = NetworkState.Success(response.data)
                         this@ApiState.data.value = response.data
-                        onSuccess(response.data)
                     }
                     is NoDataApiResponse -> {
-                        _state.value = NetworkState.Success(Unit as TData)
                         onSuccess(Unit as TData)
+                        _state.value = NetworkState.Success(Unit as TData)
                     }
                 }
             }

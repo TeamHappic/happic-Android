@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import happy.kiki.happic.databinding.ActivityCharacterBinding
+import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType
 import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType.CLOUD
 import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType.MOON
-import happy.kiki.happic.module.characterselect.ui.activity.CharacterSelectActivity.Argument
+import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider
 import happy.kiki.happic.module.core.util.extension.pushActivity
 import android.util.Pair as UtilPair
 
@@ -20,22 +21,19 @@ class CharacterActivity : AppCompatActivity() {
         initCharacterButtonClickListeners()
     }
 
-    private fun initCharacterButtonClickListeners(){
-
+    private fun initCharacterButtonClickListeners() {
         val sharedElementPairs = listOf(
             UtilPair(binding.bvMoon as View, "moon"), UtilPair(binding.bvCloud as View, "cloud")
         )
 
-        binding.bvMoon.setOnClickListener {
+        fun setCharacterAndNavigate(type: CharacterType) {
+            CharacterSelectFlowProvider.character.value = type
             pushActivity<CharacterSelectActivity>(
-                Argument(MOON), sharedElementPairs = sharedElementPairs
+                sharedElementPairs = sharedElementPairs
             )
         }
 
-        binding.bvCloud.setOnClickListener {
-            pushActivity<CharacterSelectActivity>(
-                Argument(CLOUD), sharedElementPairs = sharedElementPairs
-            )
-        }
+        binding.bvMoon.setOnClickListener { setCharacterAndNavigate(MOON) }
+        binding.bvCloud.setOnClickListener { setCharacterAndNavigate(CLOUD) }
     }
 }
