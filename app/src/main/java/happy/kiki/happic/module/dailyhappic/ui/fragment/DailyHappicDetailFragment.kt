@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,11 +17,13 @@ import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.screenWidth
 import happy.kiki.happic.module.report.util.koFormat
 import happy.kiki.happic.module.report.util.padZero
+import happy.kiki.happic.module.setting.ui.dialog.CommonDialog
+import happy.kiki.happic.module.setting.ui.dialog.CommonDialog.Argument
 import kotlinx.coroutines.flow.combine
 import kotlin.math.absoluteValue
 import kotlin.math.min
 
-class DailyHappicDetailFragment : Fragment() {
+class DailyHappicDetailFragment : Fragment(), CommonDialog.Listener {
     private var binding by AutoCleardValue<FragmentDailyHappicDetailBinding>()
 
     private val vm by activityViewModels<DailyHappicViewModel>()
@@ -33,8 +36,32 @@ class DailyHappicDetailFragment : Fragment() {
         configurePager()
     }
 
-    private fun configureHeader() = binding.back.setOnClickListener {
-        requireActivity().onBackPressedDispatcher.onBackPressed()
+    private fun configureHeader() {
+        binding.back.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+        binding.delete.setOnClickListener {
+            CommonDialog.newInstance(
+                Argument(
+                    R.drawable.hp_ic_alert,
+                    "해픽 삭제",
+                    "사진 삭제시 사진과 태그가 모두\n지워집니다. 또한 해당 내용은\n복구가 불가능합니다.\n삭제하시겠습니까?",
+                    "취소",
+                    "삭제하기"
+                )
+            ).show(childFragmentManager, null)
+        }
+
+        collectFlowWhenStarted(vm.onDeleteHappic.flow) {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+        collectFlowWhenStarted(vm.deleteHappic.isLoading) {
+            binding.indicator.isVisible = it
+        }
+    }
+
+    override fun onClickRight() {
+        if (vm.detailDailyHappicItem.value != null) vm.deleteHappic.call(vm.detailDailyHappicItem.value!!.id)
     }
 
     private fun configurePager() {
