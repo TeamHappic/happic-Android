@@ -111,7 +111,11 @@ class CharacterNameActivity : AppCompatActivity() {
     private fun bindSignUpApiState() {
         collectFlowWhenStarted(vm.signUpAndSignInApi.isLoading, ::bindWithLoadingState)
         collectFlowWhenStarted(vm.signUpAndSignInApi.isSuccess) {
-            debugE(it)
+            if (it) pushActivity<MainActivity>(intentConfig = {
+                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            })
+        }
+        collectFlowWhenStarted(vm.signUpAndSignInApi.isFail) {
             if (it) pushActivity<MainActivity>(intentConfig = {
                 it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             })

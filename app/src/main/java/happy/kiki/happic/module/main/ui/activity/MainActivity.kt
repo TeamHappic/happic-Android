@@ -10,13 +10,15 @@ import happy.kiki.happic.databinding.ActivityMainBinding
 import happy.kiki.happic.module.core.util.extension.addFragment
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.isFragmentExist
-import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicFragment
+import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicContainerFragment
+import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicViewModel
 import happy.kiki.happic.module.report.ui.fragment.ReportContainerFragment
 import happy.kiki.happic.module.setting.ui.fragment.SettingFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val vm by viewModels<MainViewModel>()
+    private val dailyHappicVm by viewModels<DailyHappicViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +34,15 @@ class MainActivity : AppCompatActivity() {
         collectFlowWhenStarted(vm.tabIndex) {
             when (it) {
                 0 -> showFragment<HomeFragment>()
-                1 -> showFragment<DailyHappicFragment>()
+                1 -> showFragment<DailyHappicContainerFragment>()
                 2 -> showFragment<ReportContainerFragment>()
                 3 -> showFragment<SettingFragment>()
             }
             binding.bottomTab.selectedTabIndex = it
+        }
+
+        binding.bottomTab.setFabClickListener {
+            dailyHappicVm.navigateUploadApi.call()
         }
     }
 
