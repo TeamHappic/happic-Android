@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<happy.kiki.happic.module.core.ui.widget.BorderView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="40dp"
+    android:paddingBottom="20dp"
+    app:card_background_color="@color/gray9"
+    app:card_corner_radius="12dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutAnimation="@anim/common_layout_fast"
+        tools:layoutAnimation="@null">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bell_gray3_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="캐릭터 변경 주의사항"
+            android:textAlignment="center"
+            android:textAppearance="@style/H2_G_B16"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/icon" />
+
+        <TextView
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="변경 시 현재 캐릭터 성장이\n초기화됩니다.\n정말 변경하시겠습니까?"
+            android:textAlignment="center"
+            android:textAppearance="@style/B2_P_M14"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="취소"
+            android:textAppearance="@style/H5_P_M16"
+            app:backgroundTint="@color/bg_black2"
+            app:cornerRadius="12dp"
+            app:layout_constraintEnd_toStartOf="@id/change"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/body" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/change"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="50dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="캐릭터 변경"
+            android:textAppearance="@style/H4_P_B16"
+            android:textColor="@color/orange"
+            app:backgroundTint="@color/bg_black2"
+            app:cornerRadius="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="16"
+            app:layout_constraintStart_toEndOf="@id/cancel"
+            app:layout_constraintTop_toBottomOf="@id/body" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</happy.kiki.happic.module.core.ui.widget.BorderView>

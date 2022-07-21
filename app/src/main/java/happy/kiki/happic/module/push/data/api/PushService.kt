@@ -4,20 +4,14 @@ import happy.kiki.happic.module.core.data.api.base.ApiServiceFactory.createServi
 import happy.kiki.happic.module.core.data.api.base.NoDataApiResponse
 import kotlinx.serialization.Serializable
 import retrofit2.http.Body
-import retrofit2.http.PUT
+import retrofit2.http.POST
 
 interface PushService {
     @Serializable
-    data class RefreshFcmTokenReq(val fcmToken: String)
-
-    @PUT("user/refresh")
-    suspend fun refreshFcmToken(@Body req: RefreshFcmTokenReq): NoDataApiResponse
-
-    @Serializable
     data class RegisterFcmTokenReq(val fcmToken: String)
 
-    @PUT("user")
-    suspend fun registerFcmToken(@Body req: Serializable): NoDataApiResponse
+    @POST("user/push")
+    suspend fun registerFcmToken(@Body req: RegisterFcmTokenReq): NoDataApiResponse
 }
 
 val pushService: PushService = createService()

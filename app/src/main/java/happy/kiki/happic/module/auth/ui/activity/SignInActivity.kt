@@ -14,8 +14,9 @@ import com.kakao.sdk.common.model.ClientError
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivitySignInBinding
 import happy.kiki.happic.module.auth.provider.AuthProvider
-import happy.kiki.happic.module.core.util.debugE
+import happy.kiki.happic.module.characterselect.ui.activity.CharacterActivity
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
+import happy.kiki.happic.module.core.util.extension.pushActivity
 import happy.kiki.happic.module.core.util.extension.replaceActivity
 import happy.kiki.happic.module.core.util.extension.showToast
 import happy.kiki.happic.module.core.util.extension.windowHandler
@@ -65,18 +66,21 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun configureKaKaoLogin() {
+        fun onKakaoLoginSuccess(accessToken: String) {
+            viewModel.signInApi.call(accessToken)
+        }
+
+        fun onKakaoLoginFailed(throwable: Throwable) {
+            val isCancelled = throwable is ClientError && throwable.msg.contains("cancel")
+            if (!isCancelled) showToast("카카오 로그인 실패")
+        }
+
         binding.kakaoButton.setOnClickListener {
             lifecycleScope.launchWhenStarted {
                 kotlin.runCatching {
                     AuthProvider.signOut()
                     AuthProvider.signInWithKakao(this@SignInActivity)
-                }.onSuccess { token ->
-                    debugE(token)
-                    viewModel.signInApi.call(token)
-                }.onFailure {
-                    val isCancelled = it is ClientError && it.msg.contains("cancel")
-                    if (!isCancelled) showToast("카카오 로그인 실패")
-                }
+                }.onSuccess(::onKakaoLoginSuccess).onFailure(::onKakaoLoginFailed)
             }
         }
 
@@ -87,7 +91,7 @@ class SignInActivity : AppCompatActivity() {
             replaceActivity<MainActivity>()
         }
         collectFlowWhenStarted(viewModel.onSignInFail.flow) {
-            replaceActivity<MainActivity>() // fixme
+            pushActivity<CharacterActivity>()
         }
     }
 }

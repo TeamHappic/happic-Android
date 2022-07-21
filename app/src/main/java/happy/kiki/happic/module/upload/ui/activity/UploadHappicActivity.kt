@@ -14,12 +14,13 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.LinearLayout
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
+import androidx.core.widget.addTextChangedListener
 import com.google.android.material.chip.Chip
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityUploadHappicBinding
@@ -32,95 +33,146 @@ import kotlinx.android.parcel.Parcelize
 
 class UploadHappicActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadHappicBinding
-    private val viewModel by viewModels<UploadHappicViewModel>()
+    private val vm by viewModels<UploadHappicViewModel>()
 
     @Parcelize
-    data class Argument(val uri: Uri) : Parcelable
+    data class Argument(val uri: String) : Parcelable
 
     private val arg by argument<Argument>()
+    private val imageUri get() = Uri.parse(arg.uri)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ActivityUploadHappicBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
-        setTouchEvent()
-        configureImageView()
+        configureUIChangeEvent()
+        bindingDatas()
         configureFields()
+        configureHeader()
     }
 
-    private fun setTouchEvent() {
+    private fun configureUIChangeEvent() {
         binding.whole.apply {
             setOnClickListener {
                 isFocusableInTouchMode = true
             }
             setOnFocusChangeListener { _, _ ->
-                viewModel.isUploadFieldFocused.value = false
+                vm.isUploadFieldFocused.value = false
                 val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(this.windowToken, 0)
+                imm.hideSoftInputFromWindow(windowToken, 0)
             }
         }
-        collectFlowWhenStarted(viewModel.isUploadFieldFocused) {
+        collectFlowWhenStarted(vm.isUploadFieldFocused) {
             updateUi(it)
         }
     }
 
-    private fun configureImageView() {
-        binding.ivPhoto.setImageURI(arg.uri)
+    private fun bindingDatas() {
+        binding.ivPhoto.setImageURI(imageUri)
+        collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
+            it?.run {
+                binding.date = getDate(it.currentDate)
+            }
+        }
     }
+
+    private fun configureHeader() {
+        collectFlowWhenStarted(vm.isUploadBtnEnabled) { isEnable ->
+            binding.tvUpload.setTextColor(getColor(if (isEnable) R.color.orange else R.color.gray7))
+            binding.clUpload.isClickable = isEnable
+        }
+        vm.inputs.forEach { flowMapEntry ->
+            collectFlowWhenStarted(flowMapEntry.value) {
+                var check = true
+                vm.inputs.map { it.value.value }.forEach { check = check && it }
+                vm.isUploadBtnEnabled.value = check
+            }
+        }
+        binding.clX.setOnClickListener {
+            finish()
+        }
+    }
+
     private fun configureFields() {
-        listOf("#where" to "장소를 입력해주세요", "#who" to "함께한 사람을 입력해주세요", "#what" to "무엇을 했는지 입력해주세요").forEach {
+        listOf(
+            "#when" to "시간을 입력해주세요", "#where" to "장소를 입력해주세요", "#who" to "함께한 사람을 입력해주세요", "#what" to "무엇을 했는지 입력해주세요"
+        ).forEach {
             ItemUploadFieldBinding.inflate(layoutInflater).apply {
                 root.id = ViewCompat.generateViewId()
                 title = it.first
                 hint = it.second
 
-                etContent.setOnFocusChangeListener { _, hasFocus ->
-                    viewModel.isUploadFieldFocused.value = hasFocus
-                    borderField.apply {
-                        strokeColor = if (hasFocus) context.getColor(R.color.dark_blue) else Color.TRANSPARENT
-                        strokeWidth = if (hasFocus) this@UploadHappicActivity.px(1).toFloat() else 0f
-                    }
-                    containerTags.visibility = if (hasFocus) VISIBLE else GONE
+                etContent.addTextChangedListener {
+                    vm.inputs?.get(title)?.value = (it.toString().isNotBlank())
                 }
 
-                collectFlowWhenStarted(viewModel.dailyHappicKeywordApi.data) {
-                    it?.run {
-                        llTags.removeAllViews()
-                        val tagList = when (title) {
-                            "#where" -> where
-                            "#who" -> who
-                            else -> what
-                        }
-                        if (tagList.isNotEmpty()) {
-                            var idx = 0
-                            var linearLayout: LinearLayout? = null
+                etContent.setOnFocusChangeListener { _, hasFocus ->
+                    vm.isUploadFieldFocused.value = hasFocus
+                    borderField.apply {
+                        strokeColor = if (hasFocus) context.getColor(R.color.dark_blue) else Color.TRANSPARENT
+                        strokeWidth = if (hasFocus) px(1).toFloat() else 0f
+                    }
 
-                            tagList.forEach { tag ->
-                                if (idx++ % 3 == 0) {
-                                    linearLayout?.let { llTags.addView(linearLayout) }
-                                    linearLayout = createLinearLayout()
-                                }
-
-                                createChip(tag).apply {
-                                    setOnClickListener {
-                                        etContent.setText(tag)
-                                    }
-                                    linearLayout?.addView(this)
-                                }
+                    containerTags.visibility = when (title) {
+                        "#when" -> GONE
+                        else -> if (hasFocus) VISIBLE else GONE
+                    } // when) 키보드 숨기고, Picker 보이기
+                    if (title == "#when") {
+                        val imm: InputMethodManager =
+                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(binding.whole.windowToken, 0)
+                        binding.containerPicker.visibility = if (hasFocus) VISIBLE else GONE
+                    }
+                }
+                if (title == "#when") {
+                    etContent.inputType = EditText.LAYER_TYPE_NONE
+                    binding.btnComplete.setOnClickListener { // TODO: timePicker onHourChangedListener 함수 이용해서 변경
+                        etContent.setText("오후1시")
+                        binding.containerPicker.visibility = GONE
+                    }
+                } else {
+                    collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
+                        it?.run {
+                            llTags.removeAllViews()
+                            val tagList = when (title) {
+                                "#where" -> where
+                                "#who" -> who
+                                else -> what
                             }
+                            if (tagList.isEmpty()) {
+                                tvEmpty.visibility = VISIBLE
+                            } else {
+                                tvEmpty.visibility = GONE
+                                var idx = 0
+                                var linearLayout: LinearLayout? = null
 
-                            if (idx % 3 != 0) {
-                                repeat(3 - tagList.size % 3) {
-                                    createChip("").apply {
-                                        visibility = INVISIBLE
+                                tagList.forEach { tag ->
+                                    if (idx++ % 3 == 0) {
+                                        linearLayout?.let { llTags.addView(linearLayout) }
+                                        linearLayout = createLinearLayout()
+                                    }
+
+                                    createChip(tag).apply {
+                                        setOnClickListener {
+                                            etContent.setText(tag)
+                                        }
                                         linearLayout?.addView(this)
                                     }
                                 }
+
+                                if (idx % 3 != 0) {
+                                    repeat(3 - tagList.size % 3) {
+                                        createChip("").apply {
+                                            visibility = INVISIBLE
+                                            linearLayout?.addView(this)
+                                        }
+                                    }
+                                }
+                                linearLayout?.let { llTags.addView(linearLayout) }
                             }
-                            linearLayout?.let { llTags.addView(linearLayout) }
                         }
                     }
                 }
-                binding.containerFields.addView(this.root)
+                binding.containerFields.addView(root)
             }
         }
     }
@@ -144,15 +196,24 @@ class UploadHappicActivity : AppCompatActivity() {
         alpha = 0
     }
 
+    private fun getDate(date: String): String? {
+        date.split("-", " ").apply {
+            if (size > 3) {
+                return "${this[1]}.${this[2]}"
+            }
+            return null
+        }
+    }
+
     private fun updateUi(hasFocus: Boolean) {
         val photoMarginHorizontal = if (hasFocus) 140 else 50
         val containerMarginTop = if (hasFocus) 32 else 20
         binding.ivPhoto.updateLayoutParams<MarginLayoutParams> {
-            leftMargin = this@UploadHappicActivity.px(photoMarginHorizontal)
-            rightMargin = this@UploadHappicActivity.px(photoMarginHorizontal)
+            leftMargin = px(photoMarginHorizontal)
+            rightMargin = px(photoMarginHorizontal)
         }
         binding.containerFields.updateLayoutParams<MarginLayoutParams> {
-            topMargin = this@UploadHappicActivity.px(containerMarginTop)
+            topMargin = px(containerMarginTop)
         }
     }
 }

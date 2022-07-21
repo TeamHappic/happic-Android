@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import happy.kiki.happic.module.core.util.debugE
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

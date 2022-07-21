@@ -37,6 +37,21 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
+    private val fab by lazy {
+        FloatingActionButton(context).apply {
+            size = FloatingActionButton.SIZE_MINI
+            backgroundTintList = ColorStateList.valueOf(getColor(R.color.dark_purple))
+            setImageResource(R.drawable.plus_gray9_16)
+            setMaxImageSize(px(16))
+            setShadowColorIfAvailable(getColor(R.color.dark_purple))
+        }
+    }
+
+    fun setFabClickListener(listener: () -> Unit) {
+        fab.setOnClickListener {
+            listener()
+        }
+    }
 
     init {
         orientation = HORIZONTAL
@@ -44,7 +59,6 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
         addViews()
         applySelectedState()
     }
-
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
@@ -86,13 +100,6 @@ class HappicBottomTab @JvmOverloads constructor(context: Context, attrs: Attribu
         addView(createMenuButton(R.drawable.hp_ic_home_off, "홈", 0).also { buttons.add(it) })
         addView(createMenuButton(R.drawable.hp_ic_dh_off, "하루해픽", 1).also { buttons.add(it) })
         addView(FrameLayout(context).apply {
-            val fab = FloatingActionButton(context).apply {
-                size = FloatingActionButton.SIZE_MINI
-                backgroundTintList = ColorStateList.valueOf(getColor(R.color.dark_purple))
-                setImageResource(R.drawable.plus_gray9_16)
-                setMaxImageSize(px(16))
-                setShadowColorIfAvailable(getColor(R.color.dark_purple))
-            }
             addView(fab, FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
                 gravity = Gravity.CENTER
             })

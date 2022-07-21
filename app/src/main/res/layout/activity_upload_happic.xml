@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+
+        <variable
+            name="date"
+            type="String" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -59,17 +67,31 @@
 
 
             <TextView
-                android:id="@+id/tv_title"
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{date}"
+                android:textAppearance="@style/Bold.16"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/cl_x"
+                app:layout_constraintEnd_toStartOf="@id/tv_happic"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/cl_x"
+                tools:text="06.26" />
+
+            <TextView
+                android:id="@+id/tv_happic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:text="@string/happic"
                 android:textAppearance="@style/Medium.16"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/cl_x"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/tv_date"
+                app:layout_constraintTop_toTopOf="@id/cl_x" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -111,6 +133,36 @@
 
         </ScrollView>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_black2"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <happy.kiki.happic.module.core.ui.widget.TimeWheelPicker
+                android:id="@+id/time_wheel_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_black2"
+                app:layout_constraintBottom_toTopOf="@id/btn_complete"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_complete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="28dp"
+                android:background="@drawable/shape_bg_btn"
+                android:text="완료"
+                android:textAppearance="@style/Bold.16"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/time_wheel_picker" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,7 +1,7 @@
 package happy.kiki.happic.module.characterselect.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -13,27 +13,23 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityCharacterNameBinding
-import happy.kiki.happic.module.characterselect.data.api.CharacterService.RegisterCharacterNameReq
-import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType
+import happy.kiki.happic.module.auth.data.api.AuthService.SignUpReq
+import happy.kiki.happic.module.characterselect.data.api.CharacterService.UpdateCharacterReq
 import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType.MOON
+import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider
+import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider.Usage.SIGNUP
 import happy.kiki.happic.module.core.util.extension.addLengthFilter
 import happy.kiki.happic.module.core.util.extension.addNoSpaceFilter
-import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.pushActivity
 import happy.kiki.happic.module.core.util.extension.showToast
+import happy.kiki.happic.module.core.util.extension.windowHandler
 import happy.kiki.happic.module.main.ui.activity.MainActivity
-import kotlinx.parcelize.Parcelize
 
 class CharacterNameActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCharacterNameBinding
 
-    @Parcelize
-    data class Argument(val characterType: CharacterType) : Parcelable
-
-    private val arg by argument<Argument>()
-
-    private val vm by viewModels<CharacterSelectViewModel>()
+    private val vm by viewModels<CharacterNameViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,21 +39,19 @@ class CharacterNameActivity : AppCompatActivity() {
 
         initEvent()
         initButtonClickListeners()
-
+        bindSignUpApiState()
+        bindUpdateApiState()
     }
 
     private fun initEvent() {
-        vm.characterType.value = arg.characterType
-        collectFlowWhenStarted(vm.characterType) {
-            it?.run {
-                if (it == MOON) {
-                    with(binding) { //ivRectangleCharacter.setImageResource(R.drawable.ic_rectangle_moon_name)
-                        ivCharacter.setImageResource(R.drawable.character_moon)
-                    }
-                } else {
-                    with(binding) { //ivRectangleCharacter.setImageResource(R.drawable.ic_rectangle_cloud_name)
-                        ivCharacter.setImageResource(R.drawable.character_cloud)
-                    }
+        collectFlowWhenStarted(CharacterSelectFlowProvider.character) {
+            if (it == MOON) {
+                with(binding) { //ivRectangleCharacter.setImageResource(R.drawable.ic_rectangle_moon_name)
+                    ivCharacter.setImageResource(R.drawable.character_moon)
+                }
+            } else {
+                with(binding) { //ivRectangleCharacter.setImageResource(R.drawable.ic_rectangle_cloud_name)
+                    ivCharacter.setImageResource(R.drawable.character_cloud)
                 }
             }
         }
@@ -90,26 +84,67 @@ class CharacterNameActivity : AppCompatActivity() {
         binding.tvDone.setOnClickListener {
             val characterName = binding.etName.text.toString()
             if (characterName.isNotBlank()) {
-                vm.characterName.value = characterName
-                binding.textView.text = "당신의 $characterName 이(가) 오고 있어요\n잠시 기다려주세요"
+                CharacterSelectFlowProvider.name.value = characterName
 
-                val textView = binding.textView.text.toString()
-                val builder = SpannableStringBuilder(textView)
-                val colorSpan = ForegroundColorSpan(getColor(R.color.orange))
-                builder.setSpan(colorSpan, 4, 4 + characterName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                binding.textView.text = builder
-
-                with(binding) {
-                    ibBack.isInvisible = true
-                    tvDone.isInvisible = true
-                    etName.isInvisible = true
-                    progressCir.isVisible = true
+                if (CharacterSelectFlowProvider.usage == SIGNUP) {
+                    vm.signUpAndSignInApi.call(
+                        SignUpReq(
+                            "kakao",
+                            CharacterSelectFlowProvider.character.value,
+                            CharacterSelectFlowProvider.name.value,
+                            CharacterSelectFlowProvider.snsAccessToken
+                        )
+                    )
+                } else {
+                    vm.updateCharacter.call(
+                        UpdateCharacterReq(
+                            CharacterSelectFlowProvider.character.value,
+                            CharacterSelectFlowProvider.name.value,
+                        )
+                    )
                 }
             }
-
-            vm.characterQueryApi.call(RegisterCharacterNameReq(vm.characterType.value, vm.characterName.value))
-            pushActivity<MainActivity>()
         }
+    }
+
+    private fun bindSignUpApiState() {
+        collectFlowWhenStarted(vm.signUpAndSignInApi.isLoading, ::bindWithLoadingState)
+        collectFlowWhenStarted(vm.signUpAndSignInApi.isSuccess) {
+            if (it) pushActivity<MainActivity>(intentConfig = {
+                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            })
+        }
+    }
+
+    private fun bindUpdateApiState() {
+        collectFlowWhenStarted(vm.updateCharacter.isLoading, ::bindWithLoadingState)
+
+        collectFlowWhenStarted(vm.updateCharacter.isSuccess) {
+            if (it) pushActivity<MainActivity>(intentConfig = {
+                it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            })
+        }
+    }
+
+    private fun bindWithLoadingState(isLoading: Boolean) {
+        val characterName = binding.etName.text.toString()
+        if (isLoading) {
+            binding.textView.text = "당신의 $characterName 이(가) 오고 있어요\n잠시 기다려주세요"
+            val textView = binding.textView.text.toString()
+            val builder = SpannableStringBuilder(textView)
+            val colorSpan = ForegroundColorSpan(getColor(R.color.orange))
+            builder.setSpan(colorSpan, 4, 4 + characterName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            binding.textView.text = builder
+        } else {
+            binding.textView.text = "어떤 길잡이와 함께 하실래요"
+        }
+
+        binding.ibBack.isInvisible = isLoading
+        binding.tvDone.isInvisible = isLoading
+        binding.etName.isInvisible = isLoading
+        binding.progressCir.isVisible = isLoading
+
+        if (isLoading) windowHandler.hideKeyboard()
     }
 }
 

@@ -13,7 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentDailyHappicPhotoBinding
 import happy.kiki.happic.databinding.ItemDailyHappicPhotoBinding
@@ -22,6 +22,7 @@ import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
 import happy.kiki.happic.module.core.util.extension.getColor
+import happy.kiki.happic.module.core.util.extension.injectViewId
 import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
 import happy.kiki.happic.module.core.util.yearMonthText
@@ -30,7 +31,7 @@ import java.time.LocalDate
 
 class DailyHappicPhotoFragment : Fragment() {
     private var binding by AutoCleardValue<FragmentDailyHappicPhotoBinding>()
-    private val vm by viewModels<DailyHappicViewModel>({ requireParentFragment() })
+    private val vm by activityViewModels<DailyHappicViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         FragmentDailyHappicPhotoBinding.inflate(inflater, container, false).let { binding = it; it.root }
@@ -91,14 +92,16 @@ class DailyHappicPhotoFragment : Fragment() {
                     }
                     map {
                         ItemDailyHappicPhotoBinding.inflate(layoutInflater).apply {
-                            root.id = ViewCompat.generateViewId()
+                            root.injectViewId()
                             photo = it
                             if (isToday(vm.selectedYearMonth.value, it.day.toInt())) {
                                 ivPhoto.strokeColor = ColorStateList.valueOf(getColor(R.color.orange))
                                 ivPhoto.strokeWidth = requireContext().px(1).toFloat()
                                 tvDay.setTextColor(getColor(R.color.orange))
                             }
+                            root.setOnClickListener {
 
+                            }
                         }
                     }.forEach { itemBinding ->
                         val width = (requireContext().screenWidth - requireContext().px(55)) / 4

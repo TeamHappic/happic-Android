@@ -7,7 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import happy.kiki.happic.databinding.ActivityAuthBinding
 import happy.kiki.happic.module.auth.data.enumerate.AutoSignInResult
-import happy.kiki.happic.module.core.util.extension.replaceActivity
+import happy.kiki.happic.module.core.util.extension.pushActivity
+import happy.kiki.happic.module.core.util.extension.windowHandler
 import happy.kiki.happic.module.main.ui.activity.MainActivity
 
 class AuthActivity : AppCompatActivity() {
@@ -20,6 +21,9 @@ class AuthActivity : AppCompatActivity() {
         ActivityAuthBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
 
         postponeSplashScreenExitUntilAutoSignInChecked()
+
+        windowHandler.allowViewOverlapWithStatusBar()
+        windowHandler.hideStatusBar()
     }
 
     private fun postponeSplashScreenExitUntilAutoSignInChecked() = binding.root.run {
@@ -37,8 +41,8 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun navigateNextActivity() {
-        if (viewModel.autoSignInResult.value == AutoSignInResult.SUCCESS) replaceActivity<MainActivity>()
-        else replaceActivity<MainActivity>() // todo
+        if (viewModel.autoSignInResult.value == AutoSignInResult.SUCCESS) pushActivity<MainActivity>()
+        else pushActivity<SignInActivity>()
         overridePendingTransition(0, 0)
     }
 }

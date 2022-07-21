@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import happy.kiki.happic.BuildConfig
 import happy.kiki.happic.databinding.FragmentSettingBinding
+import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider
+import happy.kiki.happic.module.characterselect.ui.activity.CharacterActivity
 import happy.kiki.happic.module.core.util.AutoCleardValue
 import happy.kiki.happic.module.core.util.extension.pushActivity
-import happy.kiki.happic.module.setting.ui.activity.CharacterSettingActivity
+import happy.kiki.happic.module.setting.ui.dialog.CharacterUpdateNudgeDialog
 
-class SettingFragment : Fragment() {
+class SettingFragment : Fragment(), CharacterUpdateNudgeDialog.Listener {
     private var binding by AutoCleardValue<FragmentSettingBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
@@ -25,7 +27,7 @@ class SettingFragment : Fragment() {
 
     private fun configureNavigations() {
         binding.characterChange.root.setOnClickListener {
-            pushActivity<CharacterSettingActivity>()
+            CharacterUpdateNudgeDialog.newInstance().show(childFragmentManager, null)
         }
         binding.termsOfUse.root.setOnClickListener {
 
@@ -39,6 +41,11 @@ class SettingFragment : Fragment() {
         binding.developers.root.setOnClickListener {
 
         }
+    }
+
+    override fun onClickChange() {
+        CharacterSelectFlowProvider.initForUpdate()
+        pushActivity<CharacterActivity>()
     }
 
     private fun setAppVersionText() = binding.version.apply {

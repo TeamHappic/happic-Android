@@ -1,7 +1,7 @@
 package happy.kiki.happic.module.core.data.api.base
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import happy.kiki.happic.module.auth.util.AccessTokenUtil
+import happy.kiki.happic.module.auth.util.JwtUtil
 import happy.kiki.happic.module.core.util.addFlipperNetworkInterceptor
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -23,7 +23,7 @@ object ApiServiceFactory {
 
     private fun Request.Builder.addCommonHeaderValues() = addHeader("Content-Type", "application/json")
     private fun Request.Builder.addAccessTokenHeaderValues() =
-        AccessTokenUtil.getAccessToken()?.let { addHeader("x-auth-token", it) } ?: this
+        JwtUtil.load()?.let { addHeader("x-auth-token", it) } ?: this
 
     @OptIn(ExperimentalSerializationApi::class)
     val _retrofit: Retrofit
