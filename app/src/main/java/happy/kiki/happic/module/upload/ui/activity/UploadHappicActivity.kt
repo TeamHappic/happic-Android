@@ -26,7 +26,6 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityUploadHappicBinding
 import happy.kiki.happic.databinding.ItemUploadChipBinding
 import happy.kiki.happic.databinding.ItemUploadFieldBinding
-import happy.kiki.happic.module.core.data.api.base.NetworkState.Loading
 import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
 import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.argument
@@ -40,7 +39,7 @@ import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHO
 import kotlinx.android.parcel.Parcelize
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 class UploadHappicActivity : AppCompatActivity() {
@@ -66,7 +65,7 @@ class UploadHappicActivity : AppCompatActivity() {
     private fun configureUploadEvent() {
         binding.clUpload.setOnClickListener {
             val file = File(imageUri.toString())
-            val requestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+            val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("file", file.name.trim(), requestBody)
             vm.uploadPhotoApi.call(body)
         }
@@ -77,10 +76,10 @@ class UploadHappicActivity : AppCompatActivity() {
                     uploadApi.call(
                         DailyHappicUploadReq(
                             it,
-                            inputs[WHEN].toString(),
-                            inputs[WHERE].toString(),
-                            inputs[WHO].toString(),
-                            inputs[WHAT].toString()
+                            inputs[WHEN]?.value.toString(),
+                            inputs[WHERE]?.value.toString(),
+                            inputs[WHO]?.value.toString(),
+                            inputs[WHAT]?.value.toString()
                         )
                     )
                 }
