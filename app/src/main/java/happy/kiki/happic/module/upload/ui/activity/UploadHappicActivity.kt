@@ -14,6 +14,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -55,7 +56,7 @@ class UploadHappicActivity : AppCompatActivity() {
             setOnFocusChangeListener { _, _ ->
                 vm.isUploadFieldFocused.value = false
                 val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(this.windowToken, 0)
+                imm.hideSoftInputFromWindow(windowToken, 0)
             }
         }
         collectFlowWhenStarted(vm.isUploadFieldFocused) {
@@ -76,59 +77,74 @@ class UploadHappicActivity : AppCompatActivity() {
     }
 
     private fun configureFields() {
-        listOf("#where" to "장소를 입력해주세요", "#who" to "함께한 사람을 입력해주세요", "#what" to "무엇을 했는지 입력해주세요").forEach {
+        listOf(
+            "#when" to "시간을 입력해주세요", "#where" to "장소를 입력해주세요", "#who" to "함께한 사람을 입력해주세요", "#what" to "무엇을 했는지 입력해주세요"
+        ).forEach {
             ItemUploadFieldBinding.inflate(layoutInflater).apply {
                 root.id = ViewCompat.generateViewId()
                 title = it.first
                 hint = it.second
-
                 etContent.setOnFocusChangeListener { _, hasFocus ->
                     vm.isUploadFieldFocused.value = hasFocus
                     borderField.apply {
                         strokeColor = if (hasFocus) context.getColor(R.color.dark_blue) else Color.TRANSPARENT
                         strokeWidth = if (hasFocus) px(1).toFloat() else 0f
                     }
-                    containerTags.visibility = if (hasFocus) VISIBLE else GONE
+
+                    containerTags.visibility = when (title) {
+                        "#when" -> GONE
+                        else -> if (hasFocus) VISIBLE else GONE
+                    }
+                    // when) 키보드 숨기고, Picker 보이기
+                    if (title == "#when") {
+                        val imm: InputMethodManager =
+                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(binding.whole.windowToken, 0)
+                        binding.containerPicker.visibility = if (hasFocus) VISIBLE else GONE
+                    }
                 }
-
-                collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
-                    it?.run {
-                        llTags.removeAllViews()
-                        val tagList = when (title) {
-                            "#where" -> where
-                            "#who" -> who
-                            else -> what
-                        }
-                        if (tagList.isEmpty()) {
-                            tvEmpty.visibility = VISIBLE
-                        } else {
-                            tvEmpty.visibility = GONE
-                            var idx = 0
-                            var linearLayout: LinearLayout? = null
-
-                            tagList.forEach { tag ->
-                                if (idx++ % 3 == 0) {
-                                    linearLayout?.let { llTags.addView(linearLayout) }
-                                    linearLayout = createLinearLayout()
-                                }
-
-                                createChip(tag).apply {
-                                    setOnClickListener {
-                                        etContent.setText(tag)
-                                    }
-                                    linearLayout?.addView(this)
-                                }
+                if (title == "#when") {
+                    etContent.inputType = EditText.LAYER_TYPE_NONE
+                } else {
+                    collectFlowWhenStarted(vm.dailyHappicKeywordApi.data) {
+                        it?.run {
+                            llTags.removeAllViews()
+                            val tagList = when (title) {
+                                "#where" -> where
+                                "#who" -> who
+                                else -> what
                             }
+                            if (tagList.isEmpty()) {
+                                tvEmpty.visibility = VISIBLE
+                            } else {
+                                tvEmpty.visibility = GONE
+                                var idx = 0
+                                var linearLayout: LinearLayout? = null
 
-                            if (idx % 3 != 0) {
-                                repeat(3 - tagList.size % 3) {
-                                    createChip("").apply {
-                                        visibility = INVISIBLE
+                                tagList.forEach { tag ->
+                                    if (idx++ % 3 == 0) {
+                                        linearLayout?.let { llTags.addView(linearLayout) }
+                                        linearLayout = createLinearLayout()
+                                    }
+
+                                    createChip(tag).apply {
+                                        setOnClickListener {
+                                            etContent.setText(tag)
+                                        }
                                         linearLayout?.addView(this)
                                     }
                                 }
+
+                                if (idx % 3 != 0) {
+                                    repeat(3 - tagList.size % 3) {
+                                        createChip("").apply {
+                                            visibility = INVISIBLE
+                                            linearLayout?.addView(this)
+                                        }
+                                    }
+                                }
+                                linearLayout?.let { llTags.addView(linearLayout) }
                             }
-                            linearLayout?.let { llTags.addView(linearLayout) }
                         }
                     }
                 }
