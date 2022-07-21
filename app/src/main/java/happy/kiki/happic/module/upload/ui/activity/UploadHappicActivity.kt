@@ -28,6 +28,7 @@ import happy.kiki.happic.databinding.ItemUploadChipBinding
 import happy.kiki.happic.databinding.ItemUploadFieldBinding
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
+import happy.kiki.happic.module.core.util.extension.popBackStack
 import happy.kiki.happic.module.core.util.extension.px
 import kotlinx.android.parcel.Parcelize
 
@@ -43,13 +44,13 @@ class UploadHappicActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ActivityUploadHappicBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
-        setTouchEvent()
+        configureUIChangeEvent()
         bindingDatas()
         configureFields()
-        configureCompleteBtn()
+        configureHeader()
     }
 
-    private fun setTouchEvent() {
+    private fun configureUIChangeEvent() {
         binding.whole.apply {
             setOnClickListener {
                 isFocusableInTouchMode = true
@@ -72,10 +73,9 @@ class UploadHappicActivity : AppCompatActivity() {
                 binding.date = getDate(it.currentDate)
             }
         }
-
     }
 
-    private fun configureCompleteBtn() {
+    private fun configureHeader() {
         collectFlowWhenStarted(vm.isUploadBtnEnabled) { isEnable ->
             binding.tvUpload.setTextColor(getColor(if (isEnable) R.color.orange else R.color.gray7))
             binding.clUpload.isClickable = isEnable
@@ -86,6 +86,9 @@ class UploadHappicActivity : AppCompatActivity() {
                 vm.inputs.map { it.value.value }.forEach { check = check && it }
                 vm.isUploadBtnEnabled.value = check
             }
+        }
+        binding.clX.setOnClickListener {
+            finish()
         }
     }
 
