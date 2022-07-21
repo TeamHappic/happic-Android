@@ -18,7 +18,6 @@ import happy.kiki.happic.module.characterselect.data.api.CharacterService.Update
 import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType.MOON
 import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider
 import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider.Usage.SIGNUP
-import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.addLengthFilter
 import happy.kiki.happic.module.core.util.extension.addNoSpaceFilter
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
@@ -111,11 +110,6 @@ class CharacterNameActivity : AppCompatActivity() {
     private fun bindSignUpApiState() {
         collectFlowWhenStarted(vm.signUpAndSignInApi.isLoading, ::bindWithLoadingState)
         collectFlowWhenStarted(vm.signUpAndSignInApi.isSuccess) {
-            if (it) pushActivity<MainActivity>(intentConfig = {
-                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            })
-        }
-        collectFlowWhenStarted(vm.signUpAndSignInApi.isFail) {
             if (it) pushActivity<MainActivity>(intentConfig = {
                 it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             })
