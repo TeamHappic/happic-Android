@@ -31,6 +31,7 @@ import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadReq
+import happy.kiki.happic.module.report.util.koFormat
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHAT
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHEN
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHERE
@@ -157,7 +158,6 @@ class UploadHappicActivity : AppCompatActivity() {
                         else -> if (hasFocus) VISIBLE else GONE
                     }
 
-                    // when) 키보드 숨기고, Picker 보이기
                     if (fieldType == WHEN) {
                         hideKeyboard()
                         binding.containerPicker.visibility = if (hasFocus) VISIBLE else GONE
@@ -166,8 +166,8 @@ class UploadHappicActivity : AppCompatActivity() {
 
                 if (fieldType == WHEN) {
                     etContent.inputType = EditText.LAYER_TYPE_NONE
-                    binding.btnComplete.setOnClickListener { // TODO: timePicker onHourChangedListener 함수 이용해서 변경
-                        etContent.setText("오후1시")
+                    binding.btnComplete.setOnClickListener {
+                        etContent.setText(binding.timePicker.hour.koFormat)
                         binding.containerPicker.visibility = GONE
                     }
                 } else {
