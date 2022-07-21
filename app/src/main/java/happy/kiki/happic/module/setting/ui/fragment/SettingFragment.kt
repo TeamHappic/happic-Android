@@ -53,7 +53,7 @@ class SettingFragment : Fragment(), CommonDialog.Listener {
         }
     }
 
-    override fun onClickLeft() {
+    override fun onClickRight() {
         CharacterSelectFlowProvider.initForUpdate()
         pushActivity<CharacterActivity>()
     }
