@@ -74,7 +74,6 @@
                     android:id="@+id/tv_when"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text='@{tag.hour + ""}'
                     android:textAppearance="@style/Medium.14"
                     android:textColor="@color/gray2"
                     app:layout_constraintEnd_toEndOf="parent"
