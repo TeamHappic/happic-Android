@@ -20,6 +20,7 @@ typealias DateOrDateHourString = String
 
 fun String.padZero(length: Int = 2) = padStart(length, '0')
 fun Int.padZero(length: Int = 2) = toString().padZero(length)
+
 /**
  * 1 -> 월
  * 7 -> 일
@@ -42,9 +43,9 @@ val DayOfWeek.koFormat: String
  */
 val Int.koFormat: String
     get() = if (this < 13) {
-        "오전 ${this}시"
+        "오전${this}시"
     } else {
-        "오후 ${this - 12}시"
+        "오후${this - 12}시"
     }
 
 /**
