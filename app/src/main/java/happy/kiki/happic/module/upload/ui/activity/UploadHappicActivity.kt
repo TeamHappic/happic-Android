@@ -101,7 +101,7 @@ class UploadHappicActivity : AppCompatActivity() {
         ).forEach {
             ItemUploadFieldBinding.inflate(layoutInflater).apply {
                 root.id = ViewCompat.generateViewId()
-                title = it.first.toString()
+                title = it.first.title
                 hint = it.second
                 val fieldType = it.first
                 etContent.addTextChangedListener {
