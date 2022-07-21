@@ -89,7 +89,7 @@ class UploadHappicActivity : AppCompatActivity() {
 
         collectFlowWhenStarted(vm.uploadApi.state) {
             when (it) {
-                is Success -> debugE(it.data)
+                is Success -> finish()
             }
         }
     }
