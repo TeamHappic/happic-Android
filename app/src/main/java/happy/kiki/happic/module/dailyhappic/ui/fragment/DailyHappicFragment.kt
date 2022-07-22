@@ -42,4 +42,9 @@ class DailyHappicFragment : Fragment() {
             vm.navigateUploadApi.call()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        vm.fetchDailyHappics()
+    }
 }

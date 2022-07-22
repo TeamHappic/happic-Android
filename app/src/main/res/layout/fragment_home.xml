@@ -70,11 +70,11 @@
 
         <TextView
             android:id="@+id/tv_character_name"
-            style="@style/H4_P_B16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="124dp"
             android:text="이름뭐하지"
+            android:textAppearance="@style/H4_P_B16"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/bv_mypage"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,14 +86,14 @@
             android:id="@+id/bv_mypage"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="124dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             app:card_corner_radius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="320:184"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_max="320dp">
+            app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
                 android:id="@+id/iv_rectangle_mypage"
@@ -117,17 +117,16 @@
 
             <happy.kiki.happic.module.core.ui.widget.RoundButton
                 android:id="@+id/btn_upload"
-                android:layout_width="288dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:text="하루해픽 등록하기"
-                app:type="orange">
-
-            </happy.kiki.happic.module.core.ui.widget.RoundButton>
+                app:type="orange" />
         </happy.kiki.happic.module.core.ui.widget.BorderView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

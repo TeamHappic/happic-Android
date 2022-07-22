@@ -51,4 +51,8 @@ class DailyHappicViewModel : ViewModel() {
     init {
         collectFlow(selectedYearMonth) { (year, month) -> dailyHappicApi.call(Pair(year, month)) }
     }
+
+    fun fetchDailyHappics() {
+        dailyHappicApi.call(selectedYearMonth.value)
+    }
 }
