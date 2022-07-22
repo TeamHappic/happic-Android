@@ -206,6 +206,8 @@ class ReportDetailFragment : Fragment() {
         }
 
 
+        collectFlowWhenStarted(vm.monthlyApi.isLoading) {
+        }
         collectFlowWhenStarted(vm.monthlyApi.data) { data ->
             if (data != null) {
                 binding.monthlyRecordPlanet.month = data.month
