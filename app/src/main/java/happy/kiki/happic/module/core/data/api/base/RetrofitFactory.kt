@@ -23,7 +23,7 @@ object ApiServiceFactory {
 
     private fun Request.Builder.addCommonHeaderValues() = addHeader("Content-Type", "application/json")
     private fun Request.Builder.addAccessTokenHeaderValues() =
-        JwtUtil.load()?.let { addHeader("x-auth-token", it) } ?: this
+        JwtUtil.load()?.let { addHeader("Authorization", it) } ?: this
 
     @OptIn(ExperimentalSerializationApi::class)
     val _retrofit: Retrofit
