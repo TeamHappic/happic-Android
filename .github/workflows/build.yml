@@ -37,47 +37,53 @@ jobs:
         run: |
           echo "$(cat ./version.properties | sed 's/#.*//g' | xargs | tr ' ' '\n')" >> $GITHUB_ENV
 
-      - name: Increase Version
-        run: |
-          increase_version() {
-            local delimiter=.
-            local array=($(echo "$1" | tr $delimiter '\n'))
-            array[$2]=$((array[$2]+1))
-            echo $(local IFS=$delimiter ; echo "${array[*]}")
-          }
-          VERSION_NAME=$(increase_version $VERSION_NAME 1)
-          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-          VERSION_CODE=$(increase_version $VERSION_CODE 0)
-          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
-          VERSION=$VERSION_NAME
-          VERSION+='('
-          VERSION+=$VERSION_CODE
-          VERSION+=')'
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: List After
-        run: |
-          rm version.properties
-          touch version.properties
-          echo "VERSION_NAME=${VERSION_NAME}" >> version.properties
-          echo "VERSION_CODE=${VERSION_CODE}" >> version.properties
-          cat version.properties
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          branch: develop
-          commit_message: "[release] ${{ env.VERSION }}"
-          tagging_message: "${{ env.VERSION }}"
-          commit_user_name: Release Bot
-          commit_user_email: mym0404@gmail.com
-
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          ref: 'develop'
+#      - name: Increase Version
+#        run: |
+#          increase_version() {
+#            local delimiter=.
+#            local array=($(echo "$1" | tr $delimiter '\n'))
+#            array[$2]=$((array[$2]+1))
+#            echo $(local IFS=$delimiter ; echo "${array[*]}")
+#          }
+#          VERSION_NAME=$(increase_version $VERSION_NAME 1)
+#          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+#          VERSION_CODE=$(increase_version $VERSION_CODE 0)
+#          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+#          VERSION=$VERSION_NAME
+#          VERSION+='('
+#          VERSION+=$VERSION_CODE
+#          VERSION+=')'
+#          echo "VERSION=$VERSION" >> $GITHUB_ENV
+#
+#      - name: List After
+#        run: |
+#          rm version.properties
+#          touch version.properties
+#          echo "VERSION_NAME=${VERSION_NAME}" >> version.properties
+#          echo "VERSION_CODE=${VERSION_CODE}" >> version.properties
+#          cat version.properties
+#
+#      - uses: stefanzweifel/git-auto-commit-action@v4
+#        with:
+#          branch: develop
+#          commit_message: "[release] ${{ env.VERSION }}"
+#          tagging_message: "${{ env.VERSION }}"
+#          commit_user_name: Release Bot
+#          commit_user_email: mym0404@gmail.com
+#
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
+#        with:
+#          ref: 'develop'
 
       - name: Decode firebase config
-        run: touch app/google-services.json && echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 -di > app/google-services.json
+        run: touch ./app/google-services.json && echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 -di > ./app/google-services.json
+
+      - name: LS
+        run: cat ./app/google-services.json
+
 
       - name: Build Release
         run: ./gradlew assembleRelease

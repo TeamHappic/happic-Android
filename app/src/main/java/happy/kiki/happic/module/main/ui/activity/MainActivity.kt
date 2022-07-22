@@ -11,6 +11,7 @@ import androidx.fragment.app.commit
 import happy.kiki.happic.databinding.ActivityMainBinding
 import happy.kiki.happic.module.core.util.PermissionDexterUtil
 import happy.kiki.happic.module.core.util.PermissionDexterUtil.PermissionListener
+import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.addFragment
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.isFragmentExist
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
         configureBottomTab()
-        navigateUploadDailyHappic()
+        configureUploadNavigation()
     }
 
     private fun configureBottomTab() {
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateUploadDailyHappic() {
+    private fun configureUploadNavigation() {
         binding.bottomTab.setFabClickListener {
             dailyHappicVm.navigateUploadApi.call()
         }
