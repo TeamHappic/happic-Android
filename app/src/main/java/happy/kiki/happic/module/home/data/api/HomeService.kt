@@ -5,6 +5,7 @@ import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType.CLO
 import happy.kiki.happic.module.core.data.api.base.ApiResponse
 import happy.kiki.happic.module.core.data.api.base.ApiServiceFactory.createService
 import happy.kiki.happic.module.core.data.api.base.successApiResponse
+import happy.kiki.happic.module.core.util.Picsum
 import happy.kiki.happic.module.home.data.model.HomeDataModel
 import happy.kiki.happic.module.home.data.model.RandomCapsuleModel
 import kotlinx.coroutines.delay
@@ -31,6 +32,10 @@ val homeMockService: HomeService = if (!BuildConfig.DEBUG) homeService else obje
     }
 
     override suspend fun randomCapsule(): ApiResponse<RandomCapsuleModel> {
-        TODO("Not yet implemented")
+        return successApiResponse(
+            RandomCapsuleModel(
+                Picsum.uri(200), 18, "where", "who", "what"
+            )
+        )
     }
 }

@@ -13,6 +13,7 @@ import happy.kiki.happic.module.core.util.emitEvent
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicNavigationViewModel
 import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicViewModel
+import happy.kiki.happic.module.home.ui.dialog.RandomCapsuleBottomSheetDialog
 import happy.kiki.happic.module.home.ui.fragment.HomeViewModel
 import kotlinx.coroutines.delay
 
@@ -28,6 +29,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initEvent()
         uploadButtonClickListener()
+        collectRandomCapsule()
     }
 
     private fun initEvent() {
@@ -60,8 +62,16 @@ class HomeFragment : Fragment() {
         emitEvent(dailyHappicViewModel.onNavigateUpload)
     }
 
+    private fun collectRandomCapsule() {
+        collectFlowWhenStarted(vm.onRandomCapsuleScreenOpened.flow) {
+            RandomCapsuleBottomSheetDialog.newInstance(it).show(childFragmentManager, null)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
+        debugE("onResume")
         vm.homeApi.call()
+        vm.randomCapsuleApi.call()
     }
 }

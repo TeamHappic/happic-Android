@@ -1,27 +1,19 @@
 package happy.kiki.happic.module.main.ui.activity
 
-import HomeFragment
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import happy.kiki.happic.databinding.ActivityMainBinding
 import happy.kiki.happic.module.core.util.PermissionDexterUtil
 import happy.kiki.happic.module.core.util.PermissionDexterUtil.PermissionListener
-import happy.kiki.happic.module.core.util.debugE
-import happy.kiki.happic.module.core.util.extension.addFragment
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
-import happy.kiki.happic.module.core.util.extension.isFragmentExist
 import happy.kiki.happic.module.core.util.extension.pushActivity
 import happy.kiki.happic.module.core.util.extension.showToast
 import happy.kiki.happic.module.dailyhappic.ui.activity.GalleryActivity
-import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicContainerFragment
 import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicViewModel
-import happy.kiki.happic.module.report.ui.fragment.ReportContainerFragment
-import happy.kiki.happic.module.setting.ui.fragment.SettingFragment
 import happy.kiki.happic.module.upload.ui.activity.UploadHappicActivity
 import happy.kiki.happic.module.upload.ui.activity.UploadHappicActivity.Argument
 
@@ -34,8 +26,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
+        configurePager()
         configureBottomTab()
         configureUploadNavigation()
+    }
+
+    private fun configurePager() {
+        binding.pager.run {
+            adapter = MainAdapter(this@MainActivity)
+            isUserInputEnabled = false
+            registerOnPageChangeCallback(object : OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    vm.tabIndex.value = position
+                }
+            })
+        }
     }
 
     private fun configureBottomTab() {
@@ -43,12 +48,7 @@ class MainActivity : AppCompatActivity() {
             vm.tabIndex.value = it
         }
         collectFlowWhenStarted(vm.tabIndex) {
-            when (it) {
-                0 -> showFragment<HomeFragment>()
-                1 -> showFragment<DailyHappicContainerFragment>()
-                2 -> showFragment<ReportContainerFragment>()
-                3 -> showFragment<SettingFragment>()
-            }
+            binding.pager.setCurrentItem(it, false)
             binding.bottomTab.selectedTabIndex = it
         }
     }
@@ -91,16 +91,5 @@ class MainActivity : AppCompatActivity() {
         collectFlowWhenStarted(dailyHappicVm.onNavigateUploadFailedByMultipleUpload.flow) {
             showToast("하루해픽은 1일 1회 등록만 가능합니다.")
         }
-    }
-
-    private inline fun <reified T : Fragment> showFragment() = supportFragmentManager.commit {
-        val shouldBeAdded = !isFragmentExist<T>()
-        supportFragmentManager.fragments.forEach {
-            if (it is T) show(it)
-            else hide(it)
-        }
-        if (shouldBeAdded) addFragment<T>(
-            binding.fragmentContainer, tag = T::class.java.name, skipAddToBackStack = true
-        )
     }
 }

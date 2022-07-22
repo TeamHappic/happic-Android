@@ -81,8 +81,8 @@ jobs:
       - name: Decode firebase config
         run: touch ./app/google-services.json && echo ${{ secrets.GOOGLE_SERVICE_JSON }} | base64 -di > ./app/google-services.json
 
-      - name: LS
-        run: cat ./app/google-services.json
+#      - name: LS
+#        run: cat ./app/google-services.json
 
 
       - name: Build Release
