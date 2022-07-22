@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import happy.kiki.happic.databinding.FragmentHomeBinding
 import happy.kiki.happic.module.core.util.AutoClearedValue
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
+import happy.kiki.happic.module.core.util.extension.isChildFragmentExistIn
 import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicViewModel
 import happy.kiki.happic.module.home.ui.dialog.RandomCapsuleBottomSheetDialog
 import happy.kiki.happic.module.home.ui.fragment.HomeViewModel
@@ -60,7 +61,8 @@ class HomeFragment : Fragment() {
 
     private fun collectRandomCapsule() {
         collectFlowWhenStarted(vm.onRandomCapsuleScreenOpened.flow) {
-            RandomCapsuleBottomSheetDialog.newInstance(it).show(childFragmentManager, null)
+            if (!isChildFragmentExistIn<RandomCapsuleBottomSheetDialog>()) RandomCapsuleBottomSheetDialog.newInstance(it)
+                .show(childFragmentManager, null)
         }
     }
 
