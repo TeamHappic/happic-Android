@@ -8,7 +8,7 @@ import kotlinx.serialization.json.JsonNames
 
 @Serializable
 enum class ReportCategoryOption(val index: Int) {
-    @JsonNames(names = ["hour", "#hour"])
+    @JsonNames(names = ["hour", "#hour", "when"])
     hour(0),
 
     @JsonNames(names = ["where", "#where"])

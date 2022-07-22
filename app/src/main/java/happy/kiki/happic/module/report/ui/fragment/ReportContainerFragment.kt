@@ -13,6 +13,7 @@ import happy.kiki.happic.module.core.util.extension.addFragment
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.isChildFragmentExistIn
 import happy.kiki.happic.module.core.util.extension.popChildBackStack
+import happy.kiki.happic.module.core.util.extension.popChildBackStacksUntilNameFound
 
 class ReportContainerFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentReportContainerBinding>()
@@ -34,16 +35,25 @@ class ReportContainerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
-        addFragment<ReportFragment>(
-            binding.container,
-            skipAddToBackStack = true,
-            fragmentManager = childFragmentManager,
-        )
+
+        if (isChildFragmentExistIn<ReportFragment>()) {
+            popChildBackStacksUntilNameFound(ReportFragment::class.java.simpleName)
+        } else {
+            addFragment<ReportFragment>(
+                binding.container,
+                skipAddToBackStack = true,
+                fragmentManager = childFragmentManager,
+                tag = ReportFragment::class.java.simpleName
+            )
+        }
 
         collectFlowWhenStarted(navigationVm.onNavigateDetail.flow) {
             onBackPressedCallback.isEnabled = true
             addFragment<ReportDetailFragment>(
-                binding.container, fragmentManager = childFragmentManager, arg = it
+                binding.container,
+                fragmentManager = childFragmentManager,
+                arg = it,
+                tag = ReportDetailFragment::class.java.simpleName
             )
         }
     }

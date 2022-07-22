@@ -26,10 +26,6 @@ class UploadHappicViewModel : ViewModel() {
 
     val focusedInput = MutableStateFlow<ReportCategoryOption?>(null)
 
-    val isUploadButtonEnabled = asStateFlow(combine(hour, where, who, what) { h, w1, w2, w3 ->
-        h != -1 && listOf(w1, w2, w3).all { it.isNotBlank() }
-    }, false)
-
     val isPhotoExpanded = asStateFlow(focusedInput.map {
         it == null
     }, true)
@@ -58,6 +54,10 @@ class UploadHappicViewModel : ViewModel() {
             )
         )
     }
+
+    val isUploadButtonEnabled = asStateFlow(combine(hour, where, who, what, uploadApi.isLoading) { h, w1, w2, w3, isLoading ->
+        h != -1 && listOf(w1, w2, w3).all { it.isNotBlank() } && !isLoading
+    }, false)
 
     init {
         keywordApi.call()

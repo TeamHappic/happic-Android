@@ -49,16 +49,19 @@ class SignInActivity : AppCompatActivity() {
 
     private fun configureKaKaoLogin() {
         fun onKakaoLoginSuccess(accessToken: String) {
+            binding.kakaoButton.isLoading = false
             viewModel.signInApi.call(accessToken)
         }
 
         fun onKakaoLoginFailed(throwable: Throwable) {
+            binding.kakaoButton.isLoading = false
             val isCancelled = throwable is ClientError && throwable.msg.contains("cancel")
             if (!isCancelled) showToast("카카오 로그인 실패")
         }
 
         binding.kakaoButton.setOnClickListener {
             lifecycleScope.launchWhenStarted {
+                binding.kakaoButton.isLoading = true
                 kotlin.runCatching {
                     AuthProvider.signOut()
                     AuthProvider.signInWithKakao(this@SignInActivity)

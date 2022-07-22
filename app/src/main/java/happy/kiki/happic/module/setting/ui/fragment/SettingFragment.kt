@@ -1,5 +1,6 @@
 package happy.kiki.happic.module.setting.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,8 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import happy.kiki.happic.BuildConfig
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentSettingBinding
+import happy.kiki.happic.module.auth.ui.activity.SignInActivity
+import happy.kiki.happic.module.auth.util.JwtUtil
 import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider
 import happy.kiki.happic.module.characterselect.ui.activity.CharacterActivity
 import happy.kiki.happic.module.core.util.AutoClearedValue
@@ -50,6 +53,12 @@ class SettingFragment : Fragment(), CommonDialog.Listener {
         }
         binding.developers.root.setOnClickListener {
 
+        }
+        binding.signOut.root.setOnClickListener {
+            JwtUtil.clear()
+            pushActivity<SignInActivity>(intentConfig = {
+                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            })
         }
     }
 

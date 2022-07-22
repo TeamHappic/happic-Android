@@ -5,12 +5,15 @@ import happy.kiki.happic.module.auth.data.api.AuthService.SignInReq
 import happy.kiki.happic.module.auth.data.api.AuthService.SignInRes
 import happy.kiki.happic.module.auth.data.api.AuthService.SignUpReq
 import happy.kiki.happic.module.auth.data.api.authService
+import happy.kiki.happic.module.auth.util.JwtUtil
 import happy.kiki.happic.module.characterselect.data.api.CharacterService.UpdateCharacterReq
 import happy.kiki.happic.module.characterselect.data.api.characterService
 import happy.kiki.happic.module.core.data.api.base.useApi
 
 class CharacterNameViewModel : ViewModel() {
-    val signUpAndSignInApi = useApi<SignUpReq, SignInRes> {
+    val signUpAndSignInApi = useApi<SignUpReq, SignInRes>(onSuccess = {
+        JwtUtil.save(it.jwtToken)
+    }) {
         authService.signUp(it)
         authService.signIn(SignInReq(it.accessToken))
     }

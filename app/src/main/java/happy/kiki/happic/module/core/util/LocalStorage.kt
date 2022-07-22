@@ -19,6 +19,10 @@ object LocalStorage {
 
     fun getString(key: String) = sp.getString(key, null)
 
+    fun clearString(key: String) = sp.edit {
+        this.remove(key)
+    }
+
     fun saveInt(key: String, value: Int) = sp.edit {
         putInt(key, value)
     }

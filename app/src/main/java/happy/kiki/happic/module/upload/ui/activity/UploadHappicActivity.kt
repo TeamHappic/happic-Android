@@ -20,6 +20,8 @@ import androidx.core.widget.addTextChangedListener
 import com.google.android.material.chip.Chip
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityUploadHappicBinding
+import happy.kiki.happic.module.core.data.api.base.NetworkState.Failure
+import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
 import happy.kiki.happic.module.core.util.extension.addLengthFilter
 import happy.kiki.happic.module.core.util.extension.addNoSpaceFilter
 import happy.kiki.happic.module.core.util.extension.argument
@@ -29,6 +31,7 @@ import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.pxFloat
 import happy.kiki.happic.module.core.util.extension.screenHeight
 import happy.kiki.happic.module.core.util.extension.screenWidth
+import happy.kiki.happic.module.core.util.extension.showToast
 import happy.kiki.happic.module.core.util.extension.windowHandler
 import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.hour
@@ -88,6 +91,7 @@ class UploadHappicActivity : AppCompatActivity() {
         configureWhoInput()
         configureWhatInput()
         configureChipContainerAnimation()
+        collectApiResult()
     }
 
     private fun configureHeader() {
@@ -376,6 +380,20 @@ class UploadHappicActivity : AppCompatActivity() {
                         start()
                     }
                 container.animate().alpha(if (shouldShow) 1f else 0f).setDuration(animationDuration).start()
+            }
+        }
+    }
+
+    private fun collectApiResult() {
+        collectFlowWhenStarted(vm.uploadApi.isLoading) {
+            binding.tvUpload.isEnabled = !it
+
+        }
+        collectFlowWhenStarted(vm.uploadApi.state) {
+            when (it) {
+                is Success -> finish()
+                is Failure -> showToast("등록 실패")
+                else -> {}
             }
         }
     }

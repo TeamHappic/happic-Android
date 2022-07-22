@@ -6,6 +6,7 @@ object JwtUtil {
     private const val KEY_TOKEN = "JWT_TOKEN"
     fun save(token: String) = LocalStorage.saveString(KEY_TOKEN, token)
     fun load() = LocalStorage.getString(KEY_TOKEN)
+    fun clear() = LocalStorage.clearString(KEY_TOKEN)
 }
 
 typealias Jwt = String

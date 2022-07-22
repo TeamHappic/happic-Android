@@ -253,12 +253,12 @@
                 </happy.kiki.happic.module.core.ui.widget.BorderView>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="66dp"
+                    android:layout_height="66dp"
                     android:layout_marginTop="-33dp"
                     android:elevation="11dp"
                     android:outlineProvider="none"
-                    android:src="@drawable/character_cloud_67"
+                    android:src="@drawable/hp_img_c1"
                     app:layout_constraintEnd_toEndOf="@id/moment_card"
                     app:layout_constraintTop_toTopOf="@id/moment_card" />
 

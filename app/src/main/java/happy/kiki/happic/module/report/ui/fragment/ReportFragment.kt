@@ -111,7 +111,6 @@ class ReportFragment : Fragment() {
 
         collectFlowWhenStarted(vm.reportHomeApi.isLoading) {
             binding.momentIndicator.isVisible = it
-            binding.momentDataContainer.isVisible = !it
         }
 
         collectFlowWhenStarted(vm.reportHomeApi.data) {

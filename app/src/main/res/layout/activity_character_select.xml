@@ -30,6 +30,7 @@
         app:card_shadow_color="@color/bg_black1"
         app:card_stroke_color="@color/dark_blue"
         app:card_stroke_width="2dp"
+        android:padding="2dp"
         app:layout_constraintEnd_toStartOf="@id/bv_cloud"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +57,7 @@
     </happy.kiki.happic.module.core.ui.widget.BorderView>
 
     <happy.kiki.happic.module.core.ui.widget.BorderView
+        android:padding="2dp"
         android:id="@+id/bv_cloud"
         android:layout_width="96dp"
         android:layout_height="128dp"

@@ -13,6 +13,7 @@ import happy.kiki.happic.module.core.util.extension.addFragment
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.isChildFragmentExistIn
 import happy.kiki.happic.module.core.util.extension.popChildBackStack
+import happy.kiki.happic.module.core.util.extension.popChildBackStacksUntilNameFound
 
 class DailyHappicContainerFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentDailyHappicContainerBinding>()
@@ -35,17 +36,24 @@ class DailyHappicContainerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
-        addFragment<DailyHappicFragment>(
-            binding.container,
-            skipAddToBackStack = true,
-            fragmentManager = childFragmentManager,
-        )
+
+        if (isChildFragmentExistIn<DailyHappicFragment>()) {
+            popChildBackStacksUntilNameFound(DailyHappicFragment::class.java.simpleName)
+        } else {
+            addFragment<DailyHappicFragment>(
+                binding.container,
+                skipAddToBackStack = true,
+                fragmentManager = childFragmentManager,
+                tag = DailyHappicFragment::class.java.simpleName
+            )
+        }
 
         collectFlowWhenStarted(navigationVm.onNavigateDetail.flow) {
             onBackPressedCallback.isEnabled = true
             addFragment<DailyHappicDetailFragment>(
                 binding.container,
                 fragmentManager = childFragmentManager,
+                tag = DailyHappicDetailFragment::class.java.simpleName
             )
         }
     }

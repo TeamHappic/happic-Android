@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:background="?selectableItemBackground"
+                android:background="?selectableItemBackgroundBorderless"
                 android:padding="12dp"
                 android:src="@drawable/hp_ic_x"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -43,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:padding="12dp"
                 android:text="@string/upload"
                 android:textAppearance="@style/Bold.16"
@@ -199,5 +200,14 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            style="@style/Indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{vm.uploadApi.isLoading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
