@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout.Tab
+import com.google.android.material.transition.MaterialElevationScale
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentReportDetailBinding
 import happy.kiki.happic.databinding.ItemReportCategoryBinding
@@ -57,6 +58,12 @@ class ReportDetailFragment : Fragment() {
         FragmentReportDetailBinding.inflate(inflater, container, false).let { binding = it; it.root }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        enterTransition = MaterialElevationScale(true).apply {
+            duration = 300L
+        }
+        returnTransition = MaterialElevationScale(false).apply {
+            duration = 300L
+        }
         configureHeader()
         configureMonthSelect()
         configureTabs()

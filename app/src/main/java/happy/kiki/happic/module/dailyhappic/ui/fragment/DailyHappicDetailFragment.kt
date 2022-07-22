@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.google.android.material.transition.MaterialElevationScale
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentDailyHappicDetailBinding
 import happy.kiki.happic.module.core.util.AutoClearedValue
@@ -32,6 +33,12 @@ class DailyHappicDetailFragment : Fragment(), CommonDialog.Listener {
         FragmentDailyHappicDetailBinding.inflate(inflater, container, false).let { binding = it; it.root }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        enterTransition = MaterialElevationScale(true).apply {
+            duration = 300L
+        }
+        returnTransition = MaterialElevationScale(false).apply {
+            duration = 300L
+        }
         configureHeader()
         configurePager()
     }

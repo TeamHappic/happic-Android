@@ -13,7 +13,6 @@ class DailyHappicDetailAdapter : ListAdapter<DailyHappicModel, DailyHappicDetail
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyHappicDetailHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemDailyHappicDetailBinding.inflate(inflater, parent, false)
-
         return DailyHappicDetailHolder(binding)
     }
 
@@ -22,6 +21,7 @@ class DailyHappicDetailAdapter : ListAdapter<DailyHappicModel, DailyHappicDetail
     inner class DailyHappicDetailHolder(private val binding: ItemDailyHappicDetailBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: DailyHappicModel) {
+            binding.image.transitionName = item.id
             binding.item = item
             binding.executePendingBindings()
         }

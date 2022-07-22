@@ -44,7 +44,8 @@ class DailyHappicContainerFragment : Fragment() {
         collectFlowWhenStarted(navigationVm.onNavigateDetail.flow) {
             onBackPressedCallback.isEnabled = true
             addFragment<DailyHappicDetailFragment>(
-                binding.container, fragmentManager = childFragmentManager
+                binding.container,
+                fragmentManager = childFragmentManager,
             )
         }
     }
