@@ -7,7 +7,6 @@ import happy.kiki.happic.module.core.data.api.coreService
 import happy.kiki.happic.module.core.util.extension.asStateFlow
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadReq
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadRes
-import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicMockService2
 import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicService
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,7 +34,7 @@ class UploadHappicViewModel : ViewModel() {
         it == null
     }, true)
 
-    private val keywordApi = useApiNoParams { dailyHappicMockService2.keywordRankingForUpload() }
+    private val keywordApi = useApiNoParams { dailyHappicService.keywordRankingForUpload() }
     val whereKeywords = asStateFlow(keywordApi.data.map { it?.where ?: listOf() }, listOf())
     val whoKeywords = asStateFlow(keywordApi.data.map { it?.who ?: listOf() }, listOf())
     val whatKeywords = asStateFlow(keywordApi.data.map { it?.what ?: listOf() }, listOf())
