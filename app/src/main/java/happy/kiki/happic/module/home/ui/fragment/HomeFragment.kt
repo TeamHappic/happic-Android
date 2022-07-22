@@ -1,3 +1,4 @@
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import happy.kiki.happic.databinding.FragmentHomeBinding
 import happy.kiki.happic.module.core.util.AutoClearedValue
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.isChildFragmentExistIn
+import happy.kiki.happic.module.core.util.extension.px
+import happy.kiki.happic.module.core.util.extension.pxFloat
 import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicViewModel
 import happy.kiki.happic.module.home.ui.dialog.RandomCapsuleBottomSheetDialog
 import happy.kiki.happic.module.home.ui.fragment.HomeViewModel
@@ -29,7 +32,12 @@ class HomeFragment : Fragment() {
         uploadButtonClickListener()
         collectRandomCapsule()
 
-        binding.ivCharacter.animate()
+        ObjectAnimator.ofFloat(binding.ivCharacter, "translationY", 0f, -requireContext().pxFloat(60)).apply {
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+            duration = 1000L
+            start()
+        }
     }
 
     private fun initEvent() {

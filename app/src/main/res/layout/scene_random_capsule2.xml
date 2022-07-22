@@ -42,7 +42,7 @@
         app:card_background_color="@color/bg_black1"
         app:card_corner_radius="10dp"
         app:card_shadow_color="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/button"
+        app:layout_constraintBottom_toTopOf="@id/button2"
         app:layout_constraintDimensionRatio="304:388"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -124,9 +124,9 @@
 
     <happy.kiki.happic.module.core.ui.widget.RoundButton
         android:id="@+id/button2"
-        android:elevation="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="0dp"
         app:icon="@drawable/hp_ic_right_orange_20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:text="뽑기"
