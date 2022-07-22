@@ -53,31 +53,18 @@
 
 
             <TextView
-                android:id="@+id/tv_date"
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{date}"
-                android:textAppearance="@style/Bold.16"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_happic"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="06.26" />
-
-            <TextView
-                android:id="@+id/tv_happic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@string/happic"
-                android:textAppearance="@style/Medium.16"
+                android:textAppearance="@style/H5_P_M16"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_date"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="06.26 해픽" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -89,34 +76,98 @@
             app:layout_constraintTop_toBottomOf="@id/cl_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/whole"
-
+                android:id="@+id/container_fields"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="100dp"
+                app:layout_constraintTop_toBottomOf="@id/iv_photo">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_photo"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="28dp"
+                    android:outlineAmbientShadowColor="@color/white"
+                    android:outlineSpotShadowColor="@color/white"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/bg_splash"
-                    app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10dp" />
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10dp"
+                    tools:layout_height="200dp"
+                    tools:layout_width="200dp"
+                    tools:src="@tools:sample/avatars[1]" />
 
-                <LinearLayout
-                    android:id="@+id/container_fields"
+                <include
+                    android:id="@+id/whenInput"
+                    layout="@layout/view_upload_input"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
+                    android:layout_height="48dp"
                     android:layout_marginTop="32dp"
-                    android:orientation="vertical"
-                    android:paddingBottom="100dp"
                     app:layout_constraintTop_toBottomOf="@id/iv_photo" />
+
+                <happy.kiki.happic.module.core.ui.widget.BorderView
+                    android:id="@+id/whenInputClick"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/whenInput"
+                    app:layout_constraintEnd_toEndOf="@id/whenInput"
+                    app:layout_constraintStart_toStartOf="@id/whenInput"
+                    app:layout_constraintTop_toTopOf="@id/whenInput" />
+
+                <include
+                    android:id="@+id/whereInput"
+                    layout="@layout/view_upload_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/whenInput" />
+
+                <happy.kiki.happic.module.core.ui.widget.BorderView
+                    android:id="@+id/whereInputClick"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/whereInput"
+                    app:layout_constraintEnd_toEndOf="@id/whereInput"
+                    app:layout_constraintStart_toStartOf="@id/whereInput"
+                    app:layout_constraintTop_toTopOf="@id/whereInput" />
+
+                <include
+                    android:id="@+id/whoInput"
+                    layout="@layout/view_upload_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/whereInput" />
+
+                <happy.kiki.happic.module.core.ui.widget.BorderView
+                    android:id="@+id/whoInputClick"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/whoInput"
+                    app:layout_constraintEnd_toEndOf="@id/whoInput"
+                    app:layout_constraintStart_toStartOf="@id/whoInput"
+                    app:layout_constraintTop_toTopOf="@id/whoInput" />
+
+                <include
+                    android:id="@+id/whatInput"
+                    layout="@layout/view_upload_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/whoInput" />
+
+                <happy.kiki.happic.module.core.ui.widget.BorderView
+                    android:id="@+id/whatInputClick"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/whatInput"
+                    app:layout_constraintEnd_toEndOf="@id/whatInput"
+                    app:layout_constraintStart_toStartOf="@id/whatInput"
+                    app:layout_constraintTop_toTopOf="@id/whatInput" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
@@ -124,11 +175,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container_picker"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:background="@color/bg_black2"
-            android:visibility="gone"
+            android:translationY="300dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:visibility="visible">
+            tools:translationY="150dp">
 
             <happy.kiki.happic.module.core.ui.widget.TimeWheelPicker
                 android:id="@+id/time_picker"

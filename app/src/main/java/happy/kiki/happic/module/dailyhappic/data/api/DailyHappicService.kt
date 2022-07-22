@@ -45,7 +45,7 @@ interface DailyHappicService {
 
     @Serializable
     data class DailyHappicUploadReq(
-        val photo: String, @SerialName("when") val when1: String, val `where`: String, val who: String, val what: String
+        val photo: String, @SerialName("when") val when1: Int, val `where`: String, val who: String, val what: String
     )
 
     @Serializable

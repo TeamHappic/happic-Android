@@ -48,7 +48,6 @@ class TimeWheelPicker @JvmOverloads constructor(context: Context, attrs: Attribu
 
     private val divider by lazy {
         View(context).apply {
-            setBackgroundColor(getColor(R.color.gray9))
             layoutParams = LayoutParams(px(1), MATCH_PARENT)
             setPadding(0, px(4), 0, px(4))
             injectViewId()

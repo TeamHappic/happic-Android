@@ -65,7 +65,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun configureUploadNavigation() {
         binding.bottomTab.setFabClickListener {
-            dailyHappicVm.navigateUploadApi.call()
+            // fixme
+//            dailyHappicVm.navigateUploadApi.call()
+            galleryActivityLauncher.launch(Intent(this@MainActivity, GalleryActivity::class.java))
         }
         collectFlowWhenStarted(dailyHappicVm.onNavigateUpload.flow) {
             PermissionDexterUtil().requestPermissions(

@@ -1,56 +1,74 @@
 package happy.kiki.happic.module.upload.ui.activity
 
 import androidx.lifecycle.ViewModel
-import happy.kiki.happic.module.core.data.api.CoreService.UploadPhotoRes
 import happy.kiki.happic.module.core.data.api.base.useApi
 import happy.kiki.happic.module.core.data.api.base.useApiNoParams
-import happy.kiki.happic.module.core.data.api.coreMockService
-import happy.kiki.happic.module.core.util.EventFlow
+import happy.kiki.happic.module.core.data.api.coreService
+import happy.kiki.happic.module.core.util.extension.asStateFlow
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadReq
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadRes
 import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicService
-import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHAT
-import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHEN
-import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHERE
-import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHO
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 
 class UploadHappicViewModel : ViewModel() {
-    val isUploadFieldFocused = MutableStateFlow(false)
-    val isUploadBtnEnabled = MutableStateFlow(false)
+    val photoUri = MutableStateFlow("")
+    val hour = MutableStateFlow(-1)
+    val where = MutableStateFlow("")
+    val who = MutableStateFlow("")
+    val what = MutableStateFlow("")
 
-    val isNotEmptyInputs = mapOf(
-        WHEN to MutableStateFlow(false),
-        WHERE to MutableStateFlow(false),
-        WHO to MutableStateFlow(false),
-        WHAT to MutableStateFlow(false)
+    val focusedInput = MutableStateFlow<ReportCategoryOption?>(null)
+
+    val isUploadButtonEnabled = asStateFlow(combine(hour, where, who, what) { h, w1, w2, w3 ->
+        h != -1 && listOf(w1, w2, w3).all { it.isNotBlank() }
+    }, false)
+
+    val isPhotoExpanded = asStateFlow(focusedInput.map {
+        it == null
+    }, true)
+
+    val keywordApi = useApiNoParams { dailyHappicService.keywordRankingForUpload() }
+
+    data class UploadReq(
+        val photoUri: String,
+        val hour: Int,
+        val where: String,
+        val who: String,
+        val what: String,
     )
 
-    val inputs = mapOf(
-        WHEN to MutableStateFlow(""),
-        WHERE to MutableStateFlow(""),
-        WHO to MutableStateFlow(""),
-        WHAT to MutableStateFlow("")
-    )
-
-    val onImageUpload = EventFlow<String>()
-
-    val keywordApi = useApiNoParams {
-        dailyHappicService.keywordRankingForUpload()
-    }
-
-    val uploadApi = useApi<DailyHappicUploadReq, DailyHappicUploadRes> {
-        dailyHappicService.upload(it)
-    }
-
-    val uploadPhotoApi = useApi<MultipartBody.Part, UploadPhotoRes>(onSuccess = {
-        onImageUpload.emit(it.link)
-    }) { //        coreService.uploadPhoto(it)
-        coreMockService.uploadPhoto(it)
+    val uploadApi = useApi<UploadReq, DailyHappicUploadRes> { req ->
+        val file = File(req.photoUri)
+        val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val body = MultipartBody.Part.createFormData("file", file.name.trim(), requestBody)
+        val photoLink = coreService.uploadPhoto(body).data.link
+        dailyHappicService.upload(
+            DailyHappicUploadReq(
+                photoLink, req.hour, req.where, req.who, req.what
+            )
+        )
     }
 
     init {
         keywordApi.call()
+    }
+
+    fun upload() {
+        uploadApi.call(
+            UploadReq(
+                photoUri.value,
+                hour.value,
+                where.value,
+                who.value,
+                what.value,
+            )
+        )
     }
 }

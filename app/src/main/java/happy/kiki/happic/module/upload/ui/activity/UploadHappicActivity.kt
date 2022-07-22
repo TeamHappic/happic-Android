@@ -1,46 +1,41 @@
 package happy.kiki.happic.module.upload.ui.activity
 
-import android.content.Context
-import android.graphics.Color
+import android.animation.ValueAnimator
 import android.graphics.drawable.ShapeDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
-import android.view.ViewGroup.GONE
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
-import androidx.core.widget.addTextChangedListener
 import com.google.android.material.chip.Chip
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityUploadHappicBinding
 import happy.kiki.happic.databinding.ItemUploadChipBinding
-import happy.kiki.happic.databinding.ItemUploadFieldBinding
-import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.px
-import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadReq
+import happy.kiki.happic.module.core.util.extension.pxFloat
+import happy.kiki.happic.module.core.util.extension.screenHeight
+import happy.kiki.happic.module.core.util.extension.screenWidth
+import happy.kiki.happic.module.core.util.extension.windowHandler
+import happy.kiki.happic.module.core.util.now
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.hour
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.what
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.where
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.who
 import happy.kiki.happic.module.report.util.koFormat
-import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHAT
-import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHEN
-import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHERE
-import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHO
+import happy.kiki.happic.module.report.util.monthDateFormat
+import happy.kiki.happic.module.report.util.nowDate
 import kotlinx.android.parcel.Parcelize
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 
 class UploadHappicActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadHappicBinding
@@ -50,170 +45,169 @@ class UploadHappicActivity : AppCompatActivity() {
     data class Argument(val uri: String) : Parcelable
 
     private val arg by argument<Argument>()
-    private val imageUri get() = Uri.parse(arg.uri)
+
+    private val expandedImageSize get() = px(260).coerceAtMost(screenWidth - px(50) * 2)
+    private val collapsedImageSize
+        get() = screenHeight - px(60) - px(16) - px(20) - px(48) * 4 - px(8) * 3 - px(100) - px(
+            300
+        )
+
+    private val animationDuration = 250L
+    private var photoSizeAnimator: ValueAnimator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        vm.photoUri.value = arg.uri
         ActivityUploadHappicBinding.inflate(layoutInflater).also { binding = it;setContentView(it.root) }
-        configureUIChangeEvent()
-        bindingDatas()
-        configureFields()
         configureHeader()
-        configureUploadEvent()
-    }
+        bindingDatas()
 
-    private fun configureUploadEvent() {
-        binding.tvUpload.setOnClickListener {
-            val file = File(imageUri.toString())
-            val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val body = MultipartBody.Part.createFormData("file", file.name.trim(), requestBody)
-            vm.uploadPhotoApi.call(body)
+        setInitialUiToInputs()
+        binding.containerFields.setOnClickListener {
+            windowHandler.hideKeyboard()
+            vm.focusedInput.value = null
+            binding.whenInput.textField.clearFocus()
+            binding.whereInput.textField.clearFocus()
+            binding.whoInput.textField.clearFocus()
+            binding.whatInput.textField.clearFocus()
         }
-
-        collectFlowWhenStarted(vm.onImageUpload.flow) {
-            with(vm) {
-                uploadApi.call(
-                    DailyHappicUploadReq(
-                        photo = it,
-                        when1 = inputs[WHEN]?.value.toString(),
-                        where = inputs[WHERE]?.value.toString(),
-                        who = inputs[WHO]?.value.toString(),
-                        what = inputs[WHAT]?.value.toString()
-                    )
-                )
-            }
-        }
-
-        collectFlowWhenStarted(vm.uploadApi.state) {
-            when (it) {
-                is Success -> finish()
-            }
-        }
-    }
-
-    private fun configureUIChangeEvent() {
-        binding.whole.apply {
-            setOnClickListener {
-                isFocusableInTouchMode = true
-            }
-            setOnFocusChangeListener { _, _ ->
-                vm.isUploadFieldFocused.value = false
-                hideKeyboard()
-            }
-        }
-        collectFlowWhenStarted(vm.isUploadFieldFocused) {
-            updateUi(it)
-        }
-    }
-
-    private fun bindingDatas() {
-        binding.ivPhoto.setImageURI(imageUri)
-        collectFlowWhenStarted(vm.keywordApi.data) {
-            it?.run {
-                binding.date = getDate(it.currentDate)
-            }
-        }
+        configurePhoto()
+        configureWhenInput()
+        configureWhereInput()
+        configureWhoInput()
+        configureWhatInput()
     }
 
     private fun configureHeader() {
-        collectFlowWhenStarted(vm.isUploadBtnEnabled) { isEnable ->
+        collectFlowWhenStarted(vm.isUploadButtonEnabled) { isEnable ->
             binding.tvUpload.setTextColor(getColor(if (isEnable) R.color.orange else R.color.gray7))
             binding.tvUpload.isClickable = isEnable
         }
-        vm.isNotEmptyInputs.forEach { flowMapEntry ->
-            collectFlowWhenStarted(flowMapEntry.value) {
-                var check = true
-                vm.isNotEmptyInputs.map { it.value.value }.forEach { check = check && it }
-                vm.isUploadBtnEnabled.value = check
+        binding.title.text = buildSpannedString {
+            bold {
+                append(nowDate.monthDateFormat)
             }
+            append(" 해픽")
         }
         binding.close.setOnClickListener {
             finish()
         }
+        binding.tvUpload.setOnClickListener {
+            vm.upload()
+        }
     }
 
-    private fun configureFields() {
+    private fun bindingDatas() {
+        collectFlowWhenStarted(vm.photoUri) {
+            binding.ivPhoto.setImageURI(Uri.parse(it))
+        }
+        collectFlowWhenStarted(vm.hour) {
+
+        }
+    }
+
+    private fun setInitialUiToInputs() {
         listOf(
-            WHEN to "시간을 입력해주세요", WHERE to "장소를 입력해주세요", WHO to "함께한 사람을 입력해주세요", WHAT to "무엇을 했는지 입력해주세요"
-        ).forEach {
-            ItemUploadFieldBinding.inflate(layoutInflater).apply {
-                root.id = ViewCompat.generateViewId()
-                title = it.first.title
-                hint = it.second
-                val fieldType = it.first
-                etContent.addTextChangedListener {
-                    vm.isNotEmptyInputs[fieldType]?.value = (it.toString().isNotBlank())
-                    vm.inputs[fieldType]?.value = (it.toString())
-                }
+            "#when" to "시간을 입력해주세요" to binding.whenInput,
+            "#where" to "장소를 입력해주세요" to binding.whereInput,
+            "#who" to "함께한 사람을 입력해주세요" to binding.whoInput,
+            "#what" to "무엇을 했는지 입력해주세요" to binding.whatInput,
+        ).forEach { (data, input) ->
+            input.category.text = data.first
+            input.textField.hint = data.second
+        }
+    }
 
-                etContent.setOnFocusChangeListener { _, hasFocus ->
-                    vm.isUploadFieldFocused.value = hasFocus
-                    borderField.apply {
-                        strokeColor = if (hasFocus) context.getColor(R.color.dark_blue) else Color.TRANSPARENT
-                        strokeWidth = if (hasFocus) px(1).toFloat() else 0f
-                    }
+    private fun configurePhoto() {
+        binding.ivPhoto.updateLayoutParams {
+            width = expandedImageSize
+            height = expandedImageSize
+        }
 
-                    containerTags.visibility = when (fieldType) {
-                        WHEN -> GONE
-                        else -> if (hasFocus) VISIBLE else GONE
-                    }
-
-                    if (fieldType == WHEN) {
-                        hideKeyboard()
-                        binding.containerPicker.visibility = if (hasFocus) VISIBLE else GONE
-                    }
-                }
-
-                if (fieldType == WHEN) {
-                    etContent.inputType = EditText.LAYER_TYPE_NONE
-                    binding.btnComplete.setOnClickListener {
-                        etContent.setText(binding.timePicker.hour.koFormat)
-                        binding.containerPicker.visibility = GONE
-                    }
-                } else {
-                    collectFlowWhenStarted(vm.keywordApi.data) {
-                        it?.run {
-                            llTags.removeAllViews()
-                            val tagList = when (fieldType) {
-                                WHERE -> where
-                                WHO -> who
-                                else -> what
-                            }
-                            if (tagList.isEmpty()) {
-                                tvEmpty.visibility = VISIBLE
-                            } else {
-                                tvEmpty.visibility = GONE
-                                var idx = 0
-                                var linearLayout: LinearLayout? = null
-
-                                tagList.forEach { tag ->
-                                    if (idx++ % 3 == 0) {
-                                        linearLayout?.let { llTags.addView(linearLayout) }
-                                        linearLayout = createLinearLayout()
-                                    }
-
-                                    createChip(tag).apply {
-                                        setOnClickListener {
-                                            etContent.setText(tag)
-                                        }
-                                        linearLayout?.addView(this)
-                                    }
-                                }
-
-                                if (idx % 3 != 0) {
-                                    repeat(3 - tagList.size % 3) {
-                                        createChip("").apply {
-                                            visibility = INVISIBLE
-                                            linearLayout?.addView(this)
-                                        }
-                                    }
-                                }
-                                linearLayout?.let { llTags.addView(linearLayout) }
-                            }
+        collectFlowWhenStarted(vm.isPhotoExpanded) {
+            photoSizeAnimator?.cancel()
+            photoSizeAnimator =
+                ValueAnimator.ofInt(binding.ivPhoto.width, if (it) expandedImageSize else collapsedImageSize).apply {
+                    duration = animationDuration
+                    addUpdateListener {
+                        val value = it.animatedValue as Int
+                        binding.ivPhoto.updateLayoutParams {
+                            width = value
+                            height = value
                         }
                     }
+                    start()
                 }
-                binding.containerFields.addView(root)
+        }
+    }
+
+    private fun configureWhenInput() {
+        binding.whenInput.run {
+            textField.isFocusable = false
+            textField.isClickable = false
+        }
+        binding.whenInputClick.setOnClickListener {
+            windowHandler.hideKeyboard()
+            if (vm.focusedInput.value == hour) vm.focusedInput.value = null
+            else vm.focusedInput.value = hour
+        }
+
+        collectFlowWhenStarted(vm.focusedInput) {
+            binding.containerPicker.animate().translationY(if (it == hour) 0f else pxFloat(300)).alpha(
+                if (it == hour) 1f else 0.2f
+            ).apply {
+                duration = animationDuration
+            }.start()
+        }
+        collectFlowWhenStarted(vm.hour) {
+            if (it == -1) binding.timePicker.hour = now.hour
+            else binding.timePicker.hour = it
+
+            if (it != -1) binding.whenInput.textField.setText(it.koFormat)
+        }
+        binding.timePicker.onHourChangedListener = {
+            vm.hour.value = it
+        }
+    }
+
+    private fun configureWhereInput() {
+        binding.whereInputClick.setOnClickListener {
+            if (vm.focusedInput.value == where) {
+                vm.focusedInput.value = null
+                windowHandler.hideKeyboard()
+                binding.whereInput.textField.clearFocus()
+            } else {
+                vm.focusedInput.value = where
+                windowHandler.showKeyboard()
+                binding.whereInput.textField.requestFocus()
+            }
+        }
+    }
+
+    private fun configureWhoInput() {
+        binding.whoInputClick.setOnClickListener {
+            if (vm.focusedInput.value == who) {
+                vm.focusedInput.value = null
+                windowHandler.hideKeyboard()
+                binding.whoInput.textField.clearFocus()
+            } else {
+                vm.focusedInput.value = who
+                windowHandler.showKeyboard()
+                binding.whoInput.textField.requestFocus()
+            }
+        }
+    }
+
+    private fun configureWhatInput() {
+        binding.whatInputClick.setOnClickListener {
+            if (vm.focusedInput.value == what) {
+                vm.focusedInput.value = null
+                windowHandler.hideKeyboard()
+                binding.whatInput.textField.clearFocus()
+            } else {
+                vm.focusedInput.value = what
+                windowHandler.showKeyboard()
+                binding.whatInput.textField.requestFocus()
             }
         }
     }
@@ -244,11 +238,6 @@ class UploadHappicActivity : AppCompatActivity() {
             }
             return null
         }
-    }
-
-    private fun hideKeyboard() {
-        val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(binding.whole.windowToken, 0)
     }
 
     private fun updateUi(hasFocus: Boolean) {

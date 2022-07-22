@@ -19,10 +19,11 @@ fun View.setShadowColorIfAvailable(color: Int) {
 
 @Px
 fun Context.px(dp: Int) = (dp * resources.displayMetrics.density).roundToInt()
+fun Context.pxFloat(dp: Int) = dp * resources.displayMetrics.density
 
 @Px
 fun View.px(dp: Int) = context.px(dp)
-fun View.pxFloat(dp: Int) = (dp * resources.displayMetrics.density)
+fun View.pxFloat(dp: Int) = context.pxFloat(dp)
 fun View.spPx(dp: Int) = (dp * resources.displayMetrics.scaledDensity)
 val View.screenWidth: Int
     get() = resources.displayMetrics.widthPixels

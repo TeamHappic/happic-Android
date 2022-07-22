@@ -9,6 +9,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 inline fun <reified T> AppCompatActivity.collectFlowWhen(
@@ -58,3 +60,6 @@ fun Fragment.repeatCoroutineWhenStarted(block: suspend CoroutineScope.() -> Unit
         viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED, block)
     }
 }
+
+fun <T> ViewModel.asStateFlow(flow: Flow<T>, initialValue: T) =
+    flow.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), initialValue)

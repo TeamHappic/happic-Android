@@ -3,18 +3,7 @@ package happy.kiki.happic.module.report.util
 import java.time.DayOfWeek
 import java.time.LocalDate
 
-/**
- * YYYY-MM-DD
- */
-typealias DateString = String
-/**
- * YYYY-MM-DDTHH
- */
-typealias DateHourString = String
-/**
- * YYYY-MM-DD or YYYY-MM-DDTHH
- */
-typealias DateOrDateHourString = String
+val nowDate get() = LocalDate.now()
 
 fun String.padZero(length: Int = 2) = padStart(length, '0')
 fun Int.padZero(length: Int = 2) = toString().padZero(length)
@@ -51,6 +40,12 @@ val Int.koFormat: String
  */
 val LocalDate.yearMonthDateFormat: String
     get() = "${year}-${monthValue.padZero()}-${dayOfMonth.padZero()}"
+
+/**
+ * 1997-04-04
+ */
+val LocalDate.monthDateFormat: String
+    get() = "${monthValue.padZero()}-${dayOfMonth.padZero()}"
 
 /**
  * 1(SUN) -> 7(SAT)
