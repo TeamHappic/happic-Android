@@ -112,7 +112,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible">
 
                     <ImageView
                         android:id="@+id/star_image_keyword"
@@ -135,12 +136,11 @@
                     <LinearLayout
                         android:id="@+id/keyword_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:clipChildren="false"
                         android:layoutAnimation="@anim/common_layout_fast"
                         android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/section_text_keyword" />
 
                     <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -172,75 +172,82 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/star_image_category"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/hp_img_star"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/section_text_category"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="카테고리 별 행복 키워드 순위"
-                        android:textAppearance="@style/H4_P_B16"
-                        android:textColor="@color/white"
-                        app:layout_constraintTop_toBottomOf="@id/star_image_category" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="gone">
 
 
                     <LinearLayout
-                        android:id="@+id/category_container"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:clipChildren="false"
-                        android:layoutAnimation="@anim/common_layout_fast"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/section_text_category">
+                        android:orientation="vertical">
 
-                        <com.google.android.material.tabs.TabLayout
-                            android:id="@+id/section_category_tab_layout"
-                            style="@style/CategoryTab"
+                        <ImageView
+                            android:id="@+id/star_image_category"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/hp_img_star"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/section_text_category"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="#0000"
-                            app:layout_constraintTop_toBottomOf="@id/section_category">
+                            android:layout_marginTop="8dp"
+                            android:text="카테고리 별 행복 키워드 순위"
+                            android:textAppearance="@style/H4_P_B16"
+                            android:textColor="@color/white"
+                            app:layout_constraintTop_toBottomOf="@id/star_image_category" />
 
-                            <com.google.android.material.tabs.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="#when" />
-
-                            <com.google.android.material.tabs.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="#where" />
-
-                            <com.google.android.material.tabs.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="#who" />
-
-                            <com.google.android.material.tabs.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="#what" />
-                        </com.google.android.material.tabs.TabLayout>
 
                         <LinearLayout
-                            android:id="@+id/category_list"
+                            android:id="@+id/category_container"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="8dp"
+                            android:clipChildren="false"
                             android:layoutAnimation="@anim/common_layout_fast"
-                            android:orientation="vertical" />
+                            android:orientation="vertical">
+
+                            <com.google.android.material.tabs.TabLayout
+                                android:id="@+id/section_category_tab_layout"
+                                style="@style/CategoryTab"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="#0000"
+                                app:layout_constraintTop_toBottomOf="@id/section_category">
+
+                                <com.google.android.material.tabs.TabItem
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="#when" />
+
+                                <com.google.android.material.tabs.TabItem
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="#where" />
+
+                                <com.google.android.material.tabs.TabItem
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="#who" />
+
+                                <com.google.android.material.tabs.TabItem
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="#what" />
+                            </com.google.android.material.tabs.TabLayout>
+
+                            <LinearLayout
+                                android:id="@+id/category_list"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:layoutAnimation="@anim/common_layout_fast"
+                                android:orientation="vertical" />
+                        </LinearLayout>
                     </LinearLayout>
+
 
                     <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:id="@+id/category_indicator"
@@ -271,7 +278,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="gone">
 
                     <ImageView
                         android:id="@+id/star_image_monthly"

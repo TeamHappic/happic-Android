@@ -235,7 +235,6 @@ class UploadHappicActivity : AppCompatActivity() {
         binding.btnComplete.setOnClickListener {
             vm.focusedInput.value = null
         }
-
     }
 
     private fun generateChip(text: String, onClickListener: (String) -> Unit): Chip {
@@ -270,6 +269,9 @@ class UploadHappicActivity : AppCompatActivity() {
         input.textField.addTextChangedListener {
             vm.where.value = it.toString()
         }
+        input.textField.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) openWhere()
+        }
 
         collectFlowWhenStarted(vm.whereKeywords) {
             binding.whereInput.chipContainer.children.forEach {
@@ -286,6 +288,7 @@ class UploadHappicActivity : AppCompatActivity() {
                 binding.whereInput.chipFlow.addView(chip)
             }
         }
+
     }
 
     private fun configureWhoInput() {
@@ -301,6 +304,9 @@ class UploadHappicActivity : AppCompatActivity() {
 
         input.textField.addTextChangedListener {
             vm.who.value = it.toString()
+        }
+        input.textField.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) openWho()
         }
 
         collectFlowWhenStarted(vm.whoKeywords) {
@@ -333,6 +339,9 @@ class UploadHappicActivity : AppCompatActivity() {
 
         input.textField.addTextChangedListener {
             vm.what.value = it.toString()
+        }
+        input.textField.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) openWhat()
         }
 
         collectFlowWhenStarted(vm.whatKeywords) {

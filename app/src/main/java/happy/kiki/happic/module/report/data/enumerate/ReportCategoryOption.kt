@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalSerializationApi::class)
-
 package happy.kiki.happic.module.report.data.enumerate
 
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,8 +16,4 @@ enum class ReportCategoryOption(val index: Int) {
 
     @SerialName("what")
     what(3);
-
-    companion object {
-        fun byIndex(index: Int) = values().getOrNull(index) ?: whenn
-    }
 }

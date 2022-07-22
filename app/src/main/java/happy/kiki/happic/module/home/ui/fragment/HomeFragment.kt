@@ -29,6 +29,8 @@ class HomeFragment : Fragment() {
         initEvent()
         uploadButtonClickListener()
         collectRandomCapsule()
+
+        binding.ivCharacter.animate()
     }
 
     private fun initEvent() {
