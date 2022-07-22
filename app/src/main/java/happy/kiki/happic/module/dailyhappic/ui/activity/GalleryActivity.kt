@@ -3,6 +3,7 @@ package happy.kiki.happic.module.dailyhappic.ui.activity
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -33,7 +34,13 @@ class GalleryActivity : AppCompatActivity() {
     }
 
     private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
-        if (success) onSelectItem(newImageUri.toString())
+        if (success) {
+            contentResolver.query(newImageUri!!, null, null, null, null)?.run {
+                moveToNext()
+                val idx = getColumnIndex(MediaStore.MediaColumns.DATA)
+                onSelectItem(this.getString(idx))
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
