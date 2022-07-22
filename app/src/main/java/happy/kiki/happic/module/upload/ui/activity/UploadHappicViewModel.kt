@@ -8,7 +8,7 @@ import happy.kiki.happic.module.core.data.api.coreMockService
 import happy.kiki.happic.module.core.util.EventFlow
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadReq
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadRes
-import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicMockService
+import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicService
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHAT
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHEN
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHERE
@@ -37,11 +37,11 @@ class UploadHappicViewModel : ViewModel() {
     val onImageUpload = EventFlow<String>()
 
     val keywordApi = useApiNoParams {
-        dailyHappicMockService.keywordRankingForUpload()
+        dailyHappicService.keywordRankingForUpload()
     }
 
     val uploadApi = useApi<DailyHappicUploadReq, DailyHappicUploadRes> {
-        dailyHappicMockService.upload(it)
+        dailyHappicService.upload(it)
     }
 
     val uploadPhotoApi = useApi<MultipartBody.Part, UploadPhotoRes>(onSuccess = {

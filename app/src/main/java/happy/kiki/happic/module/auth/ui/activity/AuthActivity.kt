@@ -42,7 +42,7 @@ class AuthActivity : AppCompatActivity() {
 
     private fun navigateNextActivity() {
         if (viewModel.autoSignInResult.value == AutoSignInResult.SUCCESS) pushActivity<MainActivity>()
-        else pushActivity<MainActivity>()
+        else pushActivity<SignInActivity>()
         overridePendingTransition(0, 0)
     }
 }

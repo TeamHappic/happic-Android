@@ -7,7 +7,7 @@ import happy.kiki.happic.module.core.data.api.base.useApiNoParams
 import happy.kiki.happic.module.core.util.SimpleEventFlow
 import happy.kiki.happic.module.core.util.extension.collectFlow
 import happy.kiki.happic.module.core.util.now
-import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicMockService
+import happy.kiki.happic.module.dailyhappic.data.api.dailyHappicService
 import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,7 +20,7 @@ class DailyHappicViewModel : ViewModel() {
     val isMonthSelectOpened = MutableStateFlow(false)
 
     val dailyHappicApi = useApi<Pair<Int, Int>, List<DailyHappicModel>> { (year, month) ->
-        dailyHappicMockService.dailyHappics(year, month)
+        dailyHappicService.dailyHappics(year, month)
     }
     val detailDailyHappicIndex = MutableStateFlow(-1)
     val detailDailyHappicItem = dailyHappicApi.dataOnlySuccess.combine(detailDailyHappicIndex) { data, index ->
@@ -38,14 +38,14 @@ class DailyHappicViewModel : ViewModel() {
         if (!it.isPosted) onNavigateUpload.emit()
         else onNavigateUploadFailedByMultipleUpload.emit()
     }) {
-        dailyHappicMockService.isTodayUploaded()
+        dailyHappicService.isTodayUploaded()
     }
 
     val onDeleteHappic = SimpleEventFlow()
     val deleteHappic = useApi<String>(onSuccess = {
         onDeleteHappic.emit()
     }) {
-        dailyHappicMockService.delete(it)
+        dailyHappicService.delete(it)
     }
 
     init {

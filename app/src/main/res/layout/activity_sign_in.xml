@@ -17,32 +17,20 @@
 
     <ImageView
         android:id="@+id/hello"
-        android:scaleType="centerCrop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
         android:src="@drawable/sign_in_logo"
-        app:layout_constraintBottom_toTopOf="@+id/vertical_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_guideline" />
 
 
-    <View
-        android:id="@+id/vertical_bar"
-        android:layout_width="1dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/dark_purple"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hello" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="52dp"
         android:layout_marginBottom="100dp"
         android:text="해픽의 밤하늘에\n당신의 행복을 기록하세요"
         android:textAlignment="center"
@@ -51,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vertical_bar" />
+        app:layout_constraintTop_toBottomOf="@id/hello" />
 
     <happy.kiki.happic.module.core.ui.widget.RoundButton
         android:id="@+id/kakao_button"

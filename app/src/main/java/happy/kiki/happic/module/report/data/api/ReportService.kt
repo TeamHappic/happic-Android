@@ -47,7 +47,7 @@ interface ReportService {
 }
 
 val reportService: ReportService = createService()
-val reportMockService = if (!BuildConfig.DEBUG) reportService else object : ReportService {
+val reportMockService1 = if (!BuildConfig.DEBUG) reportService else object : ReportService {
     override suspend fun reportHome(year: Int, month: Int): ApiResponse<ReportHomeModel> {
         delay(2000)
         return successApiResponse(

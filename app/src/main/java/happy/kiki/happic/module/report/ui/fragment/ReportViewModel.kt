@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import happy.kiki.happic.module.core.data.api.base.useApi
 import happy.kiki.happic.module.core.util.extension.collectFlow
 import happy.kiki.happic.module.core.util.now
-import happy.kiki.happic.module.report.data.api.reportMockService
+import happy.kiki.happic.module.report.data.api.reportService
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
 import happy.kiki.happic.module.report.data.model.ReportHomeModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ class ReportViewModel : ViewModel() {
     val selectedCategoryTab = MutableStateFlow(ReportCategoryOption.who)
 
     val reportHomeApi = useApi<Pair<Int, Int>, ReportHomeModel> { (year, month) ->
-        reportMockService.reportHome(year, month)
+        reportService.reportHome(year, month)
     }
 
     init {

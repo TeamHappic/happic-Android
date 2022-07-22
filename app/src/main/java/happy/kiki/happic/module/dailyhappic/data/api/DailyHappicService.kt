@@ -63,7 +63,7 @@ interface DailyHappicService {
 
 val dailyHappicService: DailyHappicService = createService()
 
-val dailyHappicMockService = if (!BuildConfig.DEBUG) dailyHappicService else object : DailyHappicService {
+val dailyHappicMockService2 = if (!BuildConfig.DEBUG) dailyHappicService else object : DailyHappicService {
     override suspend fun keywordRankingForUpload(): ApiResponse<KeywordRankingForUploadRes> {
         return successApiResponse(
             KeywordRankingForUploadRes(
