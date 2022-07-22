@@ -28,6 +28,7 @@ import happy.kiki.happic.databinding.DialogRandomCapsuleBinding
 import happy.kiki.happic.databinding.SceneRandomCapsule1Binding
 import happy.kiki.happic.databinding.SceneRandomCapsule2Binding
 import happy.kiki.happic.module.core.util.AutoClearedValue
+import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.FRAGMENT_ARGUMENT_KEY_
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.px
@@ -119,8 +120,8 @@ class RandomCapsuleBottomSheetDialog private constructor() : BottomSheetDialogFr
 
                             val isPosted = vm.homeApi.data.value?.isPosted == true
 
-                            button.text = if (isPosted) "이달의 해픽 돌아보기" else "하루해픽 등록하기"
-                            button.setOnClickListener {
+                            button2.text = if (isPosted) "이달의 해픽 돌아보기" else "하루해픽 등록하기"
+                            button2.setOnClickListener {
                                 if (!isPosted) {
                                     dailyHappicVm.navigateUploadApi.call()
                                 }

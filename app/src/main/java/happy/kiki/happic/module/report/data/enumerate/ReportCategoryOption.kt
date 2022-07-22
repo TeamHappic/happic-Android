@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class ReportCategoryOption(val index: Int) {
     @SerialName("when")
-    whenn(0),
+    `when`(0),
 
     @SerialName("where")
     where(1),

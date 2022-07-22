@@ -29,7 +29,7 @@ import happy.kiki.happic.module.core.util.extension.screenWidth
 import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.what
-import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.whenn
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.`when`
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.where
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.who
 import happy.kiki.happic.module.report.ui.fragment.ReportDetailFragment.Argument
@@ -144,7 +144,7 @@ class ReportFragment : Fragment() {
                 }.forEachIndexed { index, (itemBinding, item) ->
                     itemBinding.rank.text = (index + 1).toString()
                     itemBinding.keyword.text =
-                        if (item.category == whenn) item.content.toInt().koFormat else item.content
+                        if (item.category == `when`) item.content.toInt().koFormat else item.content
                     itemBinding.category.text = "#${item.category.name}"
                     itemBinding.count.text = "${item.count}회"
 
@@ -175,7 +175,7 @@ class ReportFragment : Fragment() {
                 binding.categoryRankContainer.removeAllViews()
 
                 val contents = when (category) {
-                    whenn -> data.rank3s.whenX
+                    `when` -> data.rank3s.whenX
                     where -> data.rank3s.where
                     who -> data.rank3s.who
                     what -> data.rank3s.what

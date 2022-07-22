@@ -9,6 +9,7 @@
         android:layout_height="match_parent"
         android:paddingHorizontal="20dp"
         android:paddingTop="48dp"
+        android:clipChildren="false"
         android:paddingBottom="40dp" />
 
     <FrameLayout

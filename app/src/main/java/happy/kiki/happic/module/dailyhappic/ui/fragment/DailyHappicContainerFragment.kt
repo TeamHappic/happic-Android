@@ -18,11 +18,13 @@ import happy.kiki.happic.module.core.util.extension.popChildBackStacksUntilNameF
 class DailyHappicContainerFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentDailyHappicContainerBinding>()
 
+    private val vm by activityViewModels<DailyHappicViewModel>()
     private val navigationVm by activityViewModels<DailyHappicNavigationViewModel>()
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (isChildFragmentExistIn<DailyHappicDetailFragment>()) {
+                vm.fetchDailyHappics()
                 popChildBackStack()
             } else {
                 isEnabled = false
@@ -56,5 +58,10 @@ class DailyHappicContainerFragment : Fragment() {
                 tag = DailyHappicDetailFragment::class.java.simpleName
             )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        vm.fetchDailyHappics()
     }
 }

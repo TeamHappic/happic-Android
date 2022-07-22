@@ -1,6 +1,5 @@
 package happy.kiki.happic.module.dailyhappic.data.model
 
-import happy.kiki.happic.module.core.util.debugE
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
@@ -38,7 +37,6 @@ object LocalDateTimeSerializer : KSerializer<LocalDateTime> {
     }
 
     override fun serialize(encoder: Encoder, value: LocalDateTime) { // fixme
-        debugE("123")
         encoder.encodeString("?")
     }
 }

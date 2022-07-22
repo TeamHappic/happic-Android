@@ -7,7 +7,6 @@ import happy.kiki.happic.module.report.data.model.ReportByCategoryModel
 import happy.kiki.happic.module.report.data.model.ReportByKeywordModel
 import happy.kiki.happic.module.report.data.model.ReportByMonthlyModel
 import happy.kiki.happic.module.report.data.model.ReportHomeModel
-import kotlinx.serialization.Serializable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
