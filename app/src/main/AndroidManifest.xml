@@ -17,7 +17,7 @@
         <activity
             android:name=".module.upload.ui.activity.UploadHappicActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".module.auth.ui.activity.AuthActivity"
             android:exported="true"

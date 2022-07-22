@@ -42,10 +42,10 @@ val LocalDate.yearMonthDateFormat: String
     get() = "${year}-${monthValue.padZero()}-${dayOfMonth.padZero()}"
 
 /**
- * 1997-04-04
+ * 07.22
  */
 val LocalDate.monthDateFormat: String
-    get() = "${monthValue.padZero()}-${dayOfMonth.padZero()}"
+    get() = "${monthValue.padZero()}.${dayOfMonth.padZero()}"
 
 /**
  * 1(SUN) -> 7(SAT)

@@ -63,11 +63,5 @@ class BorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         outlineProvider = ViewOutlineProvider.BACKGROUND
         clipToOutline = true
         setShadowColorIfAvailable(shadowColor)
-        setPadding(
-            kotlin.math.max(strokeWidth, paddingLeft.toFloat()).toInt(),
-            kotlin.math.max(strokeWidth, paddingTop.toFloat()).toInt(),
-            kotlin.math.max(strokeWidth, paddingRight.toFloat()).toInt(),
-            kotlin.math.max(strokeWidth, paddingBottom.toFloat()).toInt()
-        )
     }
 }

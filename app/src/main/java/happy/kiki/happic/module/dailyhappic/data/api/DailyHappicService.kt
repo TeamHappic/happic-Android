@@ -77,22 +77,16 @@ val dailyHappicMockService2 = if (!BuildConfig.DEBUG) dailyHappicService else ob
                     Ipsum.text(5),
                     Ipsum.text(5)
                 ), listOf(
+                ), listOf(
                     Ipsum.text(5),
                     Ipsum.text(5),
                     Ipsum.text(5),
                     Ipsum.text(5),
                     Ipsum.text(5),
                     Ipsum.text(5),
-                    Ipsum.text(5)
-                ), listOf( //                    Ipsum.text(5),
-                    //                    Ipsum.text(5),
-                    //                    Ipsum.text(5),
-                    //                    Ipsum.text(5),
-                    //                    Ipsum.text(5),
-                    //                    Ipsum.text(5),
-                    //                    Ipsum.text(5),
-                    //                    Ipsum.text(5),
-                    //                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
+                    Ipsum.text(5),
                 )
             )
         )
