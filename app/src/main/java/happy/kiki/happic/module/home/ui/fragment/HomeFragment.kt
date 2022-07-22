@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import happy.kiki.happic.databinding.FragmentHomeBinding
 import happy.kiki.happic.module.core.util.AutoClearedValue
+import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.isChildFragmentExistIn
 import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicViewModel
@@ -33,6 +34,7 @@ class HomeFragment : Fragment() {
     private fun initEvent() {
         collectFlowWhenStarted(vm.homeApi.data) {
             it?.let { data ->
+                debugE(data)
                 binding.tvCharacterName.text = it.characterName
 
                 val state = it.characterId.stateByLevel(it.level)

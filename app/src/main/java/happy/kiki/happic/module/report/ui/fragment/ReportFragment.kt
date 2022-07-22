@@ -28,12 +28,13 @@ import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
 import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
-import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.hour
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.what
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.whenn
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.where
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.who
 import happy.kiki.happic.module.report.ui.fragment.ReportDetailFragment.Argument
 import happy.kiki.happic.module.report.ui.widget.ReportRoundImageView
+import happy.kiki.happic.module.report.util.koFormat
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
 
@@ -118,7 +119,7 @@ class ReportFragment : Fragment() {
                 binding.momentDataContainer.isVisible = data.rank1s.size == 4
                 binding.momentEmpty.isVisible = data.rank1s.size != 4
                 if (data.rank1s.size == 4) {
-                    binding.momentWhen.text = data.rank1s[0].content
+                    binding.momentWhen.text = data.rank1s[0].content.toInt().koFormat
                     binding.momentWhere.text = data.rank1s[1].content
                     binding.momentWho.text = data.rank1s[2].content
                     binding.momentWhat.text = data.rank1s[3].content
@@ -142,7 +143,8 @@ class ReportFragment : Fragment() {
                     ) to it
                 }.forEachIndexed { index, (itemBinding, item) ->
                     itemBinding.rank.text = (index + 1).toString()
-                    itemBinding.keyword.text = item.content
+                    itemBinding.keyword.text =
+                        if (item.category == whenn) item.content.toInt().koFormat else item.content
                     itemBinding.category.text = "#${item.category.name}"
                     itemBinding.count.text = "${item.count}회"
 
@@ -173,7 +175,7 @@ class ReportFragment : Fragment() {
                 binding.categoryRankContainer.removeAllViews()
 
                 val contents = when (category) {
-                    hour -> data.rank3s.whenX
+                    whenn -> data.rank3s.whenX
                     where -> data.rank3s.where
                     who -> data.rank3s.who
                     what -> data.rank3s.what

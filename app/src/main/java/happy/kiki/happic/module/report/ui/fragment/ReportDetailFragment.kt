@@ -31,7 +31,7 @@ import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
 import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
-import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.hour
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.whenn
 import happy.kiki.happic.module.report.ui.widget.ReportRoundImageView
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
@@ -40,7 +40,7 @@ import kotlinx.parcelize.Parcelize
 @Suppress("UNCHECKED_CAST")
 class ReportDetailFragment : Fragment() {
     @Parcelize
-    data class Argument(val tabIndex: Int, val category: ReportCategoryOption = hour) : Parcelable
+    data class Argument(val tabIndex: Int, val category: ReportCategoryOption = whenn) : Parcelable
 
     private val arg by argument<Argument>()
 

@@ -34,8 +34,8 @@ import happy.kiki.happic.module.core.util.extension.screenWidth
 import happy.kiki.happic.module.core.util.extension.showToast
 import happy.kiki.happic.module.core.util.extension.windowHandler
 import happy.kiki.happic.module.core.util.now
-import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.hour
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.what
+import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.whenn
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.where
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.who
 import happy.kiki.happic.module.report.util.koFormat
@@ -56,8 +56,10 @@ class UploadHappicActivity : AppCompatActivity() {
 
     private val expandedImageSize get() = px(260).coerceAtMost(screenWidth - px(50) * 2)
     private val collapsedImageSize
-        get() = screenHeight - px(60) - px(16) - px(20) - px(48) * 4 - px(8) * 3 - px(100) - px(
-            300
+        get() = max(
+            px(140), screenHeight - px(60) - px(16) - px(20) - px(48) * 4 - px(8) * 3 - px(100) - px(
+                300
+            )
         )
 
     private val animationDuration = 250L
@@ -159,7 +161,7 @@ class UploadHappicActivity : AppCompatActivity() {
 
     private fun openWhen() {
         windowHandler.hideKeyboard()
-        vm.focusedInput.value = hour
+        vm.focusedInput.value = whenn
     }
 
     private fun closeWhen() {
@@ -209,17 +211,17 @@ class UploadHappicActivity : AppCompatActivity() {
             textField.isClickable = false
         }
         binding.whenInputClick.setOnClickListener {
-            if (vm.focusedInput.value == hour) closeWhen() else openWhen()
+            if (vm.focusedInput.value == whenn) closeWhen() else openWhen()
         }
 
         collectFlowWhenStarted(vm.focusedInput) {
-            binding.containerPicker.animate().translationY(if (it == hour) 0f else pxFloat(300)).alpha(
-                if (it == hour) 1f else 0.2f
+            binding.containerPicker.animate().translationY(if (it == whenn) 0f else pxFloat(300)).alpha(
+                if (it == whenn) 1f else 0.2f
             ).apply {
                 duration = animationDuration
             }.start()
 
-            binding.whenInput.root.strokeColor = getColor(if (it == hour) R.color.dark_blue else R.color.transparent)
+            binding.whenInput.root.strokeColor = getColor(if (it == whenn) R.color.dark_blue else R.color.transparent)
         }
         collectFlowWhenStarted(vm.hour) {
             if (it == -1) binding.timePicker.hour = now.hour
