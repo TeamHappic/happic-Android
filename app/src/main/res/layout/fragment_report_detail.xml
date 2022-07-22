@@ -135,7 +135,7 @@
                     <LinearLayout
                         android:id="@+id/keyword_container"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="8dp"
                         android:clipChildren="false"
                         android:layoutAnimation="@anim/common_layout_fast"
@@ -196,7 +196,7 @@
                     <LinearLayout
                         android:id="@+id/category_container"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="8dp"
                         android:clipChildren="false"
                         android:layoutAnimation="@anim/common_layout_fast"
