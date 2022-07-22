@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import happy.kiki.happic.databinding.FragmentDailyHappicBinding
-import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.AutoClearedValue
 
 class DailyHappicFragment : Fragment() {
-    private var binding by AutoCleardValue<FragmentDailyHappicBinding>()
+    private var binding by AutoClearedValue<FragmentDailyHappicBinding>()
     private lateinit var dailyHappicTabViewPagerAdapter: DailyHappicTabViewPagerAdapter
     private val vm by activityViewModels<DailyHappicViewModel>()
 

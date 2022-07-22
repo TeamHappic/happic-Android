@@ -25,4 +25,20 @@
         <item name="android:windowBackground">@drawable/bg_signin</item>
         <item name="android:windowFullscreen">true</item>
     </style>
+
+    <style name="RandomCapsuleBottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_random_capsule_dialog</item>
+    </style>
+
+    <style name="RandomCapsuleBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RandomCapsuleBottomSheet</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">#fff</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.8</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="behavior_skipCollapsed">true</item>
+    </style>
 </resources>

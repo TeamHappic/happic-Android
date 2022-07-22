@@ -6,6 +6,7 @@
             <enum name="dark_purple" value="1" />
             <enum name="orange" value="2" />
             <enum name="kakao_yellow" value="3" />
+            <enum name="orange_reverse" value="4" />
         </attr>
         <attr name="text" format="string" />
         <attr name="icon" format="reference" />

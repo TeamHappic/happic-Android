@@ -8,14 +8,12 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewGroup.MarginLayoutParams
-import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.tabs.TabLayout.Tab
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentReportDetailBinding
@@ -23,15 +21,13 @@ import happy.kiki.happic.databinding.ItemReportCategoryBinding
 import happy.kiki.happic.databinding.ItemReportYourKeywordBinding
 import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
 import happy.kiki.happic.module.core.ui.widget.util.OnTabSelectedListenerAdapter
-import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.AutoClearedValue
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
 import happy.kiki.happic.module.core.util.extension.fadeOut
 import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.core.util.extension.screenWidth
-import happy.kiki.happic.module.core.util.loadUrlAsync
-import happy.kiki.happic.module.core.util.setCornerSize
 import happy.kiki.happic.module.core.util.yearMonthText
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption.hour
@@ -47,7 +43,7 @@ class ReportDetailFragment : Fragment() {
 
     private val arg by argument<Argument>()
 
-    private var binding by AutoCleardValue<FragmentReportDetailBinding>()
+    private var binding by AutoClearedValue<FragmentReportDetailBinding>()
     private val reportVm by viewModels<ReportViewModel>({ requireParentFragment() })
     private val vm by viewModels<ReportDetailViewModel> {
         object : ViewModelProvider.Factory {

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="해픽 캡슐 개봉"
+        android:textAppearance="@style/GMarketBold.20"
+        android:textColor="@color/gray3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="해픽의 별이 된, 너의 행복한 순간이야"
+        android:textAppearance="@style/C2_P_M12"
+        android:textColor="@color/gray3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <happy.kiki.happic.module.core.ui.widget.BorderView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginBottom="100dp"
+        android:elevation="8dp"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+
+        android:paddingBottom="28dp"
+        app:card_background_color="@color/bg_black1"
+        app:card_corner_radius="10dp"
+        app:card_shadow_color="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/button"
+        app:layout_constraintDimensionRatio="304:388"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/Radius10" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textAppearance="@style/H4_P_B16"
+            android:textColor="@color/gray2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img"
+            tools:text="2022.06.26" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date">
+
+            <TextView
+                android:id="@+id/hour"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textAppearance="@style/C2_P_M12"
+                android:textColor="@color/gray3"
+                tools:text="Hello" />
+
+            <TextView
+                android:id="@+id/where"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textAppearance="@style/C2_P_M12"
+                android:textColor="@color/gray3"
+                tools:text="Hello" />
+
+            <TextView
+                android:id="@+id/who"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textAppearance="@style/C2_P_M12"
+                android:textColor="@color/gray3"
+                tools:text="Hello" />
+
+            <TextView
+                android:id="@+id/what"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textAppearance="@style/C2_P_M12"
+                android:textColor="@color/gray3"
+                tools:text="Hello" />
+        </LinearLayout>
+
+    </happy.kiki.happic.module.core.ui.widget.BorderView>
+
+
+    <happy.kiki.happic.module.core.ui.widget.RoundButton
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/hp_ic_right_orange_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:text="뽑기"
+        app:type="orange_reverse" />
+</androidx.constraintlayout.widget.ConstraintLayout>

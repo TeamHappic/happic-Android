@@ -18,7 +18,7 @@ import happy.kiki.happic.databinding.FragmentReportBinding
 import happy.kiki.happic.databinding.ItemReportCategoryBinding
 import happy.kiki.happic.databinding.ItemReportYourKeywordBinding
 import happy.kiki.happic.module.core.ui.widget.util.OnTabSelectedListenerAdapter
-import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.AutoClearedValue
 import happy.kiki.happic.module.core.util.emitEvent
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
 
 class ReportFragment : Fragment() {
-    private var binding by AutoCleardValue<FragmentReportBinding>()
+    private var binding by AutoClearedValue<FragmentReportBinding>()
     private val vm by viewModels<ReportViewModel>({ requireParentFragment() })
     private val navigationVm by viewModels<ReportNavigationViewModel>({ requireParentFragment() })
 

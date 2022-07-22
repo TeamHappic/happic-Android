@@ -8,14 +8,14 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import happy.kiki.happic.databinding.FragmentDailyHappicContainerBinding
-import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.AutoClearedValue
 import happy.kiki.happic.module.core.util.extension.addFragment
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.isChildFragmentExistIn
 import happy.kiki.happic.module.core.util.extension.popChildBackStack
 
 class DailyHappicContainerFragment : Fragment() {
-    private var binding by AutoCleardValue<FragmentDailyHappicContainerBinding>()
+    private var binding by AutoClearedValue<FragmentDailyHappicContainerBinding>()
 
     private val navigationVm by activityViewModels<DailyHappicNavigationViewModel>()
 

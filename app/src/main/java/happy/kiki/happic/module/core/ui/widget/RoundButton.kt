@@ -25,12 +25,15 @@ class RoundButton @JvmOverloads constructor(context: Context, attrs: AttributeSe
     FrameLayout(context, attrs) {
 
     enum class Type(@ColorRes val color: Int) {
-        DARK_BLUE(R.color.dark_blue), DARK_PURPLE(R.color.dark_purple), ORANGE(R.color.orange), KAKAO_YELLOW(R.color.kakao_yellow);
+        DARK_BLUE(R.color.dark_blue), DARK_PURPLE(R.color.dark_purple), ORANGE(R.color.orange), KAKAO_YELLOW(R.color.kakao_yellow), ORANGE_REVERSE(
+            R.color.bg_black1
+        );
 
         val textColor: Int
             get() = when (this) {
                 ORANGE -> R.color.gray0
                 KAKAO_YELLOW -> R.color.gray9
+                ORANGE_REVERSE -> R.color.orange
                 else -> R.color.white
             }
     }
@@ -52,6 +55,7 @@ class RoundButton @JvmOverloads constructor(context: Context, attrs: AttributeSe
             iconGravity = ICON_GRAVITY_TEXT_END
             iconPadding = px(4)
             iconSize = px(20)
+            iconTint = null
             layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         }
     }

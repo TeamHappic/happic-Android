@@ -8,14 +8,14 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import happy.kiki.happic.databinding.FragmentReportContainerBinding
-import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.AutoClearedValue
 import happy.kiki.happic.module.core.util.extension.addFragment
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.isChildFragmentExistIn
 import happy.kiki.happic.module.core.util.extension.popChildBackStack
 
 class ReportContainerFragment : Fragment() {
-    private var binding by AutoCleardValue<FragmentReportContainerBinding>()
+    private var binding by AutoClearedValue<FragmentReportContainerBinding>()
     private val navigationVm by viewModels<ReportNavigationViewModel>()
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {

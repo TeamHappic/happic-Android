@@ -12,7 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentDailyHappicDetailBinding
-import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.AutoClearedValue
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.screenWidth
 import happy.kiki.happic.module.report.util.koFormat
@@ -24,7 +24,7 @@ import kotlin.math.absoluteValue
 import kotlin.math.min
 
 class DailyHappicDetailFragment : Fragment(), CommonDialog.Listener {
-    private var binding by AutoCleardValue<FragmentDailyHappicDetailBinding>()
+    private var binding by AutoClearedValue<FragmentDailyHappicDetailBinding>()
 
     private val vm by activityViewModels<DailyHappicViewModel>()
 

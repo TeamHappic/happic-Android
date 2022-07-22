@@ -13,7 +13,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.DialogCommonBinding
-import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.AutoClearedValue
 import happy.kiki.happic.module.core.util.extension.FRAGMENT_ARGUMENT_KEY_
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.px
@@ -22,7 +22,7 @@ import kotlinx.parcelize.Parcelize
 import kotlin.math.roundToInt
 
 class CommonDialog private constructor() : DialogFragment() {
-    private var binding by AutoCleardValue<DialogCommonBinding>()
+    private var binding by AutoClearedValue<DialogCommonBinding>()
 
     @Parcelize
     data class Argument(

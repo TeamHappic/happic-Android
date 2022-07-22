@@ -11,13 +11,13 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentSettingBinding
 import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider
 import happy.kiki.happic.module.characterselect.ui.activity.CharacterActivity
-import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.AutoClearedValue
 import happy.kiki.happic.module.core.util.extension.pushActivity
 import happy.kiki.happic.module.setting.ui.dialog.CommonDialog
 import happy.kiki.happic.module.setting.ui.dialog.CommonDialog.Argument
 
 class SettingFragment : Fragment(), CommonDialog.Listener {
-    private var binding by AutoCleardValue<FragmentSettingBinding>()
+    private var binding by AutoClearedValue<FragmentSettingBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         FragmentSettingBinding.inflate(inflater, container, false).let { binding = it; it.root }

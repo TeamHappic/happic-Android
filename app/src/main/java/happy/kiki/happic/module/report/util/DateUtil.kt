@@ -2,8 +2,6 @@ package happy.kiki.happic.module.report.util
 
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.temporal.WeekFields
-import java.util.*
 
 /**
  * YYYY-MM-DD
@@ -49,25 +47,10 @@ val Int.koFormat: String
     }
 
 /**
- * 1997-04
+ * 1997-04-04
  */
-val LocalDate.yearMonthFormat: String
-    get() = "${year}-${monthValue.padZero()}"
-
-/**
- * 1997-03
- */
-val LocalDate.lastYearMonthFormat: String
-    get() = "${year}-${(monthValue - 1).padZero()}"
-
-/**
- * 0 ~ 6
- */
-val LocalDate.weekOfMonth: Int
-    get() {
-        val weekFields: WeekFields = WeekFields.of(Locale.KOREA)
-        return get(weekFields.weekOfMonth())
-    }
+val LocalDate.yearMonthDateFormat: String
+    get() = "${year}-${monthValue.padZero()}-${dayOfMonth.padZero()}"
 
 /**
  * 1(SUN) -> 7(SAT)

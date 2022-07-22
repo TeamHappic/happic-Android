@@ -49,4 +49,9 @@
         <item name="android:clickable">false</item>
         <item name="indicatorColor">@color/white</item>
     </style>
+
+    <style name="Radius10">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
 </resources>

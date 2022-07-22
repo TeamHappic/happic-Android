@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class AutoCleardValue<T : Any> : ReadWriteProperty<Fragment, T>, DefaultLifecycleObserver {
+class AutoClearedValue<T : Any> : ReadWriteProperty<Fragment, T>, DefaultLifecycleObserver {
     private var _value: T? = null
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T =

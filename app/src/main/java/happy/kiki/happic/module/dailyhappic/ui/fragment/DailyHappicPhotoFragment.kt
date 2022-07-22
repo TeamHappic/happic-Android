@@ -17,7 +17,7 @@ import androidx.fragment.app.activityViewModels
 import happy.kiki.happic.R
 import happy.kiki.happic.databinding.FragmentDailyHappicPhotoBinding
 import happy.kiki.happic.databinding.ItemDailyHappicPhotoBinding
-import happy.kiki.happic.module.core.util.AutoCleardValue
+import happy.kiki.happic.module.core.util.AutoClearedValue
 import happy.kiki.happic.module.core.util.emitEvent
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.fadeIn
@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.drop
 import java.time.LocalDate
 
 class DailyHappicPhotoFragment : Fragment() {
-    private var binding by AutoCleardValue<FragmentDailyHappicPhotoBinding>()
+    private var binding by AutoClearedValue<FragmentDailyHappicPhotoBinding>()
     private val vm by activityViewModels<DailyHappicViewModel>()
     private val navigationVm by activityViewModels<DailyHappicNavigationViewModel>()
 
