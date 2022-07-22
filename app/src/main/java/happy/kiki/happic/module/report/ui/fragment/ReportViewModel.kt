@@ -8,6 +8,7 @@ import happy.kiki.happic.module.report.data.api.reportService
 import happy.kiki.happic.module.report.data.enumerate.ReportCategoryOption
 import happy.kiki.happic.module.report.data.model.ReportHomeModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.drop
 
 class ReportViewModel : ViewModel() {
     val currentYear = MutableStateFlow(now.year)
@@ -21,8 +22,12 @@ class ReportViewModel : ViewModel() {
     }
 
     init {
-        collectFlow(selectedYearMonth) {
+        collectFlow(selectedYearMonth.drop(1)) {
             reportHomeApi.call(it)
         }
+    }
+
+    fun fetchReportHome() {
+        reportHomeApi.call(selectedYearMonth.value)
     }
 }

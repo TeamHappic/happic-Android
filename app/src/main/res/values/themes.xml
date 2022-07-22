@@ -16,6 +16,7 @@
 
         <item name="colorPrimary">@color/dark_purple</item>
         <item name="colorPrimaryDark">@color/dark_blue</item>
+        <item name="colorAccent">@color/dark_blue</item>
     </style>
 
     <style name="Theme.Splash" parent="Theme.SplashScreen">

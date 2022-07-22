@@ -12,6 +12,7 @@ import happy.kiki.happic.module.dailyhappic.data.model.DailyHappicModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.stateIn
 
 class DailyHappicViewModel : ViewModel() {
@@ -49,7 +50,7 @@ class DailyHappicViewModel : ViewModel() {
     }
 
     init {
-        collectFlow(selectedYearMonth) { (year, month) -> dailyHappicApi.call(Pair(year, month)) }
+        collectFlow(selectedYearMonth.drop(1)) { (year, month) -> dailyHappicApi.call(Pair(year, month)) }
     }
 
     fun fetchDailyHappics() {

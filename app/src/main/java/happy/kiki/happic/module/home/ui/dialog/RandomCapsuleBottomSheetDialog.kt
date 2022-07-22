@@ -28,7 +28,6 @@ import happy.kiki.happic.databinding.DialogRandomCapsuleBinding
 import happy.kiki.happic.databinding.SceneRandomCapsule1Binding
 import happy.kiki.happic.databinding.SceneRandomCapsule2Binding
 import happy.kiki.happic.module.core.util.AutoClearedValue
-import happy.kiki.happic.module.core.util.emitEvent
 import happy.kiki.happic.module.core.util.extension.FRAGMENT_ARGUMENT_KEY_
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.px
@@ -52,11 +51,11 @@ class RandomCapsuleBottomSheetDialog private constructor() : BottomSheetDialogFr
     private val vm by activityViewModels<HomeViewModel>()
     private val dailyHappicVm by activityViewModels<DailyHappicViewModel>()
 
-    val scene2 by lazy {
+    private val scene2 by lazy {
         Scene.getSceneForLayout(binding.sceneContainer, R.layout.scene_random_capsule2, requireContext())
     }
 
-    val scene1 by lazy {
+    private val scene1 by lazy {
         Scene.getSceneForLayout(binding.sceneContainer, R.layout.scene_random_capsule1, requireContext())
     }
     private val behavior get() = BottomSheetBehavior.from(requireView().parent as View)
@@ -123,7 +122,7 @@ class RandomCapsuleBottomSheetDialog private constructor() : BottomSheetDialogFr
                             button.text = if (isPosted) "이달의 해픽 돌아보기" else "하루해픽 등록하기"
                             button.setOnClickListener {
                                 if (!isPosted) {
-                                    emitEvent(dailyHappicVm.onNavigateUpload)
+                                    dailyHappicVm.navigateUploadApi.call()
                                 }
                                 dismiss()
                             }

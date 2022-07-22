@@ -15,7 +15,6 @@ import happy.kiki.happic.R
 import happy.kiki.happic.databinding.ActivityCharacterNameBinding
 import happy.kiki.happic.module.auth.data.api.AuthService.SignUpReq
 import happy.kiki.happic.module.characterselect.data.api.CharacterService.UpdateCharacterReq
-import happy.kiki.happic.module.characterselect.data.enumerate.CharacterType.MOON
 import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider
 import happy.kiki.happic.module.characterselect.provider.CharacterSelectFlowProvider.Usage.SIGNUP
 import happy.kiki.happic.module.core.util.extension.addLengthFilter
@@ -45,15 +44,7 @@ class CharacterNameActivity : AppCompatActivity() {
 
     private fun initEvent() {
         collectFlowWhenStarted(CharacterSelectFlowProvider.character) {
-            if (it == MOON) {
-                with(binding) { //ivRectangleCharacter.setImageResource(R.drawable.ic_rectangle_moon_name)
-                    ivCharacter.setImageResource(R.drawable.character_moon)
-                }
-            } else {
-                with(binding) { //ivRectangleCharacter.setImageResource(R.drawable.ic_rectangle_cloud_name)
-                    ivCharacter.setImageResource(R.drawable.character_cloud)
-                }
-            }
+            binding.ivCharacter.setImageResource(it.stateByLevel(1).drawableRes)
         }
 
         binding.etName.addTextChangedListener(object : TextWatcher {

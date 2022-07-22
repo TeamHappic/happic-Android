@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:animateLayoutChanges="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:animateLayoutChanges="true"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
@@ -39,12 +39,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:lines="2"
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="132dp"
         android:bufferType="spannable"
+        android:lines="2"
         android:text="길잡이의 이름을 지어주세요"
         android:textAlignment="center"
         android:textAppearance="@style/Bold.16"
@@ -87,8 +87,6 @@
     </happy.kiki.happic.module.core.ui.widget.BorderView>
 
     <EditText
-        android:singleLine="true"
-        android:maxLines="1"
         android:id="@+id/et_name"
         android:layout_width="152dp"
         android:layout_height="wrap_content"
@@ -96,6 +94,8 @@
         android:backgroundTint="@color/gray4"
         android:hint="최대 5글자"
         android:maxLength="5"
+        android:maxLines="1"
+        android:singleLine="true"
         android:textAlignment="center"
         android:textAppearance="@style/Medium.16"
         android:textColor="@color/gray4"

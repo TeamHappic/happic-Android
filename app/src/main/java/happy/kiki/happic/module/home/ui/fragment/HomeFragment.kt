@@ -8,7 +8,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import happy.kiki.happic.databinding.FragmentHomeBinding
 import happy.kiki.happic.module.core.util.AutoClearedValue
-import happy.kiki.happic.module.core.util.emitEvent
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.dailyhappic.ui.fragment.DailyHappicViewModel
 import happy.kiki.happic.module.home.ui.dialog.RandomCapsuleBottomSheetDialog
@@ -56,7 +55,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun uploadButtonClickListener() = binding.btnUpload.setOnClickListener {
-        emitEvent(dailyHappicViewModel.onNavigateUpload)
+        dailyHappicViewModel.navigateUploadApi.call()
     }
 
     private fun collectRandomCapsule() {

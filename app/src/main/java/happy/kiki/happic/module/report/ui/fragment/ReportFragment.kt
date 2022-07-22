@@ -227,4 +227,9 @@ class ReportFragment : Fragment() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        vm.fetchReportHome()
+    }
 }

@@ -1,5 +1,6 @@
 package happy.kiki.happic.module.dailyhappic.data.model
 
+import happy.kiki.happic.module.core.util.debugE
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
@@ -10,6 +11,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 @Serializable
 data class DailyHappicModel(
@@ -26,15 +28,15 @@ data class DailyHappicModel(
 @OptIn(ExperimentalSerializationApi::class)
 @Serializer(forClass = LocalDateTime::class)
 object LocalDateTimeSerializer : KSerializer<LocalDateTime> {
-    override val descriptor = serialDescriptor<LocalDateTime>()
+    override val descriptor = serialDescriptor<String>()
 
     override fun deserialize(decoder: Decoder): LocalDateTime {
         val str = decoder.decodeString()
-        DateTimeFormatter.RFC_1123_DATE_TIME
-        return LocalDateTime.parse(str, DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss.sssZ"))
+        return LocalDateTime.parse(str, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US))
     }
 
     override fun serialize(encoder: Encoder, value: LocalDateTime) { // fixme
+        debugE("123")
         encoder.encodeString("?")
     }
 }

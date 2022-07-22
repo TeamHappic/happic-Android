@@ -22,8 +22,10 @@ object ApiServiceFactory {
     }.addFlipperNetworkInterceptor().build()
 
     private fun Request.Builder.addCommonHeaderValues() = addHeader("Content-Type", "application/json")
-    private fun Request.Builder.addAccessTokenHeaderValues() =
-        JwtUtil.load()?.let { addHeader("Authorization", it) } ?: this
+//    private fun Request.Builder.addAccessTokenHeaderValues() =
+//        JwtUtil.load()?.let { addHeader("Authorization", it) } ?: this
+
+    private fun Request.Builder.addAccessTokenHeaderValues() = addHeader("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJkOTk2Y2Q1N2MzNTQzYjM2N2EwM2E4In0sImlhdCI6MTY1ODQzOTI2MSwiZXhwIjoxNjU5NjQ4ODYxfQ.2SRL-VydGLvfpz5feh-rGC76rPGQpBOOo9apP72IFNo")
 
     @OptIn(ExperimentalSerializationApi::class)
     val _retrofit: Retrofit
