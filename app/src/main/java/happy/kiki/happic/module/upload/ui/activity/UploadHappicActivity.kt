@@ -27,12 +27,11 @@ import happy.kiki.happic.databinding.ActivityUploadHappicBinding
 import happy.kiki.happic.databinding.ItemUploadChipBinding
 import happy.kiki.happic.databinding.ItemUploadFieldBinding
 import happy.kiki.happic.module.core.data.api.base.NetworkState.Success
-import happy.kiki.happic.module.core.ui.widget.TimeWheelPicker
-import happy.kiki.happic.module.core.util.debugE
 import happy.kiki.happic.module.core.util.extension.argument
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.px
 import happy.kiki.happic.module.dailyhappic.data.api.DailyHappicService.DailyHappicUploadReq
+import happy.kiki.happic.module.report.util.koFormat
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHAT
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHEN
 import happy.kiki.happic.module.upload.data.model.UploadFieldType.WHERE
@@ -75,11 +74,11 @@ class UploadHappicActivity : AppCompatActivity() {
             with(vm) {
                 uploadApi.call(
                     DailyHappicUploadReq(
-                        it,
-                        inputs[WHEN]?.value.toString(),
-                        inputs[WHERE]?.value.toString(),
-                        inputs[WHO]?.value.toString(),
-                        inputs[WHAT]?.value.toString()
+                        photo = it,
+                        when1 = inputs[WHEN]?.value.toString(),
+                        where = inputs[WHERE]?.value.toString(),
+                        who = inputs[WHO]?.value.toString(),
+                        what = inputs[WHAT]?.value.toString()
                     )
                 )
             }
@@ -99,8 +98,7 @@ class UploadHappicActivity : AppCompatActivity() {
             }
             setOnFocusChangeListener { _, _ ->
                 vm.isUploadFieldFocused.value = false
-                val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(windowToken, 0)
+                hideKeyboard()
             }
         }
         collectFlowWhenStarted(vm.isUploadFieldFocused) {
@@ -158,19 +156,18 @@ class UploadHappicActivity : AppCompatActivity() {
                     containerTags.visibility = when (fieldType) {
                         WHEN -> GONE
                         else -> if (hasFocus) VISIBLE else GONE
-                    } // when) 키보드 숨기고, Picker 보이기
+                    }
+
                     if (fieldType == WHEN) {
-                        val imm: InputMethodManager =
-                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                        imm.hideSoftInputFromWindow(binding.whole.windowToken, 0)
+                        hideKeyboard()
                         binding.containerPicker.visibility = if (hasFocus) VISIBLE else GONE
                     }
                 }
 
                 if (fieldType == WHEN) {
                     etContent.inputType = EditText.LAYER_TYPE_NONE
-                    binding.btnComplete.setOnClickListener { // TODO: timePicker onHourChangedListener 함수 이용해서 변경
-                        etContent.setText("오후1시")
+                    binding.btnComplete.setOnClickListener {
+                        etContent.setText(binding.timePicker.hour.koFormat)
                         binding.containerPicker.visibility = GONE
                     }
                 } else {
@@ -247,6 +244,11 @@ class UploadHappicActivity : AppCompatActivity() {
             }
             return null
         }
+    }
+
+    private fun hideKeyboard() {
+        val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.whole.windowToken, 0)
     }
 
     private fun updateUi(hasFocus: Boolean) {

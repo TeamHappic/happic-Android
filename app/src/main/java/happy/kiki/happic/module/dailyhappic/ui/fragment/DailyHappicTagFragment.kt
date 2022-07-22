@@ -79,6 +79,7 @@ class DailyHappicTagFragment : Fragment() {
                 mapIndexed { index, dailyHappic ->
                     ItemDailyHappicTagBinding.inflate(layoutInflater).apply {
                         root.id = ViewCompat.generateViewId()
+                        tvWhen.text = dailyHappic.hour.koFormat
                         tag = dailyHappic
 
                         val date = LocalDate.of(year, month, dailyHappic.day)
