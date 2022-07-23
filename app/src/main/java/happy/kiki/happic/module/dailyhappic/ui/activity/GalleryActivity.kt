@@ -25,7 +25,7 @@ class GalleryActivity : AppCompatActivity() {
         contentResolver.insert(Media.EXTERNAL_CONTENT_URI, ContentValues().apply {
             val title = "Happic-$nowUnixMillis.jpg"
             put(Media.TITLE, title)
-            put(Media.DISPLAY_NAME, title)¸X
+            put(Media.DISPLAY_NAME, title)
             put(Media.MIME_TYPE, "image/jpeg")
             put(Media.DATE_ADDED, nowUnixMillis)
             put(Media.DATE_TAKEN, nowUnixMillis)
