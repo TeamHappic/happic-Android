@@ -15,19 +15,18 @@ import happy.kiki.happic.module.core.util.now
 import happy.kiki.happic.module.dailyhappic.data.model.GalleryModel
 import happy.kiki.happic.module.dailyhappic.util.GalleryQuery
 import java.time.ZoneId
-import kotlin.random.Random
 
 class GalleryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGalleryBinding
     private val vm by viewModels<GalleryViewModel>()
 
     private val newImageUri by lazy {
+        val nowUnixMillis = now.atZone(ZoneId.systemDefault()).toEpochSecond() * 1000
         contentResolver.insert(Media.EXTERNAL_CONTENT_URI, ContentValues().apply {
-            val title = "Happic-${Random.nextInt()}.jpg"
+            val title = "Happic-$nowUnixMillis.jpg"
             put(Media.TITLE, title)
-            put(Media.DISPLAY_NAME, title)
+            put(Media.DISPLAY_NAME, title)¸X
             put(Media.MIME_TYPE, "image/jpeg")
-            val nowUnixMillis = now.atZone(ZoneId.systemDefault()).toEpochSecond() * 1000
             put(Media.DATE_ADDED, nowUnixMillis)
             put(Media.DATE_TAKEN, nowUnixMillis)
         })

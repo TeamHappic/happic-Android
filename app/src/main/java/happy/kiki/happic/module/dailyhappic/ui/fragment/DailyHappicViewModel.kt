@@ -21,7 +21,8 @@ class DailyHappicViewModel : ViewModel() {
     val isMonthSelectOpened = MutableStateFlow(false)
 
     val dailyHappicApi = useApi<Pair<Int, Int>, List<DailyHappicModel>> { (year, month) ->
-        dailyHappicService.dailyHappics(year, month)
+        val res = dailyHappicService.dailyHappics(year, month)
+        res.copy(data = res.data.sortedByDescending { it.day })
     }
     val detailDailyHappicIndex = MutableStateFlow(-1)
     val detailDailyHappicItem = dailyHappicApi.dataOnlySuccess.combine(detailDailyHappicIndex) { data, index ->

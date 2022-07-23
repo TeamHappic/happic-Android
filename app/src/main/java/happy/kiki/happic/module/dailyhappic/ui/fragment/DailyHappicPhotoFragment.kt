@@ -79,7 +79,7 @@ class DailyHappicPhotoFragment : Fragment() {
     private fun setCards() {
         collectFlowWhenStarted(vm.dailyHappicApi.dataOnlySuccess) {
             binding.clCards.removeAllViews()
-            it?.sortedByDescending { it.day }?.run {
+            it?.run {
                 binding.photoEmpty.root.isVisible = it.isEmpty()
                 if (it.isNotEmpty()) {
                     val flowCards = Flow(context).apply {

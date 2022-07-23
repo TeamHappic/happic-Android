@@ -32,10 +32,10 @@ class HomeFragment : Fragment() {
         uploadButtonClickListener()
         collectRandomCapsule()
 
-        ObjectAnimator.ofFloat(binding.ivCharacter, "translationY", 0f, -requireContext().pxFloat(60)).apply {
+        ObjectAnimator.ofFloat(binding.ivCharacter, "translationY", 0f, -requireContext().pxFloat(30)).apply {
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
-            duration = 1000L
+            duration = 2000L
             start()
         }
     }

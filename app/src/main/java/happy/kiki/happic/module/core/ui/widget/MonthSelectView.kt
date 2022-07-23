@@ -27,6 +27,7 @@ class MonthSelectView @JvmOverloads constructor(context: Context, attrs: Attribu
     var onSelectedYearMonth: ((Int, Int) -> Unit)? = null
 
     init {
+        isClickable = true
         addView(monthSelectView.root)
         monthSelectView.ivArrowPrevious.setOnClickListener {
             onSelectedCurrentYear?.invoke(currentYear - 1)
