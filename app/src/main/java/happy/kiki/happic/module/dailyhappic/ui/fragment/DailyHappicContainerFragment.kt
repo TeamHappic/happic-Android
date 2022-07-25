@@ -13,7 +13,6 @@ import happy.kiki.happic.module.core.util.extension.addFragment
 import happy.kiki.happic.module.core.util.extension.collectFlowWhenStarted
 import happy.kiki.happic.module.core.util.extension.isChildFragmentExistIn
 import happy.kiki.happic.module.core.util.extension.popChildBackStack
-import happy.kiki.happic.module.core.util.extension.popChildBackStacksUntilNameFound
 
 class DailyHappicContainerFragment : Fragment() {
     private var binding by AutoClearedValue<FragmentDailyHappicContainerBinding>()
@@ -39,9 +38,7 @@ class DailyHappicContainerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
 
-        if (isChildFragmentExistIn<DailyHappicFragment>()) {
-            popChildBackStacksUntilNameFound(DailyHappicFragment::class.java.simpleName)
-        } else {
+        if (savedInstanceState == null) {
             addFragment<DailyHappicFragment>(
                 binding.container,
                 skipAddToBackStack = true,
